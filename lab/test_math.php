@@ -91,7 +91,7 @@ print("Type of z is ".($z::class)."\n");
 unset($x, $z);
 ?>
 
-<?php /*
+<?php
 $x = new Imaginary(-3);
 $z = Math::pow($x, 3);
 print "{$x}^3 = {$z}\n";
@@ -99,10 +99,10 @@ print("Type of z is ".($z::class)."\n");
 unset($x, $z);
 ?>
 
-<?php
+<?php /*
 $x = new Imaginary(2);
 $z = Math::pow($x, -3);
-print "{$x}^3 = {$z}\n";
+print "{$x}^-3 = {$z}\n";
 print("Type of z is ".($z::class)."\n");
 unset($x, $z);
 */ ?>

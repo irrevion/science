@@ -3,12 +3,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 
+require_once("../vendor/irrevion/science/Math/Branches/BaseMath.php");
+require_once("../vendor/irrevion/science/Math/Math.php");
 require_once("../vendor/irrevion/science/Math/Operations/Delegator.php");
 require_once("../vendor/irrevion/science/Math/Entities/Entity.php");
 require_once("../vendor/irrevion/science/Math/Entities/Scalar.php");
 require_once("../vendor/irrevion/science/Math/Entities/Imaginary.php");
 require_once("../vendor/irrevion/science/Math/Entities/Complex.php");
 
+use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Entities\Scalar;
 use irrevion\science\Math\Entities\Imaginary;
 use irrevion\science\Math\Entities\Complex;
@@ -91,5 +94,14 @@ $z2 = $y->abs();
 print("{$x} and {$y} absolutes is {$z1} and {$z2}\n");
 print("Type of z1 is ".($z1::class)."\n");
 unset($x, $y, $z1, $z2);
+?>
+
+<?php
+$x = new Complex(3, 2);
+$y = new Complex(1, 4);
+$z = $x->multiply($y);
+print("{$x} * {$y} is {$z}\n");
+print("Type of z is ".Delegator::getType($z)."\n");
+unset($x, $y, $z);
 ?>
 </pre>

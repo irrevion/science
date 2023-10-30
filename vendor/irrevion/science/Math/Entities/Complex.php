@@ -55,25 +55,70 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function add($y) {
-		$y = new self($y);
+		if (Delegator::getType($y)!=self::class) $y = new self($y);
 		$real = $this->value['real']->add($y->value['real']);
 		$imaginary = $this->value['imaginary']->add($y->value['imaginary']);
 		return new self($real, $imaginary);
 	}
 
 	public function subtract($y) {
-		$y = new self($y);
+		if (Delegator::getType($y)!=self::class) $y = new self($y);
 		$y = $y->negative($y);
 		return $this->add($y);
 	}
+
+	public function multiply($y) {
+		if (Delegator::getType($y)!=self::class) $y = new self($y);
+
+		// z * w = (a + bi) * (c + di)
+		// = ac + a*di + c*bi + bi*di
+		// = ac + a*di + c*bi - bd
+		// = (ac - bd) + (ad + cb)i
+
+		// by formulae
+		/*
+		$real = $this->value['real']->multiply($y->value['real'])->subtract($this->value['imaginary']->value*$y->value['imaginary']->value);
+		$imaginary = $this->value['real']->multiply($y->value['imaginary']->value)->add($this->value['imaginary']->value*$y->value['real']->value);
+		$z = new self($real->value, $imaginary->value);
+		*/
+		
+
+		// direct style
+		$z = $this->value['real']->multiply($y->value['real'])
+			//->add($this->value['real']->multiply($y->value['imaginary']))
+			// this cause Memory Overflow Error due to Scalar doesnt know how to multiply to imaginary and delegates to Complex::myltiply again and again
+			->add($y->value['imaginary']->multiply($this->value['real']))
+			->add($this->value['imaginary']->multiply($y->value['real']))
+			->add($this->value['imaginary']->multiply($y->value['imaginary']));
+
+		// simplify return value
+		if ($z->value['imaginary']->empty()) {
+			return $z->value['real'];
+		} else if ($z->value['real']->empty()) {
+			return $z->value['imaginary'];
+		}
+
+		return $z;
+	}
+
+	/* public function divide($y) {
+		if (Delegator::getType($y)!=self::class) $y = new self($y);
+		if (($this->value['imaginary']->value==0) && ($y->value['real']->value==0)) {
+			// a / bi = ai / bi^2 = ai / -b = ( -a / b ) * i
+		}
+	} */
 
 	public function invert() {
 		return new self($this->value['real']->invert(), $this->value['imaginary']->invert());
 	}
 
 	public function abs() {
-		$abs = Math::diagonal($this->value['real'], $this->value['imaginary']);
+		$abs = Math::diagonal($this->value['real']->value, $this->value['imaginary']->value);
 		return Delegator::wrap($abs, self::T_SCALAR);
+	}
+
+	public function empty() {
+		return ($this->value['real']->empty() && $this->value['imaginary']->empty());
 	}
 }
 ?>

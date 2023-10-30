@@ -143,5 +143,9 @@ class Scalar implements Entity {
 	public function negative() {
 		return $this->invert();
 	}
+
+	public function empty() {
+		return ($this->value==0);
+	}
 }
 ?>
