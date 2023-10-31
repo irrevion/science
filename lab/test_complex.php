@@ -21,6 +21,7 @@ use irrevion\science\Math\Entities\Complex;
 <?php
 $x = new Complex(5, -3);
 print("Complex to string is {$x}\n");
+print("Real is {$x->real}, imaginary is {$x->imaginary}\n");
 print("Type of x is ".($x::class)."\n");
 unset($x);
 ?>

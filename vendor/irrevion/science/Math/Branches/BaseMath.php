@@ -25,6 +25,62 @@ class BaseMath {
 		return acosh($x);
 	}
 
+	public static function asin($x) {
+		return asin($x);
+	}
+
+	public static function asinh($x) {
+		return asinh($x);
+	}
+
+	public static function atan($x) {
+		return atan($x);
+	}
+
+	public static function atan2($y, $x) {
+		return atan2($y, $x);
+	}
+
+	public static function atanh($x) {
+		return atanh($x);
+	}
+
+	public static function base_convert($num, $from_base=10, $to_base=16) {
+		return base_convert($num, $from_base, $to_base);
+	}
+
+	public static function bindec($binary_string) {
+		return bindec($binary_string);
+	}
+
+	public static function ceil($num) {
+		return ceil($num);
+	}
+
+	public static function cos($num) {
+		return cos($num);
+	}
+
+	public static function cosh($num) {
+		return cosh($num);
+	}
+
+	public static function decbin($num) {
+		return decbin($num);
+	}
+
+	public static function dechex($num) {
+		return dechex($num);
+	}
+
+	public static function decoct($num) {
+		return decoct($num);
+	}
+
+	public static function deg2rad($num) {
+		return deg2rad($num);
+	}
+
 	public static function diagonal($x, $y) {
 		return sqrt(pow($x, 2) + pow($y, 2));
 	}

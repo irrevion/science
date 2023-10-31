@@ -50,6 +50,27 @@ class Complex extends Imaginary implements Entity {
 		return "[{$this->value['real']} + {$this->value['imaginary']}]";
 	}
 
+	public function toNumber() {
+		return $this->abs()->toNumber();
+	}
+
+	public function getReal() {
+		return $this->value['real']->value;
+	}
+
+	public function getImaginary() {
+		return $this->value['imaginary']->value;
+	}
+
+	public function __get($property) {
+		if (isset($this->$property)) {
+			return $this->$property;
+		} else if (array_key_exists($property, $this->value)) {
+			return $this->value[$property];
+		}
+		return null;
+	}
+
 	public function isComplex() {
 		return ($this::class==self::class);
 	}
@@ -86,7 +107,7 @@ class Complex extends Imaginary implements Entity {
 		// direct style
 		$z = $this->value['real']->multiply($y->value['real'])
 			//->add($this->value['real']->multiply($y->value['imaginary']))
-			// this cause Memory Overflow Error due to Scalar doesnt know how to multiply to imaginary and delegates to Complex::myltiply again and again
+			// this cause Memory Overflow Error due to Scalar doesnt know how to multiply to imaginary and delegates to Complex::multiply again and again
 			->add($y->value['imaginary']->multiply($this->value['real']))
 			->add($this->value['imaginary']->multiply($y->value['real']))
 			->add($this->value['imaginary']->multiply($y->value['imaginary']));
@@ -101,12 +122,28 @@ class Complex extends Imaginary implements Entity {
 		return $z;
 	}
 
-	/* public function divide($y) {
+	public function divide($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
 		if (($this->value['imaginary']->value==0) && ($y->value['real']->value==0)) {
 			// a / bi = ai / bi^2 = ai / -b = ( -a / b ) * i
+			$z = ($this->value['real']->value / $y->value['imaginary']->value) * -1;
+			$z = Delegator::wraap($z, self::T_IMAGINARY);
+			return $z;
 		}
-	} */
+		// c / y = c * (1 / y)
+		// (1 / y) is reciprocal
+		// (1 / y) = 1 / (a + bi) = (a - bi) / (a + bi)(a - bi) = (a - bi) / ((a^2 + b^2) + (-ab + ab)i) = (a - bi) / (a^2 + b^2)
+		// (a - bi) / (a^2 + b^2) = (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
+		// so, we can multiply:
+		// c * (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
+		$a = $y->getReal();
+		$b = $y->getImaginary();
+		$denominator = (Math::pow($a, 2) + Math::pow($b, 2)); // (a / (a^2 + b^2))
+		$reciprocal_real = ($a / $denominator); // (a / (a^2 + b^2))
+		$reciprocal_imaginary = (($b*-1) / $denominator); // (-b / (a^2 + b^2)i)
+		$reciprocal = new self($reciprocal_real, $reciprocal_imaginary);
+		return $this->multiply($reciprocal);
+	}
 
 	public function invert() {
 		return new self($this->value['real']->invert(), $this->value['imaginary']->invert());

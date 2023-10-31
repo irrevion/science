@@ -32,6 +32,10 @@ class Scalar implements Entity {
 		return (string)$this->value;
 	}
 
+	public function toNumber() {
+		return $this->value*1;
+	}
+
 	public function isScalar() {
 		return ($this::class==self::class);
 	}
