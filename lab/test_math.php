@@ -26,6 +26,13 @@ print Math::abs(-3)."\n";
 ?>
 
 <?php
+$polar = Math::rectangular2polar(-2, -999);
+print "Rectangular coord to Polar\n";
+var_dump($polar);
+unset($polar);
+?>
+
+<?php
 $x = new Scalar(-12.6);
 $z = Math::abs($x);
 print "{$z}\n";
@@ -99,11 +106,11 @@ print("Type of z is ".($z::class)."\n");
 unset($x, $z);
 ?>
 
-<?php /*
+<?php
 $x = new Imaginary(2);
 $z = Math::pow($x, -3);
 print "{$x}^-3 = {$z}\n";
 print("Type of z is ".($z::class)."\n");
 unset($x, $z);
-*/ ?>
+?>
 </pre>

@@ -105,4 +105,31 @@ print("{$x} * {$y} is {$z}\n");
 print("Type of z is ".Delegator::getType($z)."\n");
 unset($x, $y, $z);
 ?>
+
+<?php
+$x = new Complex(2, 3);
+$y = new Complex(2, -3);
+$z = $x->divide($y);
+print("{$x} / {$y} is {$z}\n");
+print("Type of z is ".Delegator::getType($z)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Complex(3, 2);
+$y = new Complex(3, -2);
+$z = $x->divide($y);
+print("{$x} / {$y} is {$z}\n");
+print("Type of z is ".Delegator::getType($z)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Complex(3, 7);
+$y = new Complex(-3, -7);
+$z = $x->divide($y);
+print("{$x} / {$y} is {$z}\n");
+print("Type of z is ".Delegator::getType($z)."\n");
+unset($x, $y, $z);
+?>
 </pre>

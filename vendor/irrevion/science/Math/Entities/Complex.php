@@ -46,6 +46,15 @@ class Complex extends Imaginary implements Entity {
 		}
 	}
 
+	public function __get($property) {
+		if (isset($this->$property)) {
+			return $this->$property;
+		} else if (array_key_exists($property, $this->value)) {
+			return $this->value[$property];
+		}
+		return null;
+	}
+
 	public function __toString() {
 		return "[{$this->value['real']} + {$this->value['imaginary']}]";
 	}
@@ -60,15 +69,6 @@ class Complex extends Imaginary implements Entity {
 
 	public function getImaginary() {
 		return $this->value['imaginary']->value;
-	}
-
-	public function __get($property) {
-		if (isset($this->$property)) {
-			return $this->$property;
-		} else if (array_key_exists($property, $this->value)) {
-			return $this->value[$property];
-		}
-		return null;
 	}
 
 	public function isComplex() {
@@ -127,7 +127,7 @@ class Complex extends Imaginary implements Entity {
 		if (($this->value['imaginary']->value==0) && ($y->value['real']->value==0)) {
 			// a / bi = ai / bi^2 = ai / -b = ( -a / b ) * i
 			$z = ($this->value['real']->value / $y->value['imaginary']->value) * -1;
-			$z = Delegator::wraap($z, self::T_IMAGINARY);
+			$z = Delegator::wrap($z, self::T_IMAGINARY);
 			return $z;
 		}
 		// c / y = c * (1 / y)

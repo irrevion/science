@@ -81,12 +81,38 @@ class BaseMath {
 		return deg2rad($num);
 	}
 
-	public static function diagonal($x, $y) {
+	public static function diagonal($x, $y) { // same as hypot()
 		return sqrt(pow($x, 2) + pow($y, 2));
+	}
+
+	public static function fmod($x, $y) {
+		return fmod($x, $y);
+	}
+
+	public static function gcd($x, $y) { // greatest common divisor
+		$a = abs((int)$x);
+		$b = abs((int)$y);
+		if ($b>$a) {
+			list($a, $b) = [$b, $a]; // swap
+		}
+		$remnant = $a%$b;
+		if ($remnant==0) {return $b;}
+		return self::gcd($b, $remnant);
+	}
+
+	public static function gcd_simplify($x, $y) { // simplify fraction by gcd
+		$gcd = self::gcd($x, $y);
+		return [($x/$gcd), ($y/$gcd)];
 	}
 
 	public static function pow($x, $y) {
 		return pow($x, $y);
+	}
+
+	public static function rectangular2polar($x, $y) {
+		$radius = hypot($x, $y);
+		$phase_angle = atan2($y, $x);
+		return [$radius, $phase_angle];
 	}
 }
 ?>
