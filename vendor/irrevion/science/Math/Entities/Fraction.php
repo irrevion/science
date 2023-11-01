@@ -36,7 +36,11 @@ class Fraction extends Scalar implements Entity {
 			];
 		} else if (is_numeric($number)) {
 			$number*=1;
-			if (Math::fmod($number, 1)>0) {
+			if (in_array($type, ['float', 'double'])) {
+				if (Math::abs($number)<1e-11) {
+					throw new \ValueError("Too high precision required for numerator ( $number )");
+				}
+				$number = sprintf('%.11f', $number);
 				$number = $this->floatToFraction($number);
 				$this->value = [
 					'numerator' => Delegator::wrap($number['numerator']),
@@ -79,6 +83,9 @@ class Fraction extends Scalar implements Entity {
 		if ($this->value['denominator']->toNumber()==0) {
 			throw new \ValueError("Invalid Fraction constructor argument denominator: division by zero");
 		}
+		list ($numerator, $denominator) = Math::gcd_simplify($this->top->toNumber(), $this->bottom->toNumber());
+		$this->value['numerator']->value = $numerator;
+		$this->value['denominator']->value = $denominator;
 	}
 
 	public function __get($property) {

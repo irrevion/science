@@ -63,6 +63,14 @@ class Complex extends Imaginary implements Entity {
 		return $this->abs()->toNumber();
 	}
 
+	public function toPolar() {
+		return Math::rectangular2polar($this->getReal(), $this->getImaginary());
+	}
+
+	public function phase() {
+		return atan2($this->getImaginary(), $this->getReal());
+	}
+
 	public function getReal() {
 		return $this->value['real']->value;
 	}

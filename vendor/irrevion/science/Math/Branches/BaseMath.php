@@ -3,6 +3,7 @@ namespace irrevion\science\Math\Branches;
 
 class BaseMath {
 	const E = M_E;
+	const EULER = M_EULER;
 	const LN2 = M_LN2;
 	const LNPI = M_LNPI;
 	const LN10 = M_LN10;
@@ -85,6 +86,22 @@ class BaseMath {
 		return sqrt(pow($x, 2) + pow($y, 2));
 	}
 
+	public static function exp($num) {
+		return exp($num);
+	}
+
+	public static function expm1($num) {
+		return expm1($num);
+	}
+
+	public static function fdiv($x, $y) {
+		return fdiv($x, $y);
+	}
+
+	public static function floor($num) {
+		return floor($num);
+	}
+
 	public static function fmod($x, $y) {
 		return fmod($x, $y);
 	}
@@ -103,6 +120,10 @@ class BaseMath {
 	public static function gcd_simplify($x, $y) { // simplify fraction by gcd
 		$gcd = self::gcd($x, $y);
 		return [($x/$gcd), ($y/$gcd)];
+	}
+
+	public static function hexdec($s) {
+		return hexdec($s);
 	}
 
 	public static function pow($x, $y) {
