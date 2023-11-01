@@ -35,7 +35,8 @@ class Math extends BaseMath {
 					} else if ($exponent==1) {
 						// x^1 = x
 						return $base;
-					} else if (($exponent>0) && !($exponent%1)) {
+					// } else if (($exponent>0) && !($exponent%1)) {
+					} else if (($exponent>0) && !self::fmod($exponent, 1)) {
 						// x^{2, 3, ... , Integer max}
 						return $base->multiply(self::pow($base, $exponent-1));
 					} else if (($exponent<0) && !($exponent%1)) {
