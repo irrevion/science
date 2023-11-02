@@ -75,4 +75,83 @@ try {
 	print "Error: ".$e->getMessage()."\n";
 }
 ?>
+
+<?php
+$x = new Fraction("2/3");
+$y = new Fraction("3/4");
+$z = $x->add($y);
+print("{$x} + {$y} is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction("2/3");
+$y = new Fraction("3/4");
+$z = $x->subtract($y);
+print("{$x} - {$y} is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction("-72/123");
+$z = $x->negative();
+print("-72/123 ( {$x} ) negative is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Fraction("15/-35");
+$z = $x->negative();
+print("15/-35 ( {$x} ) negative is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Fraction("-21/-77");
+$z = $x->negative();
+print("-21/-77 ( {$x} ) negative is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Fraction("22/-33");
+$z = $x->reciprocal();
+print("22/-33 ( {$x} ) reciprocal is {$z}\n");
+$y = new Fraction("22/-33");
+print("22/-33 ( {$y} )\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Fraction("2/3");
+$y = new Fraction("3/4");
+$z = $x->multiply($y);
+print("{$x} * {$y} is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction("1/1000");
+$y = new Fraction("1/-10000000");
+$z = $x->multiply($y);
+print("{$x} * {$y} is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction("1/2");
+$y = new Fraction("1/-4");
+$z = $x->divide($y);
+print("{$x} / {$y} is {$z}\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
 </pre>

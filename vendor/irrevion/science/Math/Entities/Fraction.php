@@ -10,9 +10,6 @@ class Fraction extends Scalar implements Entity {
 	public $value;
 	public $subset_of = [
 		'irrevion\science\Math\Entities\Fraction',
-		'irrevion\science\Math\Entities\Scalar',
-		'irrevion\science\Math\Entities\Complex',
-		'irrevion\science\Math\Entities\Vector'
 	];
 
 	public function __construct($number) {
@@ -38,7 +35,7 @@ class Fraction extends Scalar implements Entity {
 			$number*=1;
 			if (in_array($type, ['float', 'double'])) {
 				if (Math::abs($number)<1e-11) {
-					throw new \ValueError("Too high precision required for numerator ( $number )");
+					throw new \ValueError("Precision for numerator is too high ( $number )");
 				}
 				$number = sprintf('%.11f', $number);
 				$number = $this->floatToFraction($number);
@@ -83,9 +80,7 @@ class Fraction extends Scalar implements Entity {
 		if ($this->value['denominator']->toNumber()==0) {
 			throw new \ValueError("Invalid Fraction constructor argument denominator: division by zero");
 		}
-		list ($numerator, $denominator) = Math::gcd_simplify($this->top->toNumber(), $this->bottom->toNumber());
-		$this->value['numerator']->value = $numerator;
-		$this->value['denominator']->value = $denominator;
+		$this->simplify();
 	}
 
 	public function __get($property) {
@@ -109,8 +104,29 @@ class Fraction extends Scalar implements Entity {
 		return $this->value['numerator']->toNumber() / $this->value['denominator']->toNumber();
 	}
 
+	public function toArray() {
+		return [
+			'numerator' => $this->value['numerator']->toNumber(),
+			'denominator' => $this->value['denominator']->toNumber()
+		];
+	}
+
 	public function isFraction() {
 		return ($this::class==self::class);
+	}
+
+	public function simplify() {
+		list ($numerator, $denominator) = Math::gcd_simplify($this->top->toNumber(), $this->bottom->toNumber());
+		$this->value['numerator']->value = $numerator;
+		$this->value['denominator']->value = $denominator;
+
+		// prevent sign in denominator
+		if ($this->value['denominator']->value<0) {
+			// $this->value['numerator']->value*=-1;
+			// $this->value['denominator']->value*=-1;
+			$this->value['numerator'] = Delegator::wrap($numerator)->invert();
+			$this->value['denominator'] = Delegator::wrap($denominator)->invert();
+		}
 	}
 
 	public function floatToFraction($float) {
@@ -128,116 +144,107 @@ class Fraction extends Scalar implements Entity {
 		return $fraction;
 	}
 
-	public function add($x) {
-		if (is_object($x)) {
-			if ($x::class==self::class) {
-				// Sum Scalars
-				$result = $this->value + $x->value;
-				return new self($result);
-			} else if (Delegator::isEntity($x)) {
-				return Delegator::delegate('add', $this, $x);
-			}
-		} else if (is_numeric($x)) {
-			// Cast number to a Scalar type
-			$x = new self($x);
-			return $this->add($x);
+	public function add($y) {
+		$type = Delegator::getType($y);
+		if ($type==self::class) {
+			$y = clone $y;
 		} else {
-			// No addition method found for this type
-			$type = gettype($x);
-			if ($type=="object") {
-				$type = $x::class;
-			}
-			throw new \TypeError("Invalid argument type ( {$type} )");
+			$y = new self($y);
 		}
-		return null;
+		// $x = Delegator::wrap($this->__toString(), self::class);
+		$x = clone $this;
+
+		if ($y->denominator->value<0) {
+			$y->value['numerator']->value*=-1;
+			$y->value['denominator']->value*=-1;
+		}
+
+		if ($y->denominator->value!=$x->denominator->value) {
+			$x->value['numerator'] = $x->numerator->multiply($y->denominator->value);
+			$x->value['denominator'] = $x->denominator->multiply($y->denominator->value);
+			$y->value['numerator'] = $y->numerator->multiply($this->denominator->value);
+			$y->value['denominator'] = $y->denominator->multiply($this->denominator->value);
+		}
+
+		$x->value['numerator'] = $x->numerator->add($y->numerator->value);
+		$x->simplify();
+
+		return $x;
 	}
 
-	public function subtract($x) {
-		if (is_object($x)) {
-			if ($x::class==self::class) {
-				// Subtract Scalars
-				$result = $this->value - $x->value;
-				return new self($result);
-			} else if (Delegator::isEntity($x)) {
-				return Delegator::delegate('subtract', $this, $x);
-			}
-		} else if (is_numeric($x)) {
-			// Cast number to a Scalar type
-			$x = new self($x);
-			return $this->subtract($x);
+	public function subtract($y) {
+		$type = Delegator::getType($y);
+		if ($type==self::class) {
+			$y = clone $y;
 		} else {
-			// No subtraction method found for this type
-			$type = gettype($x);
-			if ($type=="object") {
-				$type = $x::class;
-			}
-			throw new \TypeError("Invalid argument type ( {$type} )");
+			$y = new self($y);
 		}
-		return null;
+		$x = clone $this;
+		return $x->add($y->invert());
 	}
 
-	public function multiply($x) {
-		if (is_object($x)) {
-			if ($x::class==self::class) {
-				// Multiply Scalars
-				$result = $this->value*$x->value;
-				return new self($result);
-			} else if (Delegator::isEntity($x)) {
-				return Delegator::delegate('multiply', $this, $x);
-			}
-		} else if (is_numeric($x)) {
-			// Cast number to a Scalar type
-			$x = new self($x);
-			return $this->multiply($x);
+	public function multiply($y) {
+		$type = Delegator::getType($y);
+		if ($type==self::class) {
+			$y = clone $y;
 		} else {
-			// No multiplication method found for this type
-			$type = gettype($x);
-			if ($type=="object") {
-				$type = $x::class;
-			}
-			throw new \TypeError("Invalid argument type ( {$type} )");
+			$y = new self($y);
 		}
-		return null;
+		$x = clone $this;
+		$x->value['numerator'] = $x->value['numerator']->multiply($y->numerator);
+		$x->value['denominator'] = $x->value['denominator']->multiply($y->denominator);
+		$x->simplify();
+		return $x;
 	}
 
-	public function divide($x) {
-		if (is_object($x)) {
-			if ($x::class==self::class) {
-				// Divide Scalars
-				$result = $this->value/$x->value;
-				return new self($result);
-			} else if (Delegator::isEntity($x)) {
-				return Delegator::delegate('divide', $this, $x);
-			}
-		} else if (is_numeric($x)) {
-			// Cast number to a Scalar type
-			$x = new self($x);
-			return $this->divide($x);
+	public function divide($y) {
+		$type = Delegator::getType($y);
+		if ($type==self::class) {
+			$y = clone $y;
 		} else {
-			// No division method found for this type
-			$type = gettype($x);
-			if ($type=="object") {
-				$type = $x::class;
-			}
-			throw new \TypeError("Invalid argument type ( {$type} )");
+			$y = new self($y);
 		}
-		return null;
+		$x = clone $this;
+		$x = $x->multiply($y->reciprocal());
+		return $x;
 	}
 
 	public function abs() {
-		return new self(abs($this->value));
+		$x = $this->toArray();
+		if ($x['numerator']<0) {
+			$x['numerator']*=-1;
+		}
+		if ($x['denominator']<0) {
+			$x['denominator']*=-1;
+		}
+		return new self($x);
 	}
 
 	public function invert() {
-		return new self($this->value*-1);
+		$x = $this->toArray();
+		if ($x['denominator']<0) {
+			$x['denominator']*=-1;
+		} else {
+			$x['numerator']*=-1;
+		}
+		return new self($x);
 	}
 
 	public function negative() {
 		return $this->invert();
 	}
 
+	public function reciprocal() {
+		$x = clone $this;
+		list($top, $bottom) = [$x->bottom, $x->top];
+		$x->value['numerator'] = $top;
+		$x->value['denominator'] = $bottom;
+		$x->simplify();
+		return $x;
+	}
+
 	public function empty() {
-		return ($this->value==0);
+		return ($this->numerator->value==0);
 	}
 }
 ?>
