@@ -126,10 +126,44 @@ class BaseMath {
 		return hexdec($s);
 	}
 
+	public static function hypot($x, $y) {
+		return hypot($x, $y);
+	}
+
+	public static function intdiv($x, $y) {
+		return intdiv($x, $y);
+	}
+
+	public static function log10($x) {
+		return log10($x);
+	}
+
+	public static function log1p($x) {
+		return log1p($x);
+	}
+
 	public static function polar2rectangular($radius, $phase_angle=0) {
+		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
 		$x = $radius * cos($phase_angle);
 		$y = $radius * sin($phase_angle);
 		return [$x, $y];
+	}
+
+	public static function polar_absolute($radius, $phase_angle=0) {
+		$radius = abs($radius);
+		$phi_sign = (($phase_angle>0)? 1: -1);
+		$phi_abs = abs($phase_angle);
+		// print "phi_abs $phi_abs;\n";
+		$loops = floor($phi_abs / (2 * M_PI));
+		if ($loops) {
+			$phase_angle = $phi_sign * ($phi_abs - ($loops * (2 * M_PI)));
+			// print "reduced $loops loops, new phase_angle is $phase_angle;\n";
+		}
+		if ($phase_angle<0) {
+			$phase_angle = (2 * M_PI) + $phase_angle;
+			// print "(".(2 * M_PI).") + $phase_angle;\n";
+		}
+		return [$radius, $phase_angle];
 	}
 
 	public static function pow($x, $y) {
@@ -139,6 +173,7 @@ class BaseMath {
 	public static function rectangular2polar($x, $y) {
 		$radius = hypot($x, $y);
 		$phase_angle = atan2($y, $x);
+		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
 		return [$radius, $phase_angle];
 	}
 }

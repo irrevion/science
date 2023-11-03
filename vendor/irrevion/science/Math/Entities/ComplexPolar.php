@@ -22,40 +22,49 @@ class ComplexPolar extends Complex implements Entity {
 	];
 
 	public function __construct($r = 0, $phi = 0) {
-		$value = [];
+		$this->value = [];
 		$rt = Delegator::getType($r);
 		if (Delegator::isEntity($r)) {
 			if ($rt==self::class) {
-				$value['radius'] = clone $r->r;
-				$value['phase'] = clone $r->phi;
+				$this->value['radius'] = clone $r->r;
+				$this->value['phase'] = clone $r->phi;
 				return;
-			} else if {$rt==self::T_COMPLEX) {
-				$c = r->toArray();
-				$list($r, $phi) = Math::rectangular2polar($c['real'], $c['imaginary']);
-				$value['radius'] = Delegator::wrap($r);
-				$value['phase'] = Delegator::wrap($phi);
+			} else if ($rt==self::T_COMPLEX) {
+				$c = $r->toArray();
+				list($r, $phi) = Math::rectangular2polar($c['real'], $c['imaginary']);
+				$this->value['radius'] = Delegator::wrap($r);
+				$this->value['phase'] = Delegator::wrap($phi);
 				return;
 			} else if ($rt==self::T_SCALAR) {
-				$value['radius'] = clone $r;
+				$this->value['radius'] = clone $r;
 			} else {
-				//$value['radius'] = Delegator::wrap($r->toNumber());
+				//$this->value['radius'] = Delegator::wrap($r->toNumber());
 				throw new \TypeError("Unrecognized type of radius argument ( {$r} :: {$rt} )");
 			}
 		} else {
 			if (is_array($r)) {
-				$value['radius'] = Delegator::wrap($r['radius']);
-				$value['phase'] = Delegator::wrap($r['phase']);
+				list($r, $phi) = Math::polar_absolute($r['radius'], $r['phase']);
+				$this->value['radius'] = Delegator::wrap($r);
+				$this->value['phase'] = Delegator::wrap($phi);
 				return;
 			} else if (is_numeric($r)) {
-				$value['radius'] = Delegator::wrap($r);
+				$this->value['radius'] = Delegator::wrap($r);
+			} else {
+				throw new \TypeError("Unrecognized type of radius argument ( {$r} :: {$rt} )");
 			}
 		}
 		$phi_type = Delegator::getType($phi);
 		if ($phi_type==self::T_SCALAR) {
-			$value['radius'] = clone $phi;
+			$this->value['phase'] = clone $phi;
 		} else if (is_numeric($r)) {
-			$value['phase'] = Delegator::wrap($phi);
+			$this->value['phase'] = Delegator::wrap($phi);
+		} else {
+			throw new \TypeError("Unrecognized type of phase argument ( {$phi} :: {$phi_type} )");
 		}
+
+		list($r, $phi) = Math::polar_absolute($this->value['radius']->toNumber(), $this->value['phase']->toNumber());
+		$this->value['radius']->value = $r;
+		$this->value['phase']->value = $phi;
 	}
 
 	public function __get($property) {
@@ -63,35 +72,30 @@ class ComplexPolar extends Complex implements Entity {
 			return $this->$property;
 		} else if (array_key_exists($property, $this->value)) {
 			return $this->value[$property];
+		} else if ($property=='r') {
+			return $this->value['radius'];
+		} else if ($property=='phi') {
+			return $this->value['phase'];
 		}
 		return null;
 	}
 
 	public function __toString() {
-		return "[{$this->value['real']} + {$this->value['imaginary']}]";
+		return "[{$this->r}, φ ".($this->phi->toNumber()/Math::PI)."π RAD]";
 	}
 
 	public function toNumber() {
-		return $this->abs()->toNumber();
+		return $this->radius->toNumber();
 	}
 
-	public function toPolar() {
-		return Math::rectangular2polar($this->getReal(), $this->getImaginary());
+	public function toArray() {
+		return [
+			'radius' => $this->r->toNumber(),
+			'phase' => $this->phi->toNumber()
+		];
 	}
 
-	public function phase() {
-		return atan2($this->getImaginary(), $this->getReal());
-	}
-
-	public function getReal() {
-		return $this->value['real']->value;
-	}
-
-	public function getImaginary() {
-		return $this->value['imaginary']->value;
-	}
-
-	public function isComplex() {
+	public function isComplexPolar() {
 		return ($this::class==self::class);
 	}
 

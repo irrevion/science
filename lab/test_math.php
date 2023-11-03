@@ -27,15 +27,21 @@ print Math::abs(-3)."\n";
 
 <?php
 $polar = Math::rectangular2polar(-4, -12);
-print "Rectangular coord to Polar\n";
+print "Rectangular coord [-4, -12] to Polar\n";
 var_dump($polar);
-unset($polar);
+$rect = Math::polar2rectangular($polar[0], $polar[1]);
+print "Restored:\n";
+var_dump($rect);
+unset($polar, $rect);
 ?>
 
 <?php
 $rect = Math::polar2rectangular(5, Math::PI);
 print "Polar coord [5, pi] to Rectangular\n";
 var_dump($rect);
+$polar = Math::rectangular2polar($rect[0], $rect[1]);
+print "Restored:\n";
+var_dump($polar);
 unset($rect);
 ?>
 

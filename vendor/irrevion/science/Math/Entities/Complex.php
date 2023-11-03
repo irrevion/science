@@ -74,7 +74,7 @@ class Complex extends Imaginary implements Entity {
 		return Delegator::wrap([
 			'radius' => $r,
 			'phase' => $phi
-		], T_POLAR);
+		], self::T_POLAR);
 	}
 
 	public function toArray() {
