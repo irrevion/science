@@ -154,4 +154,13 @@ print("{$x} / {$y} is {$z}\n");
 print("Type of z is ".($z::class)."\n");
 unset($x, $y, $z);
 ?>
+
+<?php
+$x = new Fraction(0.75);
+$y = new Fraction(0.125);
+$z = $x->divide($y);
+print("{$x} / {$y} is {$z} = ".$z->toNumber()."\n");
+print("Type of z is ".($z::class)."\n");
+unset($x, $y, $z);
+?>
 </pre>

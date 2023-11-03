@@ -26,10 +26,45 @@ print Math::abs(-3)."\n";
 ?>
 
 <?php
-$polar = Math::rectangular2polar(-2, -999);
+$polar = Math::rectangular2polar(-4, -12);
 print "Rectangular coord to Polar\n";
 var_dump($polar);
 unset($polar);
+?>
+
+<?php
+$rect = Math::polar2rectangular(5, Math::PI);
+print "Polar coord [5, pi] to Rectangular\n";
+var_dump($rect);
+unset($rect);
+?>
+
+<?php
+$rect = Math::polar2rectangular(6, 2*Math::PI);
+print "Polar coord [6, 2pi] to Rectangular\n";
+var_dump($rect);
+unset($rect);
+?>
+
+<?php
+$rect = Math::polar2rectangular(4, 6.26);
+print "Polar coord [4, 6.26] to Rectangular\n";
+var_dump($rect);
+unset($rect);
+?>
+
+<?php
+$rect = Math::polar2rectangular(4.2426, -Math::PI/2);
+print "Polar coord [4.2426, -pi/2] to Rectangular\n";
+var_dump($rect);
+unset($rect);
+?>
+
+<?php
+$rect = Math::polar2rectangular(4.2426, Math::PI/4);
+print "Polar coord [4.2426, pi/4] to Rectangular\n";
+var_dump($rect);
+unset($rect);
 ?>
 
 <?php

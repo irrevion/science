@@ -4,50 +4,57 @@ namespace irrevion\science\Math\Entities;
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Entities\Scalar;
 use irrevion\science\Math\Entities\Imaginary;
+use irrevion\science\Math\Entities\Complex;
 use irrevion\science\Math\Operations\Delegator;
 
-class Complex extends Imaginary implements Entity {
+class ComplexPolar extends Complex implements Entity {
 	public const SPACE = 'euclidean';
-	public const COORDINATE_SYSTEM = 'rectangular';
+	public const COORDINATE_SYSTEM = 'polar';
 	public const DIMENSIONS_NUMBER = '2';
 
 	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
 	private const T_IMAGINARY = 'irrevion\science\Math\Entities\Imaginary';
-	private const T_POLAR = 'irrevion\science\Math\Entities\ComplexPolar';
+	private const T_COMPLEX = 'irrevion\science\Math\Entities\Complex';
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Complex'
-		// 'irrevion\science\Math\Entities\Vector'
+		'irrevion\science\Math\Entities\ComplexPolar'
 	];
 
-	public function __construct($real = 0, $imaginary = 0) {
+	public function __construct($r = 0, $phi = 0) {
 		$value = [];
-		if (is_object($real)) {
-			if ($real::class==self::class) {
-				$this->value = $real->value;
+		$rt = Delegator::getType($r);
+		if (Delegator::isEntity($r)) {
+			if ($rt==self::class) {
+				$value['radius'] = clone $r->r;
+				$value['phase'] = clone $r->phi;
 				return;
-			} else if ($real::class==self::T_SCALAR) {
-				$this->value['real'] = $real;
-			} else if ($real::class==self::T_IMAGINARY) {
-				$this->value['real'] = new Scalar(0);
-				$this->value['imaginary'] = $real;
-				// can be constructed with only the imaginary part
+			} else if {$rt==self::T_COMPLEX) {
+				$c = r->toArray();
+				$list($r, $phi) = Math::rectangular2polar($c['real'], $c['imaginary']);
+				$value['radius'] = Delegator::wrap($r);
+				$value['phase'] = Delegator::wrap($phi);
 				return;
+			} else if ($rt==self::T_SCALAR) {
+				$value['radius'] = clone $r;
 			} else {
-				throw new \TypeError("Real part of a Complex number should be Scalar");
+				//$value['radius'] = Delegator::wrap($r->toNumber());
+				throw new \TypeError("Unrecognized type of radius argument ( {$r} :: {$rt} )");
 			}
 		} else {
-			$this->value['real'] = new Scalar($real);
+			if (is_array($r)) {
+				$value['radius'] = Delegator::wrap($r['radius']);
+				$value['phase'] = Delegator::wrap($r['phase']);
+				return;
+			} else if (is_numeric($r)) {
+				$value['radius'] = Delegator::wrap($r);
+			}
 		}
-		if (is_object($imaginary)) {
-			if ($imaginary::class==self::T_IMAGINARY) {
-				$this->value['imaginary'] = $imaginary;
-			} else {
-				throw new \TypeError("Imaginary part of a Complex number should be Imaginary type or numeric");
-			}
-		} else {
-			$this->value['imaginary'] = new Imaginary($imaginary);
+		$phi_type = Delegator::getType($phi);
+		if ($phi_type==self::T_SCALAR) {
+			$value['radius'] = clone $phi;
+		} else if (is_numeric($r)) {
+			$value['phase'] = Delegator::wrap($phi);
 		}
 	}
 
@@ -69,19 +76,7 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function toPolar() {
-		//return Math::rectangular2polar($this->getReal(), $this->getImaginary());
-		list($r, $phi) = Math::rectangular2polar($this->getReal(), $this->getImaginary());
-		return Delegator::wrap([
-			'radius' => $r,
-			'phase' => $phi
-		], T_POLAR);
-	}
-
-	public function toArray() {
-		return [
-			'real' => $this->getReal(),
-			'imaginary' => $this->getImaginary()
-		];
+		return Math::rectangular2polar($this->getReal(), $this->getImaginary());
 	}
 
 	public function phase() {

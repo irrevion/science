@@ -126,6 +126,12 @@ class BaseMath {
 		return hexdec($s);
 	}
 
+	public static function polar2rectangular($radius, $phase_angle=0) {
+		$x = $radius * cos($phase_angle);
+		$y = $radius * sin($phase_angle);
+		return [$x, $y];
+	}
+
 	public static function pow($x, $y) {
 		return pow($x, $y);
 	}
