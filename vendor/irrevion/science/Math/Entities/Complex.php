@@ -37,6 +37,10 @@ class Complex extends Imaginary implements Entity {
 			} else {
 				throw new \TypeError("Real part of a Complex number should be Scalar");
 			}
+		} else if (is_array($real)) {
+			$this->value['real'] = new Scalar($real['real']);
+			$this->value['imaginary'] = new Imaginary($real['imaginary']);
+			return;
 		} else {
 			$this->value['real'] = new Scalar($real);
 		}

@@ -45,22 +45,18 @@ class Delegator {
 
 	public static function delegate($operation, $x, $y) {
 		$superset = self::getSuperset($x, $y);
-		// print "delegate($operation, $x, $y) to $superset\n";
 		if (empty($superset)) throw new \ArithmeticError("This entities are incompatible");
 		if (!class_exists($superset)) throw new \ArithmeticError("Invalid superset name $superset");
 		if (!self::hasMethod($superset, $operation)) throw new \ArithmeticError("Invalid operation to delegate in $superset");
 		if (Delegator::getType($x)!=$superset) {$x = self::wrap($x, $superset);}
 		if (Delegator::getType($y)!=$superset) {$y = self::wrap($y, $superset);}
-		// print $x::class."($x) $operation ".$y::class."($y)\n";
 		$z = $x->$operation($y);
-		// print $z::class."($z) is result\n-\n";
 		return $z;
 	}
 
 	public static function wrap($x, $to_superset=null) {
 		if (empty($to_superset)) {$to_superset = self::ENTITY_SCALAR;}
 		if (self::getType($x)==$to_superset) {return $x;}
-		// print "wrap {$x} to {$to_superset} \n";
 		$class_reflection = new \ReflectionClass($to_superset);
 		return $class_reflection->newInstance($x);
 	}

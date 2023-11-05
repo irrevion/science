@@ -142,7 +142,12 @@ class BaseMath {
 		return log1p($x);
 	}
 
+	public static function log($num, $base = M_E) {
+		return log($num, $base);
+	}
+
 	public static function polar2rectangular($radius, $phase_angle=0) {
+		print "polar2rectangular($radius, $phase_angle)\n";
 		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
 		$x = $radius * cos($phase_angle);
 		$y = $radius * sin($phase_angle);
@@ -171,10 +176,17 @@ class BaseMath {
 	}
 
 	public static function rectangular2polar($x, $y) {
+		print "rectangular2polar($x, $y)\n";
 		$radius = hypot($x, $y);
 		$phase_angle = atan2($y, $x);
+		print "rectangular2polar($radius, $phase_angle)\n";
 		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
+		print "rectangular2polar + polar_absolute ($radius, $phase_angle)\n";
 		return [$radius, $phase_angle];
+	}
+
+	public static function sqrt($x) {
+		return sqrt($x);
 	}
 }
 ?>

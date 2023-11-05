@@ -95,15 +95,72 @@ class ComplexPolar extends Complex implements Entity {
 		];
 	}
 
+	public function toRectangular() {
+		list($x, $y) = Math::polar2rectangular($this->r->toNumber(), $this->phi->toNumber());
+		return Delegator::wrap([
+			'real' => $x,
+			'imaginary' => $y
+		], self::T_COMPLEX);
+	}
+
 	public function isComplexPolar() {
 		return ($this::class==self::class);
 	}
 
 	public function add($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
-		$real = $this->value['real']->add($y->value['real']);
-		$imaginary = $this->value['imaginary']->add($y->value['imaginary']);
-		return new self($real, $imaginary);
+		$x = clone $this;
+		print "add ({$x->r}, {$x->phi}) to ({$y->r}, {$y->phi})\n";
+
+		$is_outer_parallelogram = false;
+		$phi_angle = $x->phi->toNumber(); // Rx angle (0, π, 2π is real axis; π/2, 3π/2, -π/2 is imaginary axis)
+		$theta_angle = $y->phi->toNumber(); // Ry angle
+		$rx = $x->r->toNumber();
+		$ry = $y->r->toNumber();
+
+		$gamma_angle = Math::abs($theta_angle - $phi_angle); // angle between phi and theta ( Rx and Ry )
+		// $gamma_angle = $theta_angle - $phi_angle; // angle between phi and theta ( Rx and Ry )
+		if ($gamma_angle > Math::PI) {
+			$is_outer_parallelogram = true;
+			$gamma_angle = Math::TAU - $gamma_angle;
+			print "γ $gamma_angle = τ ".Math::TAU." - γ $gamma_angle;\n";
+			//$gamma_angle = Math::TAU - $theta_angle + $phi_angle;
+			//print "γ $gamma_angle = τ ".Math::TAU." - θ $theta_angle + φ $phi_angle;\n";
+			//$gamma_angle = Math::TAU - Math::abs($theta_angle - $phi_angle);
+			//print "γ $gamma_angle = τ ".Math::TAU." - γ ".Math::abs($theta_angle - $phi_angle).";\n";
+			// we are counting outside angle, so
+			// get theta angle as the remained angle to do a loop
+			// then add phi to be relative to phi instead of x axis
+		} else {
+			print "γ $gamma_angle = Math::abs(θ $theta_angle - φ $phi_angle);\n";
+		}
+		$sigma_angle = Math::PI - $gamma_angle; // angle of another corner of parallelogram ( Ry and Ry->Rz )
+		if (($sigma_angle==0) || ($gamma_angle==0)) {
+			return new self(0, 0);
+		}
+		print "δ $sigma_angle = Math::PI - γ $gamma_angle;\n";
+		$rz = Math::sqrt(Math::pow($rx, 2) + Math::pow($ry, 2) + ((2 * $rx * $ry) * Math::cos($gamma_angle))); // diagonal of parallelogram
+		// $rz = Math::sqrt(Math::pow($rx, 2) + Math::pow($ry, 2) - ((2 * $rx * $ry) * Math::cos($sigma_angle))); // diagonal of parallelogram by sigma
+		if ($phi_angle>$theta_angle) {
+			list($rx, $ry) = [$ry, $rx];
+			list($phi_angle, $theta_angle) = [$theta_angle, $phi_angle];
+			// calculate angle to the nearest side, so swap rx and ry, their angles too
+		}
+		$cos_alpha = ((Math::pow($ry, 2) + Math::pow($rz, 2) - Math::pow($rx, 2)) / (2 * $ry * $rz)); // angle between Ry and Rz
+		$alpha_angle = acos($cos_alpha); // angle between Ry and Rz
+		print "cos(α) = $cos_alpha;\n";
+		print "α $alpha_angle = acos((Math::pow(y $ry, 2) + Math::pow(z $rz, 2) - Math::pow(x $rx, 2)) / (2 * y $ry * z $rz));\n";
+		if ($is_outer_parallelogram) {
+			$beta_angle = Math::abs($theta_angle + $alpha_angle); // angle between 0 angle and Rz
+			// $beta_angle = $theta_angle - $alpha_angle; // angle between 0 angle and Rz
+			print "β $beta_angle = θ $theta_angle + α $alpha_angle;\n";
+		} else {
+			$beta_angle = Math::abs($theta_angle - $alpha_angle); // angle between 0 angle and Rz
+			// $beta_angle = $theta_angle - $alpha_angle; // angle between 0 angle and Rz
+			print "β $beta_angle = θ $theta_angle - α $alpha_angle;\n";
+		}
+
+		return new self($rz, $beta_angle);
 	}
 
 	public function subtract($y) {
@@ -169,13 +226,21 @@ class ComplexPolar extends Complex implements Entity {
 		return $this->multiply($reciprocal);
 	}
 
+	public function reciprocal() {
+		return null;
+	}
+
 	public function invert() {
-		return new self($this->value['real']->invert(), $this->value['imaginary']->invert());
+		// return null;
+		$x = clone $this;
+		$phi = $this->phi->toNumber();
+		$phi = $phi + (Math::PI * (($phi>Math::PI)? -1: 1));
+		$x->value['phase']->value = $phi;
+		return $x;
 	}
 
 	public function abs() {
-		$abs = Math::diagonal($this->value['real']->value, $this->value['imaginary']->value);
-		return Delegator::wrap($abs, self::T_SCALAR);
+		return clone $this->r;
 	}
 
 	public function empty() {
