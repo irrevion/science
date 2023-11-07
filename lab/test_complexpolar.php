@@ -195,4 +195,49 @@ $j = $b->toRectangular();
 $k = $c->toRectangular();
 print "Restored as: $i + $j = $k (".$c::class.")\n";
 ?>
+
+<?php
+$x = new Complex(2, -2);
+$y = new Complex(2, -2);
+$z = $x->subtract($y);
+print "$x - $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->subtract($b);
+print "$a - $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i + $j = $k (".$c::class.")\n";
+?>
+
+<?php
+$x = new Complex(33, 21);
+$y = new Complex(31, 23);
+$z = $x->subtract($y);
+print "$x - $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->subtract($b);
+print "$a - $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i + $j = $k (".$c::class.")\n";
+?>
+
+<?php
+$x = new Complex(1024.553, 12);
+$y = new Complex(-9975.447, 12);
+$z = $x->subtract($y);
+print "$x - $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->subtract($b);
+print "$a - $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i + $j = $k (".$c::class.")\n";
+?>
 </pre>

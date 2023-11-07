@@ -146,8 +146,12 @@ class BaseMath {
 		return log($num, $base);
 	}
 
+	public static function octdec($octal_string) {
+		return octdec($octal_string);
+	}
+
 	public static function polar2rectangular($radius, $phase_angle=0) {
-		print "polar2rectangular($radius, $phase_angle)\n";
+		// print "polar2rectangular($radius, $phase_angle)\n";
 		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
 		$x = $radius * cos($phase_angle);
 		$y = $radius * sin($phase_angle);
@@ -175,18 +179,42 @@ class BaseMath {
 		return pow($x, $y);
 	}
 
+	public static function rad2deg($angle) {
+		return rad2deg($angle);
+	}
+
 	public static function rectangular2polar($x, $y) {
-		print "rectangular2polar($x, $y)\n";
+		// print "rectangular2polar($x, $y)\n";
 		$radius = hypot($x, $y);
 		$phase_angle = atan2($y, $x);
-		print "rectangular2polar($radius, $phase_angle)\n";
+		// print "rectangular2polar($radius, $phase_angle)\n";
 		list($radius, $phase_angle) = self::polar_absolute($radius, $phase_angle);
-		print "rectangular2polar + polar_absolute ($radius, $phase_angle)\n";
+		// print "rectangular2polar + polar_absolute ($radius, $phase_angle)\n";
 		return [$radius, $phase_angle];
+	}
+
+	public static function round($num, $precision=0, $mode=PHP_ROUND_HALF_UP) {
+		return round($num, $precision, $mode);
+	}
+
+	public static function sin($x) {
+		return sin($x);
+	}
+
+	public static function sinh($x) {
+		return sinh($x);
 	}
 
 	public static function sqrt($x) {
 		return sqrt($x);
+	}
+
+	public static function tan($x) {
+		return tan($x);
+	}
+
+	public static function tanh($x) {
+		return tanh($x);
 	}
 }
 ?>
