@@ -159,19 +159,23 @@ class Complex extends Imaginary implements Entity {
 			$z = Delegator::wrap($z, self::T_IMAGINARY);
 			return $z;
 		}
-		// c / y = c * (1 / y)
+
+		return $this->multiply($y->reciprocal());
+	}
+
+	public function reciprocal() {
 		// (1 / y) is reciprocal
 		// (1 / y) = 1 / (a + bi) = (a - bi) / (a + bi)(a - bi) = (a - bi) / ((a^2 + b^2) + (-ab + ab)i) = (a - bi) / (a^2 + b^2)
 		// (a - bi) / (a^2 + b^2) = (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
 		// so, we can multiply:
 		// c * (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
-		$a = $y->getReal();
-		$b = $y->getImaginary();
+		$a = $this->getReal();
+		$b = $this->getImaginary();
 		$denominator = (Math::pow($a, 2) + Math::pow($b, 2)); // (a / (a^2 + b^2))
 		$reciprocal_real = ($a / $denominator); // (a / (a^2 + b^2))
 		$reciprocal_imaginary = (($b*-1) / $denominator); // (-b / (a^2 + b^2)i)
 		$reciprocal = new self($reciprocal_real, $reciprocal_imaginary);
-		return $this->multiply($reciprocal);
+		return $reciprocal;
 	}
 
 	public function invert() {

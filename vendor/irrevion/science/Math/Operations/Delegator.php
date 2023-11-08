@@ -57,6 +57,7 @@ class Delegator {
 	public static function wrap($x, $to_superset=null) {
 		if (empty($to_superset)) {$to_superset = self::ENTITY_SCALAR;}
 		if (self::getType($x)==$to_superset) {return $x;}
+		// print "wrap ".var_export($x, 1)." to {$to_superset} \n";
 		$class_reflection = new \ReflectionClass($to_superset);
 		return $class_reflection->newInstance($x);
 	}

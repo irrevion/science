@@ -198,29 +198,18 @@ class ComplexPolar extends Complex implements Entity {
 
 	public function divide($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
-		if (($this->value['imaginary']->value==0) && ($y->value['real']->value==0)) {
-			// a / bi = ai / bi^2 = ai / -b = ( -a / b ) * i
-			$z = ($this->value['real']->value / $y->value['imaginary']->value) * -1;
-			$z = Delegator::wrap($z, self::T_IMAGINARY);
-			return $z;
-		}
-		// c / y = c * (1 / y)
-		// (1 / y) is reciprocal
-		// (1 / y) = 1 / (a + bi) = (a - bi) / (a + bi)(a - bi) = (a - bi) / ((a^2 + b^2) + (-ab + ab)i) = (a - bi) / (a^2 + b^2)
-		// (a - bi) / (a^2 + b^2) = (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
-		// so, we can multiply:
-		// c * (a / (a^2 + b^2)) + (-b / (a^2 + b^2)i)
-		$a = $y->getReal();
-		$b = $y->getImaginary();
-		$denominator = (Math::pow($a, 2) + Math::pow($b, 2)); // (a / (a^2 + b^2))
-		$reciprocal_real = ($a / $denominator); // (a / (a^2 + b^2))
-		$reciprocal_imaginary = (($b*-1) / $denominator); // (-b / (a^2 + b^2)i)
-		$reciprocal = new self($reciprocal_real, $reciprocal_imaginary);
-		return $this->multiply($reciprocal);
+		return $this->multiply($y->reciprocal());
 	}
 
 	public function reciprocal() {
-		return null;
+		// 1/z = ž/|z|^2
+		// reciprocal is conjugate divided by squared module
+		// $reciprocal = $this->conjugate()->divide(Math::pow($this->r, 2));
+		// to prevent infinit recursion in division method we directrly divide radius by scalar
+		$conjugate = $this->conjugate();
+		$r = $conjugate->r->divide(Math::pow($this->r, 2));
+		$reciprocal = new self($r->toNumber(), $conjugate->phi->toNumber());
+		return $reciprocal;
 	}
 
 	public function conjugate() {
@@ -228,11 +217,6 @@ class ComplexPolar extends Complex implements Entity {
 	}
 
 	public function invert() {
-		// $x = clone $this;
-		// $phi = $this->phi->toNumber();
-		// $phi = $phi + (Math::PI * (($phi>Math::PI)? -1: 1));
-		// $x->value['phase']->value = $phi;
-		// return $x;
 		$x = $this->toArray();
 		$x['phase'] = $x['phase'] + (Math::PI * (($x['phase']>Math::PI)? -1: 1));
 		return new self($x);
@@ -243,7 +227,7 @@ class ComplexPolar extends Complex implements Entity {
 	}
 
 	public function empty() {
-		return ($this->value['real']->empty() && $this->value['imaginary']->empty());
+		return $this->value['radius']->empty();
 	}
 }
 ?>
