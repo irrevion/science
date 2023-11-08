@@ -110,7 +110,6 @@ class ComplexPolar extends Complex implements Entity {
 	public function add($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
 		$x = clone $this;
-		//print "add ({$x->r}, {$x->phi}) to ({$y->r}, {$y->phi})\n";
 
 		$is_outer_parallelogram = false;
 		$phi_angle = $x->phi->toNumber(); // Rx angle (0, π, 2π is real axis; π/2, 3π/2, -π/2 is imaginary axis)
@@ -119,7 +118,6 @@ class ComplexPolar extends Complex implements Entity {
 		$ry = $y->r->toNumber();
 
 		$gamma_angle = Math::abs($theta_angle - $phi_angle); // angle between phi and theta ( Rx and Ry )
-		// $gamma_angle = $theta_angle - $phi_angle; // angle between phi and theta ( Rx and Ry )
 		if ($gamma_angle > Math::PI) {
 			$is_outer_parallelogram = true;
 			$gamma_angle = Math::TAU - $gamma_angle;
@@ -131,8 +129,6 @@ class ComplexPolar extends Complex implements Entity {
 			// we are counting outside angle, so
 			// get theta angle as the remained angle to do a loop
 			// then add phi to be relative to phi instead of x axis
-		} else {
-			//print "γ $gamma_angle = Math::abs(θ $theta_angle - φ $phi_angle);\n";
 		}
 		$sigma_angle = Math::PI - $gamma_angle; // angle of another corner of parallelogram ( Ry and Ry->Rz )
 		if (($sigma_angle==0) || ($gamma_angle==0)) {
@@ -152,12 +148,8 @@ class ComplexPolar extends Complex implements Entity {
 		//print "α $alpha_angle = acos((Math::pow(y $ry, 2) + Math::pow(z $rz, 2) - Math::pow(x $rx, 2)) / (2 * y $ry * z $rz));\n";
 		if ($is_outer_parallelogram) {
 			$beta_angle = Math::abs($theta_angle + $alpha_angle); // angle between 0 angle and Rz
-			// $beta_angle = $theta_angle - $alpha_angle; // angle between 0 angle and Rz
-			//print "β $beta_angle = θ $theta_angle + α $alpha_angle;\n";
 		} else {
 			$beta_angle = Math::abs($theta_angle - $alpha_angle); // angle between 0 angle and Rz
-			// $beta_angle = $theta_angle - $alpha_angle; // angle between 0 angle and Rz
-			//print "β $beta_angle = θ $theta_angle - α $alpha_angle;\n";
 		}
 
 		return new self($rz, $beta_angle);
@@ -171,36 +163,37 @@ class ComplexPolar extends Complex implements Entity {
 
 	public function multiply($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
+		$x = $this->toArray();
+		$y = $y->toArray();
+		$z = ['radius' => 0, 'phase' => 0];
 
-		// z * w = (a + bi) * (c + di)
-		// = ac + a*di + c*bi + bi*di
-		// = ac + a*di + c*bi - bd
-		// = (ac - bd) + (ad + cb)i
+		// module of resulting vector is multiplied modules of given vectors
+		$z['radius'] = $x['radius'] * $y['radius'];
 
-		// by formulae
-		/*
-		$real = $this->value['real']->multiply($y->value['real'])->subtract($this->value['imaginary']->value*$y->value['imaginary']->value);
-		$imaginary = $this->value['real']->multiply($y->value['imaginary']->value)->add($this->value['imaginary']->value*$y->value['real']->value);
-		$z = new self($real->value, $imaginary->value);
-		*/
-		
+		// now we should calculate angle of Z
+		// knowing algebraic form XY = (a+bi)(c+di) = (ac - bd) + (ad + cb)i
+		// so Real part (coordinate on real axis) id (ac - bd) and Imaginary part is (ad + cb)
+		// knowing that sin = y/r and cos = x/r, so x=R*cos(α) and y=R*sin(α)
+		// knowing that Real = |Z|*cos(γ) and Imaginary = |Z|*sin(γ)
+		// lets replace Real or Imaginary with algebraic form
+		// thus for Imaginary:
+		// |Z|*sin(γ) = (ad + cb) => sin(γ) = (ad + cb)/|Z|
+		// replace |Z| with |X|*|Y|
+		// then lets change real "a" to |X|*cos(α), "b" to |X|*sin(α), "c" to |Y|*cos(β) and "d" to |Y|*sin(β)
+		// we will get
+		// sin(γ) = ( |X|*cos(α) * |Y|*sin(β) + |X|*sin(α) *  |Y|*cos(β)) / |X|*|Y|
+		// => sin(γ) = cos(α)*sin(β) + sin(α)*cos(β)
+		// lets apply trigonometric rule sin(α ± β) = sin(α)*cos(β) ± cos(α)*sin(β)
+		// and get
+		// sin(γ) = sin(α + β)
+		// almost the same result we will got for Real part:
+		// cos(γ) = cos(α)*cos(β) - sin(α)*sin(β)
+		// apply cos(α ± β) = cos(α)*cos(β) ∓ sin(α)*sin(β)
+		// cos(γ) = cos(α + β)
+		// that means γ = α + β
+		$z['phase'] = $x['phase'] + $y['phase'];
 
-		// direct style
-		$z = $this->value['real']->multiply($y->value['real'])
-			//->add($this->value['real']->multiply($y->value['imaginary']))
-			// this cause Memory Overflow Error due to Scalar doesnt know how to multiply to imaginary and delegates to Complex::multiply again and again
-			->add($y->value['imaginary']->multiply($this->value['real']))
-			->add($this->value['imaginary']->multiply($y->value['real']))
-			->add($this->value['imaginary']->multiply($y->value['imaginary']));
-
-		// simplify return value
-		if ($z->value['imaginary']->empty()) {
-			return $z->value['real'];
-		} else if ($z->value['real']->empty()) {
-			return $z->value['imaginary'];
-		}
-
-		return $z;
+		return new self($z);
 	}
 
 	public function divide($y) {
