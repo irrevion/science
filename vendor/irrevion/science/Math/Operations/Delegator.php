@@ -12,6 +12,7 @@ class Delegator {
 			$is_entity = $class_reflection->implementsInterface(self::ENTITY);
 			return $is_entity;
 		} else if (is_string($x)) {
+			if (!class_exists($x)) {return false;}
 			$class_reflection = new \ReflectionClass($x);
 			$is_entity = $class_reflection->implementsInterface(self::ENTITY);
 			return $is_entity;

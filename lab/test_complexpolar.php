@@ -315,4 +315,49 @@ $j = $b->toRectangular();
 $k = $c->toRectangular();
 print "Restored as: $i / $j = $k (".$c::class.")\n";
 ?>
+
+<?php
+$x = new Complex(0, 1);
+$y = new Complex(-1, 0);
+$z = $x->divide($y);
+print "$x / $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->divide($b);
+print "$a / $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i / $j = $k (".$c::class.")\n";
+?>
+
+<?php
+$x = new Complex(5, 12);
+$y = new Complex(-5, -12);
+$z = $x->divide($y);
+print "$x / $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->divide($b);
+print "$a / $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i / $j = $k (".$c::class.")\n";
+?>
+
+<?php
+$x = new Complex(5, 12);
+$y = new Complex(5, 12);
+$z = $x->divide($y);
+print "$x / $y = $z (".$z::class.")\n";
+$a = $x->toPolar();
+$b = $y->toPolar();
+$c = $a->divide($b);
+print "$a / $b = $c (".$c::class.")\n";
+$i = $a->toRectangular();
+$j = $b->toRectangular();
+$k = $c->toRectangular();
+print "Restored as: $i / $j = $k (".$c::class.")\n";
+?>
 </pre>

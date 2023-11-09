@@ -121,11 +121,6 @@ class ComplexPolar extends Complex implements Entity {
 		if ($gamma_angle > Math::PI) {
 			$is_outer_parallelogram = true;
 			$gamma_angle = Math::TAU - $gamma_angle;
-			//print "γ $gamma_angle = τ ".Math::TAU." - γ $gamma_angle;\n";
-			//$gamma_angle = Math::TAU - $theta_angle + $phi_angle;
-			//print "γ $gamma_angle = τ ".Math::TAU." - θ $theta_angle + φ $phi_angle;\n";
-			//$gamma_angle = Math::TAU - Math::abs($theta_angle - $phi_angle);
-			//print "γ $gamma_angle = τ ".Math::TAU." - γ ".Math::abs($theta_angle - $phi_angle).";\n";
 			// we are counting outside angle, so
 			// get theta angle as the remained angle to do a loop
 			// then add phi to be relative to phi instead of x axis
@@ -134,7 +129,6 @@ class ComplexPolar extends Complex implements Entity {
 		if (($sigma_angle==0) || ($gamma_angle==0)) {
 			return new self(0, 0);
 		}
-		//print "δ $sigma_angle = Math::PI - γ $gamma_angle;\n";
 		$rz = Math::sqrt(Math::pow($rx, 2) + Math::pow($ry, 2) + ((2 * $rx * $ry) * Math::cos($gamma_angle))); // diagonal of parallelogram
 		// $rz = Math::sqrt(Math::pow($rx, 2) + Math::pow($ry, 2) - ((2 * $rx * $ry) * Math::cos($sigma_angle))); // diagonal of parallelogram by sigma
 		if ($phi_angle>$theta_angle) {
@@ -144,8 +138,6 @@ class ComplexPolar extends Complex implements Entity {
 		}
 		$cos_alpha = ((Math::pow($ry, 2) + Math::pow($rz, 2) - Math::pow($rx, 2)) / (2 * $ry * $rz)); // angle between Ry and Rz
 		$alpha_angle = acos($cos_alpha); // angle between Ry and Rz
-		//print "cos(α) = $cos_alpha;\n";
-		//print "α $alpha_angle = acos((Math::pow(y $ry, 2) + Math::pow(z $rz, 2) - Math::pow(x $rx, 2)) / (2 * y $ry * z $rz));\n";
 		if ($is_outer_parallelogram) {
 			$beta_angle = Math::abs($theta_angle + $alpha_angle); // angle between 0 angle and Rz
 		} else {
