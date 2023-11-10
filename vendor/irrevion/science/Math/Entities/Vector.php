@@ -93,9 +93,20 @@ class Vector extends Scalar implements Entity, \Iterator {
 	}
 
 	public function subtract($y) {
-		if (Delegator::getType($y)!=self::class) $y = new self($y);
-		$y = $y->negative($y);
-		return $this->add($y);
+		if (Delegator::getType($y)!=self::class) $y = new self($y, $this->inner_type, $this->length);
+		$x = clone $this;
+		$z = [];
+
+		if ($y->length!=$x->length) {
+			throw new \Error('Mismatch of the vectors length');
+		}
+
+		foreach ($x as $i=>$v) {
+			$z[] = $v->subtract($y[$i]);
+		}
+		$z = new self($z, $this->inner_type);
+
+		return $z;
 	}
 
 	public function multiply($y) {
@@ -170,7 +181,7 @@ class Vector extends Scalar implements Entity, \Iterator {
 	// functions to comply interface \Iterator
 
 	public function current() {
-		return $this->value[$this->pointer];
+		return (isset($this->value[$this->pointer])? $this->value[$this->pointer]: null);
 	}
 
 	public function key() {
@@ -187,6 +198,24 @@ class Vector extends Scalar implements Entity, \Iterator {
 
 	public function valid() {
 		return isset($this->value[$this->pointer]);
+	}
+
+	// functions to comply interface \ArrayAccess
+
+	public function offsetExists($offset) {
+		return isset($this->value[$offset]);
+	}
+
+	public function offsetGet($offset) {
+		return (isset($this->value[$offset])? $this->value[$offset]: null);
+	}
+
+	public function offsetSet($offset, $value) {
+		throw new \Error('Immutable object');
+	}
+
+	public function offsetUnset($offset) {
+		throw new \Error('Immutable object');
 	}
 }
 ?>

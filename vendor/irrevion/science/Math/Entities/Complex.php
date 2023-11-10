@@ -14,11 +14,12 @@ class Complex extends Imaginary implements Entity {
 	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
 	private const T_IMAGINARY = 'irrevion\science\Math\Entities\Imaginary';
 	private const T_POLAR = 'irrevion\science\Math\Entities\ComplexPolar';
+	private const T_VECTOR = 'irrevion\science\Math\Entities\Vector';
 
 	public $value;
 	public $subset_of = [
 		'irrevion\science\Math\Entities\Complex'
-		// 'irrevion\science\Math\Entities\Vector'
+		'irrevion\science\Math\Entities\Vector'
 	];
 
 	public function __construct($real = 0, $imaginary = 0) {
@@ -86,6 +87,10 @@ class Complex extends Imaginary implements Entity {
 			'real' => $this->getReal(),
 			'imaginary' => $this->getImaginary()
 		];
+	}
+
+	public function toVector() {
+		return Delegator::wrap([$this->getReal()->toNumber(), $this->getImaginary()->toNumber()], self::T_VECTOR);
 	}
 
 	public function phase() {
