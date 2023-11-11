@@ -26,7 +26,7 @@ print("Type of x is ".($x::class)." of {$x->inner_type}\n");
 unset($x);
 ?>
 
-<?php
+<?php /*
 try {
 	$x = new Vector('kapusta');
 	print("Vector('kapusta') to string is {$x}\n");
@@ -34,10 +34,10 @@ try {
 	unset($x);
 } catch (\Error $e) {
 	print "Error: new Vector('kapusta') -> ".$e->getMessage()."\n";
-}
+} */
 ?>
 
-<?php
+<?php /*
 try {
 	$x = new Vector(['k', 'a', 'p', 'u', 's', 't', 'a']);
 	print("Vector(['k', 'a', 'p', 'u', 's', 't', 'a']) to string is {$x}\n");
@@ -45,10 +45,10 @@ try {
 	unset($x);
 } catch (\Error $e) {
 	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a']) -> ".$e->getMessage()."\n";
-}
+} */
 ?>
 
-<?php
+<?php /*
 try {
 	$x = new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'string');
 	print("Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'string') to string is {$x}\n");
@@ -57,10 +57,10 @@ try {
 	unset($x);
 } catch (\Error $e) {
 	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'string') -> ".$e->getMessage()."\n";
-}
+} */
 ?>
 
-<?php
+<?php /*
 try {
 	$x = new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float');
 	print("Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') to string is {$x}\n");
@@ -71,10 +71,10 @@ try {
 	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') -> ".$e->getMessage()."\n";
 } catch (\ReflectionException $e) {
 	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') -> ".$e->getMessage()."\n";
-}
+} */
 ?>
 
-<?php
+<?php /*
 try {
 	$x = new Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex');
 	print("Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex') to string is {$x}\n");
@@ -85,6 +85,47 @@ try {
 	print "Error: new Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex') -> ".$e->getMessage()."\n";
 } catch (\ReflectionException $e) {
 	print "Error: new Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex') -> ".$e->getMessage()."\n";
-}
+} */
+?>
+
+<?php
+$x = new Vector([4,4]);
+$y = new Vector([2,1]);
+$z = $x->dotProduct($y);
+print "$x ∙ $y = $z (".$z::class.")\n";
+?>
+
+<?php
+$x = new Vector([-3, 15]);
+$y = new Vector([5, 0.3]);
+$z = $x->dotProduct($y);
+print "$x ∙ $y = $z (".$z::class.")\n";
+?>
+
+<?php
+$x = new Vector([2, 3], 'irrevion\science\Math\Entities\Imaginary');
+$y = new Vector([-4, -5], 'irrevion\science\Math\Entities\Imaginary');
+$z = $x->dotProduct($y);
+print "$x ∙ $y = $z (".$z::class.")\n";
+?>
+
+<?php
+$x = new Vector([
+	['real' => 2, 'imaginary' => -4],
+	['real' => 7, 'imaginary' => 5],
+], 'irrevion\science\Math\Entities\Complex');
+$y = new Vector([
+	['real' => 1, 'imaginary' => 3],
+	['real' => -2, 'imaginary' => 346.33],
+], 'irrevion\science\Math\Entities\Complex');
+$z = $x->dotProduct($y);
+print "$x ∙ $y = $z (".$z::class.")\n";
+?>
+
+<?php
+$x = new Vector([347, 9821, 2093456, 0.001, -32, 1, 100.78, 4]);
+$y = new Vector([9, 43, 2, 999999, 1, 17.3, 821.004583, 2]);
+$z = $x->dot($y);
+print "$x ∙ $y = $z (".$z::class.")\n";
 ?>
 </pre>

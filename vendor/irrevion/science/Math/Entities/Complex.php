@@ -18,7 +18,7 @@ class Complex extends Imaginary implements Entity {
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Complex'
+		'irrevion\science\Math\Entities\Complex',
 		'irrevion\science\Math\Entities\Vector'
 	];
 
