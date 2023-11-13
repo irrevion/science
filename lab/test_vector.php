@@ -128,4 +128,55 @@ $y = new Vector([9, 43, 2, 999999, 1, 17.3, 821.004583, 2]);
 $z = $x->dot($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
 ?>
+
+<?php
+$x = new Vector([1, 2, 3]);
+$y = new Vector([4, 5, 6]);
+$z = $x->multiply($y);
+print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+$z = $z->divide($y);
+print "/ $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3]);
+$y = new Scalar(2);
+$z = $x->multiply($y);
+print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3]);
+$y = -2;
+$z = $x->k($y);
+print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3, 0]);
+$y = new Vector([5, 0, 0]);
+$z = $x->multiply($y);
+print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3]);
+$y = new Vector([5]);
+$z = $x->multiply($y);
+print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3, 0]);
+$y = new Vector([5, 0, 0]);
+$z = $x->x($y);
+print "$x ⨯ $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3]);
+$y = new Vector([5, 0]);
+$z = $x->x($y);
+print "$x ⨯ $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
 </pre>

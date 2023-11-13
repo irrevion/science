@@ -76,6 +76,34 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return ($this::class==self::class);
 	}
 
+	public function pad(int $length): Vector {
+		/* $x_len = $this->count();
+		$arr = $this->value;
+		while ($x_len<$length) {
+			$arr[] = Delegator::wrap(0, $this->inner_type);
+		}
+		return new self($arr, $this->inner_type); */
+		return new self($this->value, $this->inner_type, $length);
+	}
+
+	public function slice(int $length): Vector {
+		return new self(array_slice($this->value, 0, $length), $this->inner_type);
+	}
+
+	public function cutZeroTail(): Vector {
+		$z = $this->value;
+		while (count($z)) {
+			$v = end($z);
+			if ($v===false) {break;}
+			if (($v===0) || (Delegator::isEntity($v) && $v->empty())) {
+				array_pop($z);
+			} else {
+				break;
+			}
+		}
+		return new self($z, $this->inner_type);
+	}
+
 	public function add($y) {
 		// equivalent to finding diagonal end point coords of parallelogram formed by two vectors placed at 0 point at cartegian coordinate system
 		if (Delegator::getType($y)!=self::class) $y = new self($y, $this->inner_type, $this->length);
@@ -113,11 +141,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return $z;
 	}
 
-	// scale vector using scalar scalarMultiply() (not scalar product!)
-	// dot product ·→ aliases is dotProduct(), scalarProduct(), innerProduct(), dot() ***exclude scalarProduct() to avoid disambiquity
-	// cross product ⨯→ aliases is multiply(), crossProduct(), vectorProduct()
-	// direct product ⊗→ (kroneker product with transponed matrix) directProduct()
-	// Kronecker product ⊗→ aliases is kroneckerProduct, tensorProduct(), matrixDirectProduct()
+	// scale vector using scalar scalarMultiply() (not scalar product!), k(), coefficient(), times(), scale()
+	// dot product ·→ aliases is dotProduct(), scalarProduct(), innerProduct(), dot() ***exclude scalarProduct() to avoid ambiquity
+	// Hadamard product ⊙→ aliases is multiplyElementwise(), hadamardProduct(), schurProduct()
+	// cross product ⨯→ aliases is multiply(), crossProduct(), vectorProduct(), cross(), x()
+	// direct product ⊗→ (Kroneker product with transponed matrix) directProduct()
+	// Kronecker product ⊗→ aliases is kroneckerProduct(), tensorProduct(), matrixDirectProduct()
 
 	public function dotProduct($y) {
 		// In mathematics, the dot product or scalar product is an algebraic operation that takes two equal-length sequences of numbers (usually coordinate vectors), and returns a single number.
@@ -165,36 +194,154 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 		return $z;
 	}
-	public function innerProduct(...$args) {return $this->dotProduct(...$args);}
 	public function dot(...$args) {return $this->dotProduct(...$args);}
+	// public function innerProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with Hermitian inner product or inner product via conjugation a.b = Conjugate[a].b
+	// public function scalarProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with scalar multiplication
 
 	public function multiply($y) {
-		if (Delegator::getType($y)!=self::class) $y = new self($y);
-		$x = $this->toArray();
-		$y = $y->toArray();
-		$z = [];
-
-		return new self($z);
+		$n = $this->count();
+		if (empty($n)) {
+			return new self([]);
+		}
+		$yt = Delegator::getType($y);
+		if ($yt!=self::class) {
+			if ($yt==self::T_SCALAR) {
+				return $this->k($y);
+			} else {
+				$y = new self($y, $this->inner_type, $n);
+			}
+		}
+		// return $this->vectorProduct($y);
+		return $this->multiplyElementwise($y);
 	}
 
+	public function multiplyElementwise(Vector $y): Vector {
+		$x = clone $this;
+		$y_len = $y->count();
+		$x_len = $this->count();
+		// if ($y_len>$x_len) {$x = $x->pad($y_len);}
+		// if ($x_len>$y_len) {$y = $y->pad($x_len);}
+		if ($y_len>$x_len) {$y = $y->slice($x_len);}
+		if ($x_len>$y_len) {$x = $x->slice($y_len);}
+		$z = [];
+		if ($x->count()) {
+			foreach ($x->value as $i=>$v) {
+				$z[] = $v->multiply($y[$i]);
+			}
+		}
+		$z = new self($z, $this->inner_type);
+		$z = $z->cutZeroTail();
+		return $z;
+	}
+
+	public function vectorProduct(Vector $y): Vector {
+		$y_len = $y->count();
+		$x_len = $this->count();
+		if ($y_len!=$x_len) {
+			throw new \Error('Vector length mismatch: '.$x_len.' expected');
+		}
+		if ($y_len==3) {
+			return $this->crossProduct($y);
+		} else {
+			throw new \Error('Vector product not implemented for '.$x_len.' dimensions');
+		}
+	}
+
+	public function crossProduct2D(Vector $y): Vector {
+		throw new \Error('Not implemented yet');
+		$y_len = $y->count();
+		$x_len = $this->count();
+		if ($y_len!=2) throw new \Error('Vector expected to be 3D');
+		if ($x_len!=$y_len) throw new \Error('Vector length mismatch: '.$x_len.' expected');
+
+		$z = [];
+	}
+
+	public function crossProduct(Vector $y): Vector {
+		// Cross product (AxB)
+		// https://en.wikipedia.org/wiki/Cross_product
+
+		//          | i  j  k  |
+		// A x B =  | a₀ a₁ a₂ | = |a₁ a₂|  - |a₀ a₂|  + |a₀ a₁|
+		//          | b₀ b₁ b₂ |   |b₁ b₂|i   |b₀ b₂|j   |b₀ b₁|k
+
+		// = (a₁b₂ - b₁a₂) - (a₀b₂ - b₀a₂) + (a₀b₁ - b₀a₁)
+
+		$y_len = $y->count();
+		$x_len = $this->count();
+		if ($y_len!=3) throw new \Error('Vector expected to be 3D');
+		if ($x_len!=$y_len) throw new \Error('Vector length mismatch: '.$x_len.' expected');
+
+		$z = [];
+		$z[] = $this->value[1]->multiply($y[2])->subtract($this->value[2]->multiply($y[1]));
+		$z[] = $this->value[0]->multiply($y[2])->subtract($this->value[2]->multiply($y[0]))->invert();
+		$z[] = $this->value[0]->multiply($y[1])->subtract($this->value[1]->multiply($y[0]));
+
+		return new self($z, $this->inner_type);
+	}
+	public function crossProduct3D(...$args) {return $this->crossProduct(...$args);}
+	public function cross(...$args) {return $this->crossProduct(...$args);}
+	public function x(...$args) {return $this->crossProduct(...$args);}
+
+	public function k($y) {
+		/*if (Delegator::getType($y)!=self::T_SCALAR) {
+			$y = Delegator::wrap($y);
+		}*/
+
+		$z = [];
+		$n = $this->count();
+		if ($n) {
+			foreach ($this->value as $i=>$v) {
+				$z[] = $v->multiply($y);
+			}
+		}
+
+		return new self($z, $this->inner_type);
+	}
+	public function coefficient(...$args) {return $this->k(...$args);}
+	public function times(...$args) {return $this->k(...$args);}
+	public function scale(...$args) {return $this->k(...$args);}
+	public function scalarMultiply(...$args) {return $this->k(...$args);}
+
 	public function divide($y) {
-		if (Delegator::getType($y)!=self::class) $y = new self($y);
-		return $this->multiply($y->reciprocal());
+		$n = $this->count();
+		if (empty($n)) {
+			return new self([]);
+		}
+		$yt = Delegator::getType($y);
+		if ($yt!=self::class) {
+			if ($yt==self::T_SCALAR) {
+				return $this->k($y->reciprocal());
+			} else {
+				$y = new self($y, $this->inner_type, $n);
+			}
+		}
+		return $this->divideElementwise($y);
+	}
+
+	public function divideElementwise(Vector $y): Vector {
+		$x = clone $this;
+		$y_len = $y->count();
+		$x_len = $this->count();
+		if ($y_len>$x_len) {$x = $x->pad($y_len);}
+		if ($x_len>$y_len) {$y = $y->pad($x_len);}
+		$z = [];
+		if ($x->count()) {
+			foreach ($x->value as $i=>$v) {
+				$z[] = $v->divide($y[$i]);
+			}
+		}
+		$z = new self($z, $this->inner_type);
+		$z = $z->cutZeroTail();
+		return $z;
 	}
 
 	public function reciprocal() {
-		// 1/z = ž/|z|^2
-		// reciprocal is conjugate divided by squared module
-		// $reciprocal = $this->conjugate()->divide(Math::pow($this->r, 2));
-		// to prevent infinit recursion in division method we directrly divide radius by scalar
-		$conjugate = $this->conjugate();
-		$r = $conjugate->r->divide(Math::pow($this->r, 2));
-		$reciprocal = new self($r->toNumber(), $conjugate->phi->toNumber());
-		return $reciprocal;
+		throw new \Error('Not implemented yet');
 	}
 
 	public function conjugate() {
-		return null;
+		throw new \Error('Not implemented yet');
 	}
 
 	public function transpose() {
@@ -209,7 +356,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function invert() {
-		return null;
+		throw new \Error('Not implemented yet');
 	}
 
 	public function magnitude() {

@@ -148,6 +148,10 @@ class Scalar implements Entity {
 		return $this->invert();
 	}
 
+	public function reciprocal() {
+		return new self(1/$this->value);
+	}
+
 	public function empty() {
 		return ($this->value==0);
 	}
