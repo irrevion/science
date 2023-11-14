@@ -21,6 +21,13 @@ class Math extends BaseMath {
 		}
 	}
 
+	public static function asin($x) {
+		if (Delegator::isEntity($x)) {
+			$x = $x->toNumber();
+		}
+		return parent::asin($x);
+	}
+
 	public static function pow($base, $exponent = 1) {
 		$exponent = $exponent * 1;
 

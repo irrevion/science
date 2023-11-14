@@ -176,7 +176,7 @@ print "$x ⨯ $y = $z (type ".$z::class." of {$x->inner_type})\n";
 <?php
 $x = new Vector([4, 3]);
 $y = new Vector([5, 0]);
-$z = $x->x($y);
+$z = $x->vectorProduct($y);
 print "$x ⨯ $y = $z (type ".$z::class." of {$x->inner_type})\n";
 ?>
 </pre>

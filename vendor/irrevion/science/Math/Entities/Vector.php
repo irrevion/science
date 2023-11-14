@@ -144,9 +144,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	// scale vector using scalar scalarMultiply() (not scalar product!), k(), coefficient(), times(), scale()
 	// dot product ·→ aliases is dotProduct(), scalarProduct(), innerProduct(), dot() ***exclude scalarProduct() to avoid ambiquity
 	// Hadamard product ⊙→ aliases is multiplyElementwise(), hadamardProduct(), schurProduct()
-	// cross product ⨯→ aliases is multiply(), crossProduct(), vectorProduct(), cross(), x()
+	// cross product ⨯→ aliases is crossProduct(), vectorProduct(), cross(), x()
 	// direct product ⊗→ (Kroneker product with transponed matrix) directProduct()
 	// Kronecker product ⊗→ aliases is kroneckerProduct(), tensorProduct(), matrixDirectProduct()
+	// exterior product is exteriorProduct();
 
 	public function dotProduct($y) {
 		// In mathematics, the dot product or scalar product is an algebraic operation that takes two equal-length sequences of numbers (usually coordinate vectors), and returns a single number.
@@ -233,28 +234,66 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		$z = $z->cutZeroTail();
 		return $z;
 	}
+	public function hadamardProduct(...$args) {return $this->multiplyElementwise(...$args);}
+	public function schurProduct(...$args) {return $this->multiplyElementwise(...$args);}
 
 	public function vectorProduct(Vector $y): Vector {
+		$x = clone $this;
 		$y_len = $y->count();
-		$x_len = $this->count();
+		$x_len = $x->count();
 		if ($y_len!=$x_len) {
-			throw new \Error('Vector length mismatch: '.$x_len.' expected');
+			// throw new \Error('Vector length mismatch: '.$x_len.' expected');
+			if ($y_len<$x_len) {
+				$y = $y->pad($x_len);
+				$y_len = $y->count();
+			} else {
+				$x = $x->pad($y_len);
+				$x_len = $x->count();
+			}
 		}
-		if ($y_len==3) {
-			return $this->crossProduct($y);
+		if ($y_len==0) {
+			// null vector
+			return new self([]);
+		} else if ($y_len==1) {
+			// real number multiplication
+			return new self([$x->value[0]->multiply($y-value[0])]);
+		} else if ($y_len==2) {
+			// 2d vector multiplication
+			return $x->crossProduct2D($y);
+		} else if ($y_len==3) {
+			return $x->crossProduct($y);
 		} else {
 			throw new \Error('Vector product not implemented for '.$x_len.' dimensions');
 		}
 	}
 
 	public function crossProduct2D(Vector $y): Vector {
-		throw new \Error('Not implemented yet');
 		$y_len = $y->count();
 		$x_len = $this->count();
 		if ($y_len!=2) throw new \Error('Vector expected to be 3D');
 		if ($x_len!=$y_len) throw new \Error('Vector length mismatch: '.$x_len.' expected');
 
-		$z = [];
+		$determinant = [
+			[$this->value[0], $this->value[1]], // [a, b]
+			[$y->value[0],    $y->value[1]],    // [c, d]
+		];
+		// calculates as ad-bc (why?)
+		// $determinant_calculated = $this->value[0]->multiply($y->value[1])->subtract($this->value[0]->multiply($y->value[1]));
+		$determinant_calculated = $determinant[0][0]->multiply($determinant[1][1])->subtract($determinant[0][1]->multiply($determinant[1][0]));
+		// resulting vector pointing in k direction (basis ijk) or z direction (basis xyz)
+		$z = [0, 0, $determinant_calculated];
+		$z = new self($z, $this->inner_type);
+
+		// using formula |c| = |a||b|sin(θ) we can obtain angle too (just for testing)
+		$x_magnitude = $this->magnitude();
+		$y_magnitude = $y->magnitude();
+		$z_magnitude = $z->magnitude();
+		$sin_theta = $z_magnitude->divide($x_magnitude->multiply($y_magnitude));
+		$theta = Math::asin($sin_theta);
+		print "|c| $z_magnitude = |a| $x_magnitude * |b| $y_magnitude * sin(θ) $sin_theta \n";
+		print "angle θ is $theta RAD \n";
+
+		return $z;
 	}
 
 	public function crossProduct(Vector $y): Vector {
@@ -365,14 +404,14 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		if ($this->length) {
 			foreach ($this->value as $n) {
 				if (Delegator::isEntity($this->inner_type)) {
-					$magnitude+=Math.pow($n, 2)->toNumber();
+					$magnitude+=Math::pow($n, 2)->toNumber();
 				} else {
-					$magnitude+=Math.pow($n, 2);
+					$magnitude+=Math::pow($n, 2);
 				}
 			}
 			$magnitude = Math::sqrt($magnitude);
 		}
-		return $magnitude;
+		return Delegator::wrap($magnitude);
 	}
 
 	public function abs() {
