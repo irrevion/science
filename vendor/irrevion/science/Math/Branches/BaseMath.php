@@ -3,6 +3,7 @@ namespace irrevion\science\Math\Branches;
 
 class BaseMath {
 	const E = M_E;
+	const EPSILON = 1e-13; // PHP_FLOAT_EPSILON is too small
 	const EULER = M_EULER;
 	const LN2 = M_LN2;
 	const LNPI = M_LNPI;
@@ -46,6 +47,14 @@ class BaseMath {
 		return atanh($x);
 	}
 
+	public static function avg(...$args) {
+		// return (array_sum($args) / count($args));
+		$avg = 0.0;
+		$length = count($args);
+		if ($length) foreach ($args as $i=>$x) {$avg+=(($x-$avg)/($i+1));}
+		return $avg;
+	}
+
 	public static function base_convert($num, $from_base=10, $to_base=16) {
 		return base_convert($num, $from_base, $to_base);
 	}
@@ -56,6 +65,46 @@ class BaseMath {
 
 	public static function ceil($num) {
 		return ceil($num);
+	}
+
+	public static function compare(float $x=0.0, string $rel='==', float $y=1e-12) {
+		$epsilon = (self::EPSILON<PHP_FLOAT_EPSILON)? PHP_FLOAT_EPSILON: self::EPSILON);
+		$epsilon = (self::avg(self::abs($x), self::abs($y)) * $epsilon); // relative precision
+		if ($epsilon<PHP_FLOAT_EPSILON) {
+			// cannot be smaller than PHP_FLOAT_EPSILON
+			$epsilon = PHP_FLOAT_EPSILON;
+		} else if ($epsilon>1e-2) {
+			// cannot be bigger than epsilon is .01
+			$epsilon = 1e-2;
+		}
+		$rels = [
+			'=' => 'equal',
+			'==' => 'equal',
+			'===' => 'equal',
+			'!=' => 'not equal',
+			'!==' => 'not equal',
+			'<>' => 'not equal',
+			'>' => 'greater than',
+			'>=' => 'greater than or equal',
+			'<' => 'less than',
+			'<=' => 'less than or equal',
+			'<=>' => 'spaceship',
+		];
+		if (!isset($rels[$rel])) {
+			throw new \Error('Unknown comparison operator "'.$rel.'"');
+		}
+		$result = match($rels[$rel]) {
+			'equal' => (Math::abs($x-$y)<$epsilon),
+			// 'not equal' => !self::compare($x, '=', $y),
+			'not equal' => (Math::abs($x-$y)>=$epsilon),
+			'greater than' => ($x>($y+$epsilon)),
+			'greater than or equal' => ($x>=$y),
+			'less than' => ($x<($y-$epsilon)),
+			'less than or equal' => ($x<=$y),
+			'spaceship' => (self::compare($x, '=', $y)? 0: (self::compare($x, '<', $y)? -1: 1)),
+			default => null,
+		};
+		return result;
 	}
 
 	public static function cos($num) {

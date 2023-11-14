@@ -28,6 +28,12 @@ class Math extends BaseMath {
 		return parent::asin($x);
 	}
 
+	public static function compare(float $x=0.0, string $rel='==', float $y=1e-12) {
+		if (Delegator::isEntity($x)) {$x = $x->toNumber();}
+		if (Delegator::isEntity($y)) {$y = $y->toNumber();}
+		return parent::compare($x, $rel, $y);
+	}
+
 	public static function pow($base, $exponent = 1) {
 		$exponent = $exponent * 1;
 
