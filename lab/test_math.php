@@ -154,4 +154,12 @@ print "{$x}^-3 = {$z}\n";
 print("Type of z is ".($z::class)."\n");
 unset($x, $z);
 ?>
+
+<?php
+$x = Math::avg(2937485895, 5e12, 15e11, 1e-15, 66666666666);
+print "Math::avg(2937485895, 5e12, 15e11, 1e-15, 66666666666) is {$x}\n";
+$y = 1313920830512.202;
+$check_x = Math::compare($x, '=', $y);
+print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
+?>
 </pre>

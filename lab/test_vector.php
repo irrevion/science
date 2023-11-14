@@ -193,4 +193,38 @@ $y = new Vector([-4, -3]);
 $z = $x->vectorProduct($y);
 print "$x ⨯ $y = $z (type ".$z::class." of {$x->inner_type})\n";
 ?>
+
+<?php
+$x = new Vector([23, 0, 0]);
+$y = new Vector([3, 0, 0]);
+$z = $x->vectorProduct($y);
+print "$x ⨯ $y = $z (type ".$z::class." of {$z->inner_type})\n";
+$z = $x->dot($y);
+print "$x ∙ $y = $z (type ".$z::class.")\n";
+$z = $x->multiplyElementwise($y);
+print "$x * $y = $z (type ".$z::class." of {$z->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([4, 3, 0]);
+$y = new Vector([0, 3, 4]);
+$z = $x->vectorProduct($y);
+print "$x ⨯ $y = $z (type ".$z::class." of {$z->inner_type})\n";
+$z = $x->dot($y);
+print "$x ∙ $y = $z (type ".$z::class.")\n";
+$z = $x->multiplyElementwise($y);
+print "$x * $y = $z (type ".$z::class." of {$z->inner_type})\n";
+print $x->magnitude()." * ".$y->magnitude()." = ".$z->magnitude()." (type ".$z::class." of {$z->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([23, 17, -551]);
+$y = $x->magnitude();
+$z = $x->normalize();
+print "$x / $y = $z (type ".$z::class." of {$x->inner_type})\n";
+$x = $z->multiply($y);
+print "$z * $y = $x (type ".$z::class." of {$x->inner_type})\n";
+$x = $x->invert();
+print "$x\n";
+?>
 </pre>

@@ -255,8 +255,9 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			// null vector
 			return new self([]);
 		} else if ($y_len==1) {
-			// real number multiplication
-			return new self([$x->value[0]->multiply($y-value[0])]);
+			// real number multiplication XXX WRONG!!! collinear vectors cross product gives zero!
+			// return new self([$x->value[0]->multiply($y-value[0])]);
+			return new self([0]);
 		} else if ($y_len==2) {
 			// 2d vector multiplication
 			return $x->crossProduct2D($y);
@@ -383,6 +384,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		throw new \Error('Not implemented yet');
 	}
 
+	public function normalize() {
+		return $this->divide($this->magnitude());
+	}
+
 	public function transpose() {
 		$z = [];
 		$n = $this->count();
@@ -395,7 +400,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function invert() {
-		throw new \Error('Not implemented yet');
+		return $this->k(-1);
 	}
 
 	public function magnitude() {

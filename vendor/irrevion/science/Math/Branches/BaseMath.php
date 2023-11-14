@@ -48,7 +48,7 @@ class BaseMath {
 	}
 
 	public static function avg(...$args) {
-		// return (array_sum($args) / count($args));
+		// return (array_sum($args) / count($args)); // will lead to int overflow on big numbers
 		$avg = 0.0;
 		$length = count($args);
 		if ($length) foreach ($args as $i=>$x) {$avg+=(($x-$avg)/($i+1));}
@@ -68,8 +68,10 @@ class BaseMath {
 	}
 
 	public static function compare(float $x=0.0, string $rel='==', float $y=1e-12) {
-		$epsilon = (self::EPSILON<PHP_FLOAT_EPSILON)? PHP_FLOAT_EPSILON: self::EPSILON);
-		$epsilon = (self::avg(self::abs($x), self::abs($y)) * $epsilon); // relative precision
+		$epsilon = ((self::EPSILON<PHP_FLOAT_EPSILON)? PHP_FLOAT_EPSILON: self::EPSILON);
+		// print 'ε '.var_export($epsilon, 1)."\n";
+		$epsilon = (self::avg(abs($x), abs($y)) * $epsilon); // relative precision
+		// print 'ε '.var_export($epsilon, 1)."\n";
 		if ($epsilon<PHP_FLOAT_EPSILON) {
 			// cannot be smaller than PHP_FLOAT_EPSILON
 			$epsilon = PHP_FLOAT_EPSILON;
@@ -77,6 +79,7 @@ class BaseMath {
 			// cannot be bigger than epsilon is .01
 			$epsilon = 1e-2;
 		}
+		// print 'ε '.var_export($epsilon, 1)."\n";
 		$rels = [
 			'=' => 'equal',
 			'==' => 'equal',
@@ -94,17 +97,17 @@ class BaseMath {
 			throw new \Error('Unknown comparison operator "'.$rel.'"');
 		}
 		$result = match($rels[$rel]) {
-			'equal' => (Math::abs($x-$y)<$epsilon),
+			'equal' => (abs($x-$y)<$epsilon),
 			// 'not equal' => !self::compare($x, '=', $y),
-			'not equal' => (Math::abs($x-$y)>=$epsilon),
+			'not equal' => (abs($x-$y)>=$epsilon),
 			'greater than' => ($x>($y+$epsilon)),
-			'greater than or equal' => ($x>=$y),
+			'greater than or equal' => ($x>=$y), // there are possible cases when "equal" returns true but "greater then or equal" return false
 			'less than' => ($x<($y-$epsilon)),
 			'less than or equal' => ($x<=$y),
 			'spaceship' => (self::compare($x, '=', $y)? 0: (self::compare($x, '<', $y)? -1: 1)),
 			default => null,
 		};
-		return result;
+		return $result;
 	}
 
 	public static function cos($num) {
