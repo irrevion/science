@@ -6,7 +6,7 @@ use irrevion\science\Math\Operations\Delegator;
 
 class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countable {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
-	private const T_MATRIX = __NAMESPACE__.'\Matrix';
+	private const T_MATRIX = 'irrevion\science\Math\Transformations\Matrix';
 	private $pointer = 0;
 
 	public $value;
@@ -14,7 +14,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public $inner_type = null;
 	public $subset_of = [
 		__NAMESPACE__.'\Vector',
-		__NAMESPACE__.'\Matrix',
+		// __NAMESPACE__.'\Matrix',
 	];
 
 	public function __construct($array, $type=self::T_SCALAR, $pad_to_length=0) {
@@ -65,7 +65,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function toNumber() {
-		return null;
+		return $this->magnitude()->toNumber();
 	}
 
 	public function toArray() {
@@ -87,7 +87,9 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function slice(int $length): Vector {
-		return new self(array_slice($this->value, 0, $length), $this->inner_type);
+		$z = new self(array_slice($this->value, 0, $length), $this->inner_type);
+		$z->count();
+		return $z;
 	}
 
 	public function cutZeroTail(): Vector {
@@ -102,6 +104,24 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			}
 		}
 		return new self($z, $this->inner_type);
+	}
+
+	public function align($y) {
+		$x = clone $this;
+		$x = $x->cutZeroTail();
+		$y = $y->cutZeroTail();
+		$x_len = $x->count();
+		$y_len = $y->count();
+		if ($y_len<$x_len) {
+			$y = $y->pad($x_len);
+		} else if ($y_len>$x_len) {
+			$x = $x->pad($y_len);
+		}
+		return [$x, $y];
+	}
+
+	public function as($type) {
+		return new self($this->value, $type);
 	}
 
 	public function add($y) {
