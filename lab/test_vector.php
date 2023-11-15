@@ -7,7 +7,7 @@ require_once("../vendor/irrevion/science/autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\{Scalar, Vector};
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector};
 ?>
 
 <pre>
@@ -15,6 +15,18 @@ use irrevion\science\Math\Entities\{Scalar, Vector};
 $x = new Vector([1,2,3,4,5]);
 print("Vector([1,2,3,4,5]) to string is {$x}\n");
 print("Type of x is ".($x::class)." of {$x->inner_type}\n");
+unset($x);
+?>
+
+<?php
+$x = new Vector([12, new Fraction("3/4"), new Imaginary(5), new Complex(21, 39), new ComplexPolar(15, Math::PI)], 'irrevion\science\Math\Entities\Complex');
+print("new Vector([12, new Fraction(\"3/4\"), new Imaginary(5), new Complex(21, 39), new ComplexPolar(15, Math::PI)], 'irrevion\science\Math\Entities\Complex') to string is {$x}\n");
+print("Type of x $x is ".($x::class)." of {$x->inner_type}\n");
+$y = new Vector([7, 6, 5, 4, 3]);
+$z = $x->multiply($y);
+print("Type of z $z is ".($z::class)." of {$z->inner_type}\n");
+$u = $z->multiply(new Imaginary(-1));
+print("Type of u $u is ".($u::class)." of {$u->inner_type}\n");
 unset($x);
 ?>
 

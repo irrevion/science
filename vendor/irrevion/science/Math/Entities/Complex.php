@@ -13,6 +13,7 @@ class Complex extends Imaginary implements Entity {
 	public const DIMENSIONS_NUMBER = '2';
 
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_FRACTION = __NAMESPACE__.'\Fraction';
 	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
 	private const T_POLAR = __NAMESPACE__.'\ComplexPolar';
 	private const T_VECTOR = __NAMESPACE__.'\Vector';
@@ -29,12 +30,17 @@ class Complex extends Imaginary implements Entity {
 			if ($real::class==self::class) {
 				$this->value = $real->value;
 				return;
-			} else if ($real::class==self::T_SCALAR) {
-				$this->value['real'] = $real;
+			} else if (in_array($real::class, [self::T_SCALAR, self::T_FRACTION])) {
+				$this->value['real'] = Delegator::wrap($real->toNumber());
 			} else if ($real::class==self::T_IMAGINARY) {
 				$this->value['real'] = new Scalar(0);
 				$this->value['imaginary'] = $real;
 				// can be constructed with only the imaginary part
+				return;
+			} else if ($real::class==self::T_POLAR) {
+				$real = $real->toRectangular();
+				$this->value['real'] = $real->real;
+				$this->value['imaginary'] = $real->imaginary;
 				return;
 			} else {
 				throw new \TypeError("Real part of a Complex number should be Scalar");

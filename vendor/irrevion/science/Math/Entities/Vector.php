@@ -206,7 +206,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		}
 		$yt = Delegator::getType($y);
 		if ($yt!=self::class) {
-			if ($yt==self::T_SCALAR) {
+			// if ($yt==self::T_SCALAR) {
+			if (Delegator::isEntity($y) && !Delegator::implements($y, 'Traversable')) {
 				return $this->k($y);
 			} else {
 				$y = new self($y, $this->inner_type, $n);
@@ -324,10 +325,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public function x(...$args) {return $this->crossProduct(...$args);}
 
 	public function k($y) {
-		/*if (Delegator::getType($y)!=self::T_SCALAR) {
-			$y = Delegator::wrap($y);
-		}*/
-
 		$z = [];
 		$n = $this->count();
 		if ($n) {
@@ -336,6 +333,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			}
 		}
 
+		// return new self($z, Delegator::getType($z[0]));
 		return new self($z, $this->inner_type);
 	}
 	public function coefficient(...$args) {return $this->k(...$args);}

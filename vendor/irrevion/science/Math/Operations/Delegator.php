@@ -20,6 +20,16 @@ class Delegator {
 		return false;
 	}
 
+	public static function implements($object, $any_of_interfaces=[]) {
+		if (!is_array($any_of_interfaces)) {$any_of_interfaces = [$any_of_interfaces];}
+		$instance_of = $object::class;
+		$class_reflection = new \ReflectionClass($instance_of);
+		foreach ($any_of_interfaces as $I) {
+			if ($class_reflection->implementsInterface($I)) {return true;}
+		}
+		return false;
+	}
+
 	public static function hasMethod($x, $method_name) {
 		if (!self::isEntity($x)) return false;
 		if (method_exists($x, $method_name)) return true;
