@@ -3,15 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 
-require_once("../vendor/irrevion/science/Math/Operations/Delegator.php");
-require_once("../vendor/irrevion/science/Math/Branches/BaseMath.php");
-require_once("../vendor/irrevion/science/Math/Math.php");
-require_once("../vendor/irrevion/science/Math/Entities/Entity.php");
-require_once("../vendor/irrevion/science/Math/Entities/Scalar.php");
-require_once("../vendor/irrevion/science/Math/Entities/Fraction.php");
+require_once("../vendor/irrevion/science/autoloader.php");
 
-use irrevion\science\Math\Entities\Scalar;
-use irrevion\science\Math\Entities\Fraction;
+use irrevion\science\Math\Entities\{Scalar, Fraction};
 ?>
 
 <pre>

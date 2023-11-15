@@ -69,17 +69,19 @@ class BaseMath {
 
 	public static function compare(float $x=0.0, string $rel='==', float $y=1e-12) {
 		$epsilon = ((self::EPSILON<PHP_FLOAT_EPSILON)? PHP_FLOAT_EPSILON: self::EPSILON);
-		// print 'ε '.var_export($epsilon, 1)."\n";
+		 print 'ε '.var_export($epsilon, 1)."\n";
 		$epsilon = (self::avg(abs($x), abs($y)) * $epsilon); // relative precision
-		// print 'ε '.var_export($epsilon, 1)."\n";
+		 print 'ε '.var_export($epsilon, 1)."\n";
 		if ($epsilon<PHP_FLOAT_EPSILON) {
 			// cannot be smaller than PHP_FLOAT_EPSILON
-			$epsilon = PHP_FLOAT_EPSILON;
+			// XXX WRONG!!!
+			// you should be able to compare 1e-22 and 1.00000000003e-22
+			// $epsilon = PHP_FLOAT_EPSILON;
 		} else if ($epsilon>1e-2) {
 			// cannot be bigger than epsilon is .01
 			$epsilon = 1e-2;
 		}
-		// print 'ε '.var_export($epsilon, 1)."\n";
+		 print 'ε '.var_export($epsilon, 1)."\n";
 		$rels = [
 			'=' => 'equal',
 			'==' => 'equal',

@@ -1,25 +1,26 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
-use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\Scalar;
-use irrevion\science\Math\Entities\Imaginary;
 use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Math\Math;
+use irrevion\science\Math\Entities\{
+	Scalar, Imaginary
+};
 
 class Complex extends Imaginary implements Entity {
 	public const SPACE = 'euclidean';
 	public const COORDINATE_SYSTEM = 'rectangular';
 	public const DIMENSIONS_NUMBER = '2';
 
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
-	private const T_IMAGINARY = 'irrevion\science\Math\Entities\Imaginary';
-	private const T_POLAR = 'irrevion\science\Math\Entities\ComplexPolar';
-	private const T_VECTOR = 'irrevion\science\Math\Entities\Vector';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
+	private const T_POLAR = __NAMESPACE__.'\ComplexPolar';
+	private const T_VECTOR = __NAMESPACE__.'\Vector';
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Complex',
-		'irrevion\science\Math\Entities\Vector'
+		__NAMESPACE__.'\Complex',
+		__NAMESPACE__.'\Vector'
 	];
 
 	public function __construct($real = 0, $imaginary = 0) {

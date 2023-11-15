@@ -6,8 +6,8 @@ use irrevion\science\Math\Operations\Delegator;
 class Scalar implements Entity {
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Complex',
-		'irrevion\science\Math\Entities\Vector'
+		__NAMESPACE__.'\Complex',
+		__NAMESPACE__.'\Vector'
 	];
 
 	public function __construct($x = 0) {

@@ -5,11 +5,11 @@ use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
 
 class Fraction extends Scalar implements Entity {
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Fraction',
+		__NAMESPACE__.'\Fraction',
 	];
 
 	public function __construct($number) {

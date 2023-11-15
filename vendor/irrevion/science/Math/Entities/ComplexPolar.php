@@ -1,24 +1,24 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
-use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\Scalar;
-use irrevion\science\Math\Entities\Imaginary;
-use irrevion\science\Math\Entities\Complex;
 use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Math\Math;
+use irrevion\science\Math\Entities\{
+	Scalar, Imaginary, Complex
+};
 
 class ComplexPolar extends Complex implements Entity {
 	public const SPACE = 'euclidean';
 	public const COORDINATE_SYSTEM = 'polar';
 	public const DIMENSIONS_NUMBER = '2';
 
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
-	private const T_IMAGINARY = 'irrevion\science\Math\Entities\Imaginary';
-	private const T_COMPLEX = 'irrevion\science\Math\Entities\Complex';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
+	private const T_COMPLEX = __NAMESPACE__.'\Complex';
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\ComplexPolar'
+		__NAMESPACE__.'\ComplexPolar'
 	];
 
 	public function __construct($r = 0, $phi = 0) {

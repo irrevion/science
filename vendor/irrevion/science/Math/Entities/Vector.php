@@ -5,16 +5,16 @@ use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
 
 class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countable {
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
-	private const T_MATRIX = 'irrevion\science\Math\Entities\Matrix';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_MATRIX = __NAMESPACE__.'\Matrix';
 	private $pointer = 0;
 
 	public $value;
 	public $length = 0;
 	public $inner_type = null;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Vector',
-		'irrevion\science\Math\Entities\Matrix',
+		__NAMESPACE__.'\Vector',
+		__NAMESPACE__.'\Matrix',
 	];
 
 	public function __construct($array, $type=self::T_SCALAR, $pad_to_length=0) {
@@ -421,7 +421,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function abs() {
 		$magnitude = $this->magnitude();
-		return Delegator::wrap($magnitude, self::T_SCALAR);
+		return $magnitude;
 	}
 
 	public function empty() {

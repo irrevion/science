@@ -3,18 +3,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 
-require_once("../vendor/irrevion/science/Math/Branches/BaseMath.php");
-require_once("../vendor/irrevion/science/Math/Operations/Delegator.php");
-require_once("../vendor/irrevion/science/Math/Math.php");
-require_once("../vendor/irrevion/science/Math/Entities/Entity.php");
-require_once("../vendor/irrevion/science/Math/Entities/Scalar.php");
-require_once("../vendor/irrevion/science/Math/Entities/Imaginary.php");
-require_once("../vendor/irrevion/science/Math/Entities/Complex.php");
+require_once("../vendor/irrevion/science/autoloader.php");
 
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\Scalar;
-use irrevion\science\Math\Entities\Imaginary;
+use irrevion\science\Math\Entities\{Scalar, Imaginary};
 ?>
 
 <pre>
@@ -159,6 +152,18 @@ unset($x, $z);
 $x = Math::avg(2937485895, 5e12, 15e11, 1e-15, 66666666666);
 print "Math::avg(2937485895, 5e12, 15e11, 1e-15, 66666666666) is {$x}\n";
 $y = 1313920830512.202;
+$check_x = Math::compare($x, '=', $y);
+print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
+?>
+
+<?php
+$x = Math::avg(5e-17, 37e-19, 69e-21, 999e-23, 8943e-25);
+print "Math::avg(5e-17, 37e-19, 69e-21, 999e-23, 8943e-25) is {$x}\n";
+// $y = 1.075597686e-17;
+$y = 7e-20;
+$check_x = Math::compare($x, '=', $y);
+print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
+$y = 1.07559768600001e-17;
 $check_x = Math::compare($x, '=', $y);
 print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
 ?>
