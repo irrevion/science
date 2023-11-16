@@ -45,9 +45,6 @@ unset($v, $x, $z);
 
 <?php
 $x = new Matrix([
-	/* [0.00, 0.00, 1.05],
-	[-0.2, 0.00, 0.00],
-	[0.01, 2.03, 0.00], */
 	[0.00, -0.2, 0.01],
 	[0.00, 0.00, 2.03],
 	[1.05, 0.00, 0.00],
@@ -56,5 +53,19 @@ $v = new Vector([5, 55, -5]);
 $z = $x->applyTo($v);
 print("$x * $v is $z\n");
 unset($v, $x, $z);
+?>
+
+<?php
+$x = new Matrix([
+	[0, 1],
+	[-1, 0]
+]); // rotation
+$y = new Matrix([
+	[1, 0],
+	[1, 1]
+]); // shear
+$z = $x->composeWith($y);
+print("$x * $y is $z\n");
+unset($x, $y, $z);
 ?>
 </pre>

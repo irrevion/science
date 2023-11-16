@@ -46,13 +46,15 @@ class Matrix implements Transformation {
 	}
 
 	public function applyTo($V) {
+		if (Delegator::getType($V)!=self::T_VECTOR) {
+			throw new \Error('Invalid type (vector expected)');
+		}
+		if ($this->cols!=$V->length) {
+			throw new \Error('Matrix columns number should be equal with vector components number');
+		}
 		$new_projections = [];
 		$transformedV = new Vector([], $V->inner_type);
 		foreach ($V as $axis=>$projection) {
-			/*foreach ($this->structure[$axis] as $new_axis=>$new_axis_unitV) {
-				print "new axis $new_axis unit $new_axis_unitV \n";
-				$new_projections[$axis] = $new_axis_unitV->multiply($projection);
-			}*/
 			$new_axis_unitV = new Vector($this->structure[$axis], $this->inner_type);
 			$new_projections[$axis] = $new_axis_unitV->multiply($projection);
 			// print "new axis {$new_projections[$axis]} unit {$new_axis_unitV}->multiply({$projection}); \n";
@@ -61,11 +63,22 @@ class Matrix implements Transformation {
 		foreach ($new_projections as $p) {
 			$transformedV = $transformedV->add($p);
 		}
-		return $transformedV;
+		return $transformedV->pad($this->cols);
 	}
 
 	public function composeWith(Matrix $M): Matrix {
-		throw new \Error('Not implemented yet');
+		//throw new \Error('Not implemented yet');
+		if ($this->cols!=$M->rows) {
+			throw new \Error('Primary matrix columns number should be equal to secondary matrix rows number');
+		}
+		$composedM = [];
+		foreach ($this->structure as $n=>$vector) {
+			$vector = new Vector($vector, $this->inner_type);
+			$vector = $M->applyTo($vector);
+			$composedM[] = $vector->toArray();
+		}
+		$composedM = new self($composedM, $this->inner_type);
+		return $composedM;
 	}
 
 	public function updateMeta() {
@@ -83,7 +96,7 @@ class Matrix implements Transformation {
 					}
 				} else {
 					if ($m!=count($col)) {
-						throw new \Error('Columns height must be equal');
+						throw new \Error('Columns height must be equal ('.$m.'!='.count($col).')');
 					}
 				}
 			}
