@@ -94,6 +94,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function cutZeroTail(): Vector {
 		$z = $this->value;
+		// print "cutZeroTail $this \n";
 		while (count($z)) {
 			$v = end($z);
 			if ($v===false) {break;}
@@ -108,10 +109,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function align($y) {
 		$x = clone $this;
+		// print "align $x and $y \n";
 		$x = $x->cutZeroTail();
 		$y = $y->cutZeroTail();
 		$x_len = $x->count();
 		$y_len = $y->count();
+		// print "$y_len!=$x_len \n";
 		if ($y_len<$x_len) {
 			$y = $y->pad($x_len);
 		} else if ($y_len>$x_len) {
@@ -131,8 +134,11 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		$z = [];
 
 		if ($y->length!=$x->length) {
-			throw new \Error('Mismatch of the vectors length');
+			// throw new \Error('Mismatch of the vectors length');
+			// print "vector add mismatch $x + $y\n";
+			list($x, $y) = $x->align($y);
 		}
+		// print "vector add $x + $y\n";
 
 		foreach ($x as $i=>$v) {
 			$z[] = $v->add($y[$i]);

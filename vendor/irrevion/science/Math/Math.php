@@ -67,5 +67,23 @@ class Math extends BaseMath {
 			return null;
 		}
 	}
+
+	public static function sum($array, $wrap=null) {
+		$res = 0;
+		if (count($array)) {
+			if (Delegator::isEntity($array[0])) {
+				$res = Delegator::wrap($res, Delegator::getType($array[0]));
+				foreach ($array as $value) {
+					$res = $res->add($value);
+				}
+			} else {
+				$res = parent::sum($array);
+			}
+		}
+		if (!empty($wrap)) {
+			Delegator::wrap($res, $wrap);
+		}
+		return $res;
+	}
 }
 ?>

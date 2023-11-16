@@ -256,6 +256,10 @@ class BaseMath {
 		return sqrt($x);
 	}
 
+	public static function sum($array) {
+		return array_sum($array);
+	}
+
 	public static function tan($x) {
 		return tan($x);
 	}

@@ -21,6 +21,7 @@ class Delegator {
 	}
 
 	public static function implements($object, $any_of_interfaces=[]) {
+		if (!is_object($object)) {return false;}
 		if (!is_array($any_of_interfaces)) {$any_of_interfaces = [$any_of_interfaces];}
 		$instance_of = $object::class;
 		$class_reflection = new \ReflectionClass($instance_of);
