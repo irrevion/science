@@ -11,7 +11,7 @@ class Math extends BaseMath {
 				if (method_exists($x, 'abs')) {
 					return $x->abs();
 				} else {
-					throw new \ArithmeticError("Method not implemented by Entity");
+					throw new \Error("Method not implemented by Entity");
 				}
 			}
 		} else if (is_numeric($x)) {
