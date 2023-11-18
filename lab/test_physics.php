@@ -7,7 +7,7 @@ require_once("../vendor/irrevion/science/autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
-use irrevion\science\Physics\Unit\{SI, IAU, Imperial, USC};
+use irrevion\science\Physics\Unit\{SI, IAU, Imperial, USC, NonStandard};
 ?>
 
 <pre>
@@ -46,6 +46,12 @@ try {
 <?php
 $x = new Quantity(5, Imperial::pound);
 $y = $x->convert(SI::kilogram);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(3, NonStandard::year);
+$y = $x->convert(SI::second);
 print "$x is $y \n";
 ?>
 </pre>
