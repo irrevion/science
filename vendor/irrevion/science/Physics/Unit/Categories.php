@@ -17,6 +17,12 @@ class Categories {
 			'kilogram' => 'Entities\Kilogram',
 			'pound' => 'Entities\Pound',
 		],
+		'temperature' => [
+			'celsius' => 'Entities\Celsius',
+			'fahrenheit' => 'Entities\Fahrenheit',
+			'kelvin' => 'Entities\Kelvin',
+			'rankine' => 'Entities\Rankine',
+		],
 		'time' => [
 			'second' => 'Entities\Second',
 			'year' => 'Entities\Year',

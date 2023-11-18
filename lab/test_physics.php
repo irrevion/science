@@ -64,4 +64,40 @@ print "$y is $z \n";
 $u = $z->convert(SI::ampere);
 print "$z is $u \n";
 ?>
+
+<?php
+$x = new Quantity(100, SI::kelvin);
+$y = $x->convert(NonStandard::celsius);
+print "$x is $y \n";
+$z = $y->convert(Imperial::fahrenheit);
+print "$y is $z \n";
+$u = $z->convert(NonStandard::rankine);
+print "$z is $u \n";
+$v = $u->convert(SI::kelvin);
+print "$u is $v \n";
+?>
+
+<?php
+$x = new Quantity(0.0000000017, SI::kelvin);
+$y = $x->convert(NonStandard::celsius);
+print "$x is $y \n";
+$z = $y->convert(Imperial::fahrenheit);
+print "$y is $z \n";
+$u = $z->convert(NonStandard::rankine);
+print "$z is $u \n";
+$v = $u->convert(SI::kelvin);
+print "$u is $v \n";
+?>
+
+<?php
+$x = new Quantity(273.150000000017, SI::kelvin);
+$y = $x->convert(NonStandard::celsius);
+print "$x is $y \n";
+$z = $y->convert(Imperial::fahrenheit);
+print "$y is $z \n";
+$u = $z->convert(NonStandard::rankine);
+print "$z is $u \n";
+$v = $u->convert(SI::kelvin);
+print "$u is $v \n";
+?>
 </pre>

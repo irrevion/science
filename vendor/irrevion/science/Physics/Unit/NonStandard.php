@@ -2,6 +2,8 @@
 namespace irrevion\science\Physics\Unit;
 
 enum NonStandard: string implements SystemInterface {
+	case celsius = 'temperature.celsius';
+	case rankine = 'temperature.rankine';
 	case year = 'time.year';
 
 	public function i($const='') {

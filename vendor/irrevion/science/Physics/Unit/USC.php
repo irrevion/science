@@ -2,6 +2,7 @@
 namespace irrevion\science\Physics\Unit;
 
 enum USC: string implements SystemInterface {
+	case fahrenheit = 'temperature.fahrenheit';
 	case pound = 'mass.pound';
 
 	public function i($const='') {
