@@ -14,8 +14,10 @@ class Categories {
 			'parsec' => 'Entities\Parsec',
 		],
 		'mass' => [
+			'electron_mass' => 'Entities\ElectronMass',
 			'kilogram' => 'Entities\Kilogram',
 			'pound' => 'Entities\Pound',
+			'solar_mass' => 'Entities\SolarMass',
 		],
 		'temperature' => [
 			'celsius' => 'Entities\Celsius',

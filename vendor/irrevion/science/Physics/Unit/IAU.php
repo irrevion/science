@@ -4,6 +4,7 @@ namespace irrevion\science\Physics\Unit;
 enum IAU: string implements SystemInterface {
 	case light_year = 'length.light_year';
 	case parsec = 'length.parsec';
+	case solar_mass = 'mass.solar_mass';
 	case year = 'time.year';
 
 	public function i($const='') {

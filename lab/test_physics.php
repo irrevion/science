@@ -100,4 +100,10 @@ print "$z is $u \n";
 $v = $u->convert(SI::kelvin);
 print "$u is $v \n";
 ?>
+
+<?php
+$x = new Quantity(2e30, IAU::solar_mass);
+$y = $x->convert(NonStandard::electron_mass);
+print "$x is $y \n";
+?>
 </pre>
