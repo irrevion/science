@@ -10,28 +10,35 @@ class Physics extends Math {
 	// https://en.wikipedia.org/wiki/Fine-structure_constant
 	// fine structure constant, also known as the Sommerfeld constant, commonly denoted by α, is a fundamental physical constant which quantifies the strength of the electromagnetic interaction between elementary charged particles.
 
-	public static function unit() {
-		// print Unit\SI::mass->unit()." is a unit of ".Unit\SI::mass->name." (".Unit\SI::mass->alias()." = ".Unit\SI::mass->reference()." ".Unit\SI::mass->measure().")\n";
-		// print "* ".Unit\SI::mass->descr()." \n";
-		// print "* ".Unit\NonStandard::energy['electronvolt']['measure']." \n";
-		// print "* ".Unit\NonStandard::volume['barrel']." \n";
-		print Unit\Si::kilogram->value." \n";
-		// var_export(Unit\Si::kilogram->i());
-		print Unit\SI::kilogram->i('name')." is a unit of ".Unit\SI::kilogram->i('category')." (".Unit\SI::kilogram->i('alias')." = ".Unit\SI::kilogram->i('reference')." ".Unit\SI::kilogram->i('measure').")\n";
+	public static function unit($unit) { // cast unit as array
+		if (is_array($unit)) {
+			if (!empty($unit['category']) && !empty($unit['name'])) {
+				return $unit;
+			}
+		} else if (is_string($unit)) {
+			$unit_reflection = Categories::get($unit);
+		} else if (is_object($unit)) {
+			if ($unit instanceof Unit\SystemInterface) {
+				$unit_reflection = $unit->i();
+			} else if ($unit instanceof \ReflectionClass) {
+				$unit_reflection = $unit;
+			}
+		}
+
+		if (empty($unit_reflection)) {
+			throw new \Error('Unknown type of unit');
+		}
+
+		return $unit_reflection->getConstants();
 	}
 
 	public static function convert(Entities\Quantity $v, mixed $to) {
-		// $from = new \ReflectionClass($v->unit);
-		$from = $v->unit;
-		$from_cat = $from->getConstant('category');
-		if (is_string($to)) {
-			$to = Categories::get($to);
+		$from = self::unit($v->unit);
+		$to = self::unit($to);
+		if ($from['category']!=$to['category']) {
+			throw new \Error($from['category'].' does not match '.$to['category']);
 		}
-		$to_cat = $to->getConstant('category');
-		if ($from_cat!=$to_cat) {
-			throw new \Error($from_cat.' does not match '.$to_cat);
-		}
-		$converted = ($v->value * $from->getConstant('reference') * $to->getConstant('reference'));
+		$converted = (($v->value * $from['reference']) / $to['reference']);
 
 		return new Entities\Quantity($converted, $to);
 	}

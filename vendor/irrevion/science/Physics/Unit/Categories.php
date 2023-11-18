@@ -6,9 +6,11 @@ class Categories {
 		'length' => [
 			'light_year' => 'Entities\LightYear',
 			'metre' => 'Entities\Metre',
+			'parsec' => 'Entities\Parsec',
 		],
 		'mass' => [
 			'kilogram' => 'Entities\Kilogram',
+			'pound' => 'Entities\Pound',
 		],
 		'time' => [
 			'second' => 'Entities\Second',

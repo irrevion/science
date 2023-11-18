@@ -8,18 +8,18 @@ class Quantity {
 	public $value;
 	public $unit;
 
-	// public function __construct(mixed $value, irrevion\science\Physics\Unit\UnitInterface $unit) {
 	public function __construct($value, $unit) {
 		$this->value = $value;
-		if ($unit instanceof \ReflectionClass) {
-			$this->unit = $unit;
-		} else {
-			$this->unit = Categories::get($unit);
-		}
+		$unit = Physics::unit($unit);
+		$this->unit = $unit;
 	}
 
 	public function __toString() {
-		return "{$this->value} ".$this->unit->getConstant('measure');
+		return "{$this->value} {$this->unit['measure']}";
+	}
+
+	public function toNumber() {
+		return $this->value;
 	}
 
 	public function convert($to) {
@@ -28,11 +28,13 @@ class Quantity {
 
 	public function i($const='') {
 		// $reflection = new \ReflectionClass($this->unit);
-		$reflection = $this->unit;
-		if (empty($const)) {
-			return $reflection;
-		}
-		return $reflection->getConstant($const);
+		// $reflection = $this->unit;
+		// if (empty($const)) {
+		// 	return $reflection;
+		// }
+		// return $reflection->getConstant($const);
+
+		return (empty($const)? $this->unit: $this->unit[$const]);
 	}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 namespace irrevion\science\Physics\Unit;
 
-enum SI: string {
+enum SI: string implements SystemInterface {
 	// 7 base units
 	case ampere = 'electric_current.ampere';
 	case kilogram = 'mass.kilogram';
