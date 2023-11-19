@@ -85,6 +85,16 @@ class Physics extends Math {
 
 		return new Entities\Quantity($converted, $to);
 	}
+
+	public static function q($v, Unit\SystemInterface $t) {
+		if ($t instanceof Unit\SI) return $v;
+		$i = $t->i();
+		if ($i->hasMethod('toRef')) {
+			return $i->getMethod('toRef')->invoke(null, $v);
+		} else {
+			return $v * $i->getConstant('reference');
+		}
+	}
 }
 
 ?>

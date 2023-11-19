@@ -12,6 +12,13 @@ use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Imperial, USC, NonStand
 
 <pre>
 <?php
+$x = Physics::q(23, Planck::length);
+print "Value (23, Plank::length) autoconverted to $x \n";
+$x = Physics::q(247.658e12, Planck::time);
+print "Value (247e9, Planck::time) autoconverted to $x \n";
+?>
+
+<?php
 $x = new Quantity(23, 'length.light_year');
 $y = $x->convert('length.metre');
 print "$x is $y \n";

@@ -6,19 +6,34 @@ class Categories {
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
 			'ampere' => 'Entities\Ampere',
+			// elementary_charge_per_planck_time
+			// elementary_charge_per_second
 			'statampere' => 'Entities\StatAmpere',
 		],
 		'length' => [
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
 			'au' => 'Entities\AstronomicalUnit',
+			// centimetre
+			// feet
+			// inch
+			// 'kilometre'
+			// 'km'
 			'light_year' => 'Entities\LightYear',
 			'metre' => 'Entities\Metre',
+			// mikron
+			// mile
+			// nautical_mile
 			'parsec' => 'Entities\Parsec',
 			'planck_length' => 'Entities\PlanckLength',
+			// sm
+			// yard
 		],
 		'mass' => [
+			// carat
 			'electron_mass' => 'Entities\ElectronMass',
+			// gram
 			'kilogram' => 'Entities\Kilogram',
+			// ounce
 			'pound' => 'Entities\Pound',
 			'solar_mass' => 'Entities\SolarMass',
 		],
@@ -29,8 +44,16 @@ class Categories {
 			'rankine' => 'Entities\Rankine',
 		],
 		'time' => [
+			// century
+			// day
+			// hour
+			// millenia
+			// minute
+			// month
+			'planck_time' => 'Entities\PlanckTime',
 			'second' => 'Entities\Second',
 			'year' => 'Entities\Year',
+			// week
 		],
 	];
 
