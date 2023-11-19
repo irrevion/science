@@ -2,7 +2,7 @@
 namespace irrevion\science\Physics\Unit\Entities;
 
 class SolarMass implements Mass, IAU {
-	const name = 'solar_mass';
+	const name = 'solar mass';
 	const short_name = 'M☉';
 	// const category = 'mass'; // defined by interface
 	// const unit_system = 'IAU'; // defined by interface

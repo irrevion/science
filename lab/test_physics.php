@@ -7,7 +7,7 @@ require_once("../vendor/irrevion/science/autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
-use irrevion\science\Physics\Unit\{SI, CGS, IAU, Imperial, USC, NonStandard};
+use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Imperial, USC, NonStandard};
 ?>
 
 <pre>
@@ -25,6 +25,16 @@ print "$x is $y \n";
 
 <?php
 $x = new Quantity(12, IAU::parsec);
+$y = $x->convert(IAU::light_year);
+print "$x is $y \n";
+$z = $y->convert(Planck::length);
+print "$y is $z \n";
+$u = $y->convert(IAU::parsec);
+print "$z is $u \n";
+?>
+
+<?php
+$x = new Quantity(1, IAU::au);
 $y = $x->convert(IAU::light_year);
 print "$x is $y \n";
 ?>

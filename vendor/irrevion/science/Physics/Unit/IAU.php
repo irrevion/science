@@ -2,6 +2,8 @@
 namespace irrevion\science\Physics\Unit;
 
 enum IAU: string implements SystemInterface {
+	case astronomical_unit = 'length.astronomical_unit';
+	case au = 'length.au';
 	case light_year = 'length.light_year';
 	case parsec = 'length.parsec';
 	case solar_mass = 'mass.solar_mass';

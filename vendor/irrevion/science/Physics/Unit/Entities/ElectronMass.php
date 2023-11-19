@@ -2,7 +2,7 @@
 namespace irrevion\science\Physics\Unit\Entities;
 
 class ElectronMass implements Mass, NonStandard {
-	const name = 'electron_mass';
+	const name = 'electron mass';
 	const short_name = 'me';
 	// const category = 'mass'; // defined by interface
 	// const unit_system = 'NonStandard'; // defined by interface

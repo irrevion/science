@@ -9,9 +9,12 @@ class Categories {
 			'statampere' => 'Entities\StatAmpere',
 		],
 		'length' => [
+			'astronomical_unit' => 'Entities\AstronomicalUnit',
+			'au' => 'Entities\AstronomicalUnit',
 			'light_year' => 'Entities\LightYear',
 			'metre' => 'Entities\Metre',
 			'parsec' => 'Entities\Parsec',
+			'planck_length' => 'Entities\PlanckLength',
 		],
 		'mass' => [
 			'electron_mass' => 'Entities\ElectronMass',
