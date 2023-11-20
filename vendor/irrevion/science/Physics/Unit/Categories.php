@@ -13,6 +13,7 @@ class Categories {
 		'length' => [
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
 			'au' => 'Entities\AstronomicalUnit',
+			// bohr_radius
 			// centimetre
 			// feet
 			// inch
