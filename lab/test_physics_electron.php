@@ -6,13 +6,29 @@ ini_set('html_errors', true);
 require_once("../vendor/irrevion/science/autoloader.php");
 
 use irrevion\science\Physics\Physics;
+use irrevion\science\Physics\Branches\Relativity;
 use irrevion\science\Physics\Entities\Particles\Electron;
-use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Imperial, USC, NonStandard};
+use irrevion\science\Physics\Unit\{SI, Planck, IAU, NonStandard};
 ?>
 
 <pre>
 <?php
 $λ = Electron::getComptonWavelength();
 print "Compton wavelength of electron is $λ \n";
+?>
+
+<?php
+$v = 1;
+$γ = Relativity::getLorentzFactor($v);
+print "Lorentz factor at speed $v m/s is $γ \n";
+$v = 100000;
+$γ = Relativity::getLorentzFactor($v);
+print "Lorentz factor at speed $v m/s is $γ \n";
+$v = 3e7;
+$γ = Relativity::getLorentzFactor($v);
+print "Lorentz factor at speed $v m/s is $γ \n";
+$v = Physics::c-1;
+$γ = Relativity::getLorentzFactor($v);
+print "Lorentz factor at speed $v m/s is $γ \n";
 ?>
 </pre>

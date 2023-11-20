@@ -13,5 +13,9 @@ class Electron /* implements Leptons, Fermions, Particles, Waves */ {
 		$λ = Physics::h / (self::MASS * Physics::c);
 		return $λ;
 	}
+
+	public static function getDeBroglieWavelength($speed) {
+		return null;
+	}
 }
 ?>
