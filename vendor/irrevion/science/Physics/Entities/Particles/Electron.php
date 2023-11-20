@@ -2,6 +2,7 @@
 namespace irrevion\science\Physics\Entities\Particles;
 
 use irrevion\science\Physics\Physics;
+use irrevion\science\Physics\Branches\Relativity;
 
 class Electron /* implements Leptons, Fermions, Particles, Waves */ {
 	const MASS = 9.1093837015e-31;
@@ -14,8 +15,11 @@ class Electron /* implements Leptons, Fermions, Particles, Waves */ {
 		return $λ;
 	}
 
-	public static function getDeBroglieWavelength($speed) {
-		return null;
+	public static function getDeBroglieWavelength($v) {
+		// According to wave-particle duality, the De Broglie wavelength is a wavelength manifested in all the objects in quantum mechanics which determines the probability density of finding the object at a given point of the configuration space. The de Broglie wavelength of a particle is inversely proportional to its momentum.
+		// λdB = h/mγv
+		$λdB = Physics::h / (self::MASS * Relativity::getLorentzFactor($v) * $v);
+		return $λdB;
 	}
 }
 ?>

@@ -11,6 +11,7 @@ class Categories {
 			'statampere' => 'Entities\StatAmpere',
 		],
 		'length' => [
+			// Angstrom
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
 			'au' => 'Entities\AstronomicalUnit',
 			// bohr_radius
@@ -31,6 +32,7 @@ class Categories {
 		],
 		'mass' => [
 			// carat
+			// dalton
 			'electron_mass' => 'Entities\ElectronMass',
 			// gram
 			'kilogram' => 'Entities\Kilogram',
@@ -52,7 +54,9 @@ class Categories {
 			// minute
 			// month
 			'planck_time' => 'Entities\PlanckTime',
+			// quarta
 			'second' => 'Entities\Second',
+			// tertia
 			'year' => 'Entities\Year',
 			// week
 		],

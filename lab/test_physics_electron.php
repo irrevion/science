@@ -18,6 +18,11 @@ print "Compton wavelength of electron is $λ \n";
 ?>
 
 <?php
+$λdB = Electron::getDeBroglieWavelength(Physics::c * 0.707106);
+print "De Broglie wavelength of electron is $λdB \n";
+?>
+
+<?php
 $v = 1;
 $γ = Relativity::getLorentzFactor($v);
 print "Lorentz factor at speed $v m/s is $γ \n";
