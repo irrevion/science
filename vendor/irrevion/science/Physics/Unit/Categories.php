@@ -3,6 +3,12 @@ namespace irrevion\science\Physics\Unit;
 
 class Categories {
 	const list = [
+		'angle' => [
+			// degree
+			// gon
+			'radian' => 'Entities\Radian',
+			// turn
+		],
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
 			'ampere' => 'Entities\Ampere',
@@ -21,6 +27,7 @@ class Categories {
 			// 'kilometre'
 			// 'km'
 			'light_year' => 'Entities\LightYear',
+			'ly' => 'Entities\LightYear',
 			'metre' => 'Entities\Metre',
 			// mikron
 			// mile
@@ -30,15 +37,22 @@ class Categories {
 			// sm
 			// yard
 		],
+		'luminous_intensity' => [
+			'candela' => 'Entities\Candela',
+		],
 		'mass' => [
 			// carat
 			// dalton
 			'electron_mass' => 'Entities\ElectronMass',
 			// gram
 			'kilogram' => 'Entities\Kilogram',
+			'kg' => 'Entities\Kilogram',
 			// ounce
 			'pound' => 'Entities\Pound',
 			'solar_mass' => 'Entities\SolarMass',
+		],
+		'substance_amount' => [
+			'mole' => 'Entities\Mole',
 		],
 		'temperature' => [
 			'celsius' => 'Entities\Celsius',

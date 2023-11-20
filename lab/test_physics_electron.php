@@ -20,6 +20,8 @@ print "Compton wavelength of electron is $λ \n";
 <?php
 $λdB = Electron::getDeBroglieWavelength(Physics::c * 0.707106);
 print "De Broglie wavelength of electron is $λdB \n";
+$λdB = Electron::getDeBroglieWavelength(Physics::q(1, Planck::length)/Physics::q(1, NonStandard::year));
+print "De Broglie wavelength of electron is $λdB \n";
 ?>
 
 <?php

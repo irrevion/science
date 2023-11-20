@@ -3,6 +3,7 @@ namespace irrevion\science\Physics\Unit;
 
 enum CGS: string implements SystemInterface {
 	case abampere = 'electric_current.abampere';
+	case mole = 'substance_amount.mole';
 	case statampere = 'electric_current.statampere';
 
 	public function i($const='') {

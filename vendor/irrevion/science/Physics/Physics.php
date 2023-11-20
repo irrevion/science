@@ -12,6 +12,10 @@ class Physics extends Math {
 	// https://en.wikipedia.org/wiki/Fine-structure_constant
 	// Fine structure constant, also known as the Sommerfeld constant, commonly denoted by α, is a fundamental physical constant which quantifies the strength of the electromagnetic interaction between elementary charged particles.
 
+	const AVOGADRO = 6.02214076e23; // particles
+	// https://en.wikipedia.org/wiki/Avogadro_constant
+	// The Avogadro constant is an SI defining constant with an exact value of 6.02214076×1023 mol-1 (unit of reciprocal moles). It is used as a normalization factor in the amount of substance in a sample (in SI units of moles), defined as the number of constituent particles (usually molecules, atoms, or ions) divided by A.
+
 	const BOLTZMANN = 1.380649e-23; // J*K^-1
 	const k = self::BOLTZMANN;
 	// https://en.wikipedia.org/wiki/Boltzmann_constant

@@ -8,8 +8,14 @@ enum SI: string implements SystemInterface {
 	case ampere = 'electric_current.ampere';
 	case kelvin = 'temperature.kelvin';
 	case kilogram = 'mass.kilogram';
+	case kg = 'mass.kg';
 	case metre = 'length.metre';
+	case mole = 'substance_amount.mole';
 	case second = 'time.second';
+
+	// Derived units
+	case celsius = 'temperature.celsius';
+	case radian = 'angle.radian';
 
 	public function i($const='') {
 		$reflection = Categories::get($this->value);
