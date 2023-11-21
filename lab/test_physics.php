@@ -123,4 +123,10 @@ $x = new Quantity(2e30, IAU::solar_mass);
 $y = $x->convert(NonStandard::electron_mass);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(3.14, SI::radian);
+$y = $x->convert(NonStandard::degree);
+print "$x is $y \n";
+?>
 </pre>

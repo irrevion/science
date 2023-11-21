@@ -16,6 +16,11 @@ class Physics extends Math {
 	// https://en.wikipedia.org/wiki/Avogadro_constant
 	// The Avogadro constant is an SI defining constant with an exact value of 6.02214076×1023 mol-1 (unit of reciprocal moles). It is used as a normalization factor in the amount of substance in a sample (in SI units of moles), defined as the number of constituent particles (usually molecules, atoms, or ions) divided by A.
 
+	const BOHR_MAGNETON = 9.2740100783E-24; // J/T
+	const μB = self::BOHR_MAGNETON;
+	// https://en.wikipedia.org/wiki/Bohr_magneton
+	// In the Bohr model of the atom, for an electron that is in the orbit of lowest energy, its orbital angular momentum has magnitude equal to the reduced Planck constant, denoted ħ. The Bohr magneton is the magnitude of the magnetic dipole moment of an electron orbiting an atom with this angular momentum.
+
 	const BOLTZMANN = 1.380649e-23; // J*K^-1
 	const k = self::BOLTZMANN;
 	// https://en.wikipedia.org/wiki/Boltzmann_constant
@@ -31,6 +36,11 @@ class Physics extends Math {
 	const ε₀ = EPSILON_ZERO;
 	// https://en.wikipedia.org/wiki/Vacuum_permittivity
 	// Vacuum permittivity, commonly denoted ε₀ (pronounced "epsilon nought" or "epsilon zero"), is the value of the absolute dielectric permittivity of classical vacuum. It may also be referred to as the permittivity of free space, the electric constant, or the distributed capacitance of the vacuum.
+
+	const ELECTRON_MAGNETIC_DIPOLE_MOMENT = −9.2847647043e-24; // J/T
+	const μₑ = self::ELECTRON_MAGNETIC_DIPOLE_MOMENT;
+	// https://en.wikipedia.org/wiki/Electron_magnetic_moment
+	// In atomic physics, the electron magnetic moment, or more specifically the electron magnetic dipole moment, is the magnetic moment of an electron resulting from its intrinsic properties of spin and electric charge. The value of the electron magnetic moment (symbol μₑ) is −9.2847647043(28)×10−24 J⋅T−1. In units of the Bohr magneton (μB), it is −1.00115965218059(13) μB, a value that was measured with a relative accuracy of 1.3×10−13. 
 
 	const ELEMENTARY_CHARGE = 1.602176634e-19; // e*C
 	const e = self::ELEMENTARY_CHARGE;

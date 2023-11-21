@@ -4,8 +4,9 @@ namespace irrevion\science\Physics\Unit;
 class Categories {
 	const list = [
 		'angle' => [
-			// degree
+			'degree' => 'Entities\Degree',
 			// gon
+			// mil
 			'radian' => 'Entities\Radian',
 			// turn
 		],
@@ -15,6 +16,35 @@ class Categories {
 			// elementary_charge_per_planck_time
 			// elementary_charge_per_second
 			'statampere' => 'Entities\StatAmpere',
+		],
+		'electric_tension' => [
+			// statvolt
+			'volt' => 'Entities\Volt',
+		],
+		'energy' => [
+			// btu
+			// calorie
+			// coal_ton
+			// electron_volt
+			// eV
+			// erg
+			// exajoule
+			// foot_poundal
+			// gigajoule
+			// hartree
+			// joule
+			// kilocalorie
+			// kcal
+			// kilojoule
+			// kilowatt_hour
+			// kWh
+			// mbtu
+			// plank
+			// quad
+			// rydberg
+			// terawatt_year
+			// therm
+			// watt_hour
 		],
 		'length' => [
 			// Angstrom

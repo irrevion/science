@@ -14,8 +14,9 @@ enum SI: string implements SystemInterface {
 	case second = 'time.second';
 
 	// Derived units
-	case celsius = 'temperature.celsius';
+	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
 	case radian = 'angle.radian';
+	case volt = 'electric_tension.volt';
 
 	public function i($const='') {
 		$reflection = Categories::get($this->value);

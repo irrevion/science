@@ -7,6 +7,7 @@ enum NonStandard: string implements SystemInterface {
 	case planck_length = 'length.planck_length';
 	case rankine = 'temperature.rankine';
 	case year = 'time.year';
+	case degree = 'angle.degree';
 
 	public function i($const='') {
 		$reflection = Categories::get($this->value);
