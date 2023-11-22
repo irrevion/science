@@ -10,6 +10,10 @@ class Categories {
 			'radian' => 'Entities\Radian',
 			// turn
 		],
+		'brightness' => [
+			'candela_per_square_metre' => 'Entities\Nit',
+			'nit' => 'Entities\Nit',
+		],
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
 			'ampere' => 'Entities\Ampere',
@@ -18,7 +22,8 @@ class Categories {
 			'statampere' => 'Entities\StatAmpere',
 		],
 		'electric_tension' => [
-			// statvolt
+			// abvolt
+			'statvolt' => 'Entities\StatVolt',
 			'volt' => 'Entities\Volt',
 		],
 		'energy' => [

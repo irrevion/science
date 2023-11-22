@@ -37,7 +37,7 @@ class Physics extends Math {
 	// https://en.wikipedia.org/wiki/Vacuum_permittivity
 	// Vacuum permittivity, commonly denoted ε₀ (pronounced "epsilon nought" or "epsilon zero"), is the value of the absolute dielectric permittivity of classical vacuum. It may also be referred to as the permittivity of free space, the electric constant, or the distributed capacitance of the vacuum.
 
-	const ELECTRON_MAGNETIC_DIPOLE_MOMENT = −9.2847647043e-24; // J/T
+	const ELECTRON_MAGNETIC_DIPOLE_MOMENT = -9.2847647043e-24; // J/T
 	const μₑ = self::ELECTRON_MAGNETIC_DIPOLE_MOMENT;
 	// https://en.wikipedia.org/wiki/Electron_magnetic_moment
 	// In atomic physics, the electron magnetic moment, or more specifically the electron magnetic dipole moment, is the magnetic moment of an electron resulting from its intrinsic properties of spin and electric charge. The value of the electron magnetic moment (symbol μₑ) is −9.2847647043(28)×10−24 J⋅T−1. In units of the Bohr magneton (μB), it is −1.00115965218059(13) μB, a value that was measured with a relative accuracy of 1.3×10−13. 

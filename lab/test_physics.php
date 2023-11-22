@@ -129,4 +129,10 @@ $x = new Quantity(3.14, SI::radian);
 $y = $x->convert(NonStandard::degree);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(220, SI::volt);
+$y = $x->convert(CGS::statvolt);
+print "$x is $y \n";
+?>
 </pre>
