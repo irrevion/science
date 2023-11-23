@@ -11,8 +11,14 @@ class Categories {
 			// turn
 		],
 		'brightness' => [
+			// apostilb
+			// bril
 			'candela_per_square_metre' => 'Entities\Nit',
+			// foot_lambert
 			'nit' => 'Entities\Nit',
+			// lambert
+			// skot
+			'stilb' => 'Entities\Stilb',
 		],
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
