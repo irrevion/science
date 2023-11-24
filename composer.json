@@ -10,14 +10,19 @@
             "irrevion\\science\\": "src/"
         }
     },
+    "source": {
+        "type": "git",
+        "url": "https://github.com/irrevion/science.git",
+    },
     "authors": [
         {
             "name": "Valentin Belousov",
             "email": "irrevion@gmail.com"
         }
     ],
+	"keywords": ["math","science"],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=8",
+        "php": ">=8.2"
     },
 }
