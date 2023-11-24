@@ -1,0 +1,23 @@
+{
+    "name": "irrevion/science",
+    "description": "PHP library for extended mathematical operations",
+    "type": "library",
+    "version": "0.0.1",
+    "license": "MIT",
+    "homepage": "https://github.com/irrevion/science/",
+    "autoload": {
+        "psr-4": {
+            "irrevion\\science\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Valentin Belousov",
+            "email": "irrevion@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8",
+    },
+}
