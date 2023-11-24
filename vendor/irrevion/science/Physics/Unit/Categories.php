@@ -36,14 +36,14 @@ class Categories {
 			// btu
 			// calorie
 			// coal_ton
-			// electron_volt
-			// eV
+			'electron_volt' => 'Entities\ElectronVolt',
+			'eV' => 'Entities\ElectronVolt',
 			// erg
 			// exajoule
 			// foot_poundal
 			// gigajoule
 			// hartree
-			// joule
+			'joule' => 'Entities\Joule',
 			// kilocalorie
 			// kcal
 			// kilojoule
@@ -55,7 +55,7 @@ class Categories {
 			// rydberg
 			// terawatt_year
 			// therm
-			// watt_hour
+			'watt_second' => 'Entities\Joule',
 		],
 		'length' => [
 			// Angstrom

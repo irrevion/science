@@ -16,9 +16,11 @@ enum SI: string implements SystemInterface {
 	// Derived units
 	case candela_per_square_metre = 'brightness.candela_per_square_metre';
 	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
+	case joule = 'energy.joule';
 	case nit = 'brightness.nit';
 	case radian = 'angle.radian';
 	case volt = 'electric_tension.volt';
+	case watt_second = 'energy.watt_second';
 
 	public function i($const='') {
 		$reflection = Categories::get($this->value);
