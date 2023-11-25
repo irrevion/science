@@ -42,7 +42,7 @@ class Categories {
 			// exajoule
 			// foot_poundal
 			// gigajoule
-			// hartree
+			'hartree' => 'Entities\HartreeEnergy',
 			'joule' => 'Entities\Joule',
 			// kilocalorie
 			// kcal
@@ -59,10 +59,13 @@ class Categories {
 		],
 		'frequency' => [
 			'caesium133' => 'Entities\Caesium133',
+			// gigahertz
 			'hertz' => 'Entities\Hertz',
 			// 'kilohertz' => 'Entities\KiloHertz',
 			// 'kHz' => 'Entities\KiloHertz',
+			// megahertz
 			// 'rpm' => 'Entities\RevolutionPerMinute',
+			// terahertz
 		],
 		'length' => [
 			// Angstrom
@@ -91,10 +94,12 @@ class Categories {
 		'mass' => [
 			// carat
 			// dalton
+			// earth
 			'electron_mass' => 'Entities\ElectronMass',
 			// gram
 			'kilogram' => 'Entities\Kilogram',
 			'kg' => 'Entities\Kilogram',
+			// moon
 			// ounce
 			'pound' => 'Entities\Pound',
 			'solar_mass' => 'Entities\SolarMass',

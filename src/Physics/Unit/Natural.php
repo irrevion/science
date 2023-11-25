@@ -5,6 +5,8 @@ namespace irrevion\science\Physics\Unit;
 enum Natural: string implements SystemInterface {
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
+	case eV = 'energy.eV';
+	case hartree = 'energy.hartree';
 	case planck_length = 'length.planck_length';
 
 	public function i($const='') {

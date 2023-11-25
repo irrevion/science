@@ -7,7 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
-use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Imperial, USC, NonStandard};
+use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Natural, NonStandard, Imperial, USC};
 ?>
 
 <pre>
@@ -142,6 +142,12 @@ $y = $x->convert(SI::caesium133);
 print "$x is $y \n";
 $x = new Quantity(9192631770, SI::hertz);
 $y = $x->convert(SI::caesium133);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(314, Natural::hartree);
+$y = $x->convert(Natural::eV);
 print "$x is $y \n";
 ?>
 </pre>
