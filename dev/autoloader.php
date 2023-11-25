@@ -7,7 +7,7 @@
 */
 
 $irr_autoloader_library_mode = true;
-$irr_autoloader_package_path = 'D:\\dev\\xampp\\htdocs\\science\\src';
+$irr_autoloader_package_path = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'science'.DIRECTORY_SEPARATOR.'src';
 
 spl_autoload_register(function($class) use ($irr_autoloader_library_mode, $irr_autoloader_package_path) {
 	if (DIRECTORY_SEPARATOR!="\\") {

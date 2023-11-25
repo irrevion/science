@@ -149,5 +149,22 @@ class Categories {
 		$s = join('', $arr);
 		return $s;
 	}
+
+	public static function find($u, $c=null) {
+		if (empty($c)) {
+			foreach (self::list as $k=>$arr) {
+				$found = self::find($u, $k);
+				if ($found) return $found;
+			}
+		} else {
+			if (isset(self::list[$c])) {
+				$found = array_search('Entities\\'.$u, self::list[$c]);
+				if ($found!==false) {
+					return $c.'.'.$found;
+				}
+			}
+		}
+		return null;
+	}
 }
 ?>

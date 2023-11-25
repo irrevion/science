@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
+use irrevion\science\Physics\Unit\Categories;
 use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Natural, NonStandard, Imperial, USC};
 ?>
 
@@ -149,5 +150,18 @@ print "$x is $y \n";
 $x = new Quantity(314, Natural::hartree);
 $y = $x->convert(Natural::eV);
 print "$x is $y \n";
+?>
+
+<?php
+$x = Categories::find('StatAmpere');
+print "$x \n";
+$x = Categories::find('LightYear');
+print "$x \n";
+$x = Categories::find('PlanckTime', 'temperature');
+print "$x \n";
+$x = Categories::find('planck_time', 'time');
+print "$x \n";
+$x = Categories::find('PlanckTime', 'time');
+print "$x \n";
 ?>
 </pre>
