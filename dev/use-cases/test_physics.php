@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 
-require_once("../vendor/irrevion/science/autoloader.php");
+require_once("../autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
@@ -133,6 +133,15 @@ print "$x is $y \n";
 <?php
 $x = new Quantity(220, SI::volt);
 $y = $x->convert(CGS::statvolt);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(9000, SI::hertz);
+$y = $x->convert(SI::caesium133);
+print "$x is $y \n";
+$x = new Quantity(9192631770, SI::hertz);
+$y = $x->convert(SI::caesium133);
 print "$x is $y \n";
 ?>
 </pre>

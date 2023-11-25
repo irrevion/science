@@ -14,8 +14,10 @@ enum SI: string implements SystemInterface {
 	case second = 'time.second';
 
 	// Derived units
+	case caesium133 = 'frequency.caesium133';
 	case candela_per_square_metre = 'brightness.candela_per_square_metre';
 	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
+	case hertz = 'frequency.hertz';
 	case joule = 'energy.joule';
 	case nit = 'brightness.nit';
 	case radian = 'angle.radian';

@@ -57,6 +57,13 @@ class Categories {
 			// therm
 			'watt_second' => 'Entities\Joule',
 		],
+		'frequency' => [
+			'caesium133' => 'Entities\Caesium133',
+			'hertz' => 'Entities\Hertz',
+			// 'kilohertz' => 'Entities\KiloHertz',
+			// 'kHz' => 'Entities\KiloHertz',
+			// 'rpm' => 'Entities\RevolutionPerMinute',
+		],
 		'length' => [
 			// Angstrom
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
