@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 
-require_once("../vendor/irrevion/science/autoloader.php");
+require_once("../autoloader.php");
 
 use irrevion\science\Math\Entities\{Scalar, Fraction};
 ?>
