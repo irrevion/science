@@ -68,4 +68,27 @@ $z = $x->composeWith($y);
 print("$x * $y is $z\n");
 unset($x, $y, $z);
 ?>
+
+<?php
+$x = new Matrix([
+	[0.00, -0.2, 0.01],
+	[0.00, 0.00, 2.03],
+	[1.05, 0.00, 0.00],
+]);
+$z = $x->det();
+print("det($x) is $z\n");
+unset($x, $z);
+// reference https://ru.onlinemschool.com/math/assistance/matrix/?oms_all=a%3d%7b%7b0,0,1.05%7d,%7b-0.2,0,0%7d,%7b0.01,2.03,0%7d%7d,b%3d%7b%7b5%7d,%7b55%7d,%7b-5%7d,%7b0%7d%7d
+?>
+
+<?php
+$x = new Matrix([
+	[2, -1, 0],
+	[1,-3, 0],
+	[0, 0, 1],
+]);
+$z = $x->det();
+print("det($x) is $z\n");
+unset($x, $z);
+?>
 </pre>

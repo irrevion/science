@@ -305,7 +305,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			[$this->value[0], $this->value[1]], // [a, b]
 			[$y->value[0],    $y->value[1]],    // [c, d]
 		];
-		// calculates as ad-bc (why?)
+		// calculates as ad-bc (why? thats why: https://www.youtube.com/watch?v=fvQ013dZb9c&t=80s)
 		// $determinant_calculated = $this->value[0]->multiply($y->value[1])->subtract($this->value[0]->multiply($y->value[1]));
 		$determinant_calculated = $determinant[0][0]->multiply($determinant[1][1])->subtract($determinant[0][1]->multiply($determinant[1][0]));
 		// resulting vector pointing in k direction (basis ijk) or z direction (basis xyz)

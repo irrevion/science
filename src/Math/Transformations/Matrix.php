@@ -45,6 +45,55 @@ class Matrix implements Transformation {
 		return "[ Matrix {$this->rows}x{$this->cols}: ".$this->print($this->structure)." ]";
 	}
 
+	public function det() {
+		// https://en.wikipedia.org/wiki/Determinant
+		// https://mathworld.wolfram.com/Determinant.html
+
+		if ($this->rows!=$this->cols) {
+			throw new \Error("Determinant can be calculated only for square matrices, {$this->rows} x {$this->cols} given.");
+		}
+
+		if ($this->rows==1) {
+			// matix of 1 element has no scaling factor? verify ******
+			return 0;
+		}
+
+		if ($this->rows==2) {
+			// no need to spin the loops for 2D matrix determinant, it has simple geometric representation
+			// https://www.youtube.com/watch?v=fvQ013dZb9c&t=80s
+			// ΔM₂² = ad - bc
+
+			// M₂² = [
+			// 	[a, b],
+			// 	[c, d]
+			// ];
+			$determinant_calculated = $this->structure[0][0]->multiply($this->structure[1][1])->subtract($this->structure[0][1]->multiply($this->structure[1][0]));
+			// this is equal to square of paralleloqram formed by two vectors [a, b] and [c, d]
+			// and has the meaning of how much matrix transformed the plane containing those vectors
+			// assuming that before transformation they was [1, 0] and [0, 1] (basis vectors)
+			return $determinant_calculated->toNumber();
+		}
+
+		// https://www.hse.ru/data/2010/10/25/1222762965/%D0%9B%D0%95%D0%9A%D0%A6%D0%98%D0%AF%2003_%D0%9B.%D0%90..pdf
+		// Formulae 3.1
+		$k = 1; // from 1st column to n
+		$determinant_calculated = 0;
+		while ($k<=$this->cols) {
+			// yo, dj, spin dat shit
+			$M_det = $this->structure;
+			array_splice($M_det, ($k-1), 1); // remove column
+			$M_det = array_map(function($col) {return array_slice($col, 1);}, $M_det); // remove row
+			//var_export($this->structure[$k-1][0]->toNumber());
+			$determinant_calculated+=(($k%2)? 1: -1) * $this->structure[$k-1][0]->toNumber() * (new self($M_det))->det();
+			// multiply current column 0-element to determinant (n-1)
+
+			$k++;
+		}
+		return $determinant_calculated;
+		// thats it, folks
+	}
+	public function determinant(...$args) {return $this->det(...$args);}
+
 	public function applyTo($V) {
 		if (Delegator::getType($V)!=self::T_VECTOR) {
 			throw new \Error('Invalid type (vector expected)');
