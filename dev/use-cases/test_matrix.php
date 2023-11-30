@@ -91,4 +91,13 @@ $z = $x->det();
 print("det($x) is $z\n");
 unset($x, $z);
 ?>
+
+<?php
+$x = new Matrix([
+	[3],
+]);
+$z = $x->det();
+print("det($x) is $z\n");
+unset($x, $z);
+?>
 </pre>

@@ -54,8 +54,8 @@ class Matrix implements Transformation {
 		}
 
 		if ($this->rows==1) {
-			// matix of 1 element has no scaling factor? verify ******
-			return 0;
+			// matix of 1 element has scaling factor equal to its sole scalar element
+			return $this->structure[0][0]->toNumber();
 		}
 
 		if ($this->rows==2) {
@@ -83,7 +83,6 @@ class Matrix implements Transformation {
 			$M_det = $this->structure;
 			array_splice($M_det, ($k-1), 1); // remove column
 			$M_det = array_map(function($col) {return array_slice($col, 1);}, $M_det); // remove row
-			//var_export($this->structure[$k-1][0]->toNumber());
 			$determinant_calculated+=(($k%2)? 1: -1) * $this->structure[$k-1][0]->toNumber() * (new self($M_det))->det();
 			// multiply current column 0-element to determinant (n-1)
 
