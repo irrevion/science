@@ -57,6 +57,18 @@ class Categories {
 			// therm
 			'watt_second' => 'Entities\Joule',
 		],
+		'force' => [
+			'au_force' => 'Entities\HartreeForce',
+			//'dyne' => '',
+			//'dyn' => '',
+			'hartree_force' => 'Entities\HartreeForce',
+			// lbf
+			'newton' => 'Entities\Newton',
+			'N' => 'Entities\Newton',
+			'planck_force' => 'Entities\PlanckForce',
+			// pound-force
+			// sthene
+		],
 		'frequency' => [
 			'caesium133' => 'Entities\Caesium133',
 			// gigahertz
@@ -102,6 +114,7 @@ class Categories {
 			// moon
 			// ounce
 			'pound' => 'Entities\Pound',
+			// slug
 			'solar_mass' => 'Entities\SolarMass',
 		],
 		'substance_amount' => [

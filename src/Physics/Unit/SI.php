@@ -17,6 +17,8 @@ enum SI: string implements SystemInterface {
 	case caesium133 = 'frequency.caesium133';
 	case candela_per_square_metre = 'brightness.candela_per_square_metre';
 	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
+	case newton = 'force.newton';
+	case N = 'force.N';
 	case hertz = 'frequency.hertz';
 	case joule = 'energy.joule';
 	case nit = 'brightness.nit';

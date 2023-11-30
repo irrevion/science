@@ -164,4 +164,12 @@ print "$x \n";
 $x = Categories::find('PlanckTime', 'time');
 print "$x \n";
 ?>
+
+<?php
+$x = new Quantity(28.03, Natural::hartree_force);
+$y = $x->convert(SI::newton);
+print "$x is $y \n";
+$z = $y->convert(Planck::force);
+print "$y is $z \n";
+?>
 </pre>
