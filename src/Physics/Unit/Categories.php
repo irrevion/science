@@ -119,6 +119,20 @@ class Categories {
 			// slug
 			'solar_mass' => 'Entities\SolarMass',
 		],
+		'power' => [
+			//'btu_per_hour' => 'Entities\BTUPerHour',
+			//'calories_per_hour' => 'Entities\CaloriesPerHour',
+			//'decibel_milliwats' => 'Entities\DecibelMilliwats',
+			//'dBm' => 'Entities\DecibelMilliwats',
+			'ergs_per_second' => 'Entities\ErgsPerSecond',
+			//'footpounds_per_minute' => 'Entities\FootPoundsPerMinute',
+			//'hartree_power' => 'Entities\HartreePower',
+			//'horsepower' => 'Entities\HorsePower',
+			//'hp' => 'Entities\HorsePower',
+			//'tons_of_refrigeration' => 'Entities\TonsOfRefrigeration',
+			'watt' => 'Entities\Watt',
+			'W' => 'Entities\Watt',
+		],
 		'pressure' => [
 			// atmosphere
 			// bar

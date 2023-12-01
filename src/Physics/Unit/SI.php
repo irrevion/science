@@ -28,6 +28,8 @@ enum SI: string implements SystemInterface {
 	case pascal = 'pressure.pascal';
 	case Pa = 'pressure.Pa';
 	case volt = 'electric_tension.volt';
+	case watt = 'power.watt';
+	case W = 'power.W';
 	case watt_second = 'energy.watt_second';
 
 	public function i($const='') {

@@ -180,4 +180,10 @@ print "$x is $y \n";
 // $z = $y->convert(NonStandard::mmHg);
 // print "$y is $z \n";
 ?>
+
+<?php
+$x = new Quantity(23.579, CGS::ergs_per_second);
+$y = $x->convert(SI::W);
+print "$x is $y \n";
+?>
 </pre>
