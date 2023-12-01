@@ -44,6 +44,7 @@ class Categories {
 			// gigajoule
 			'hartree' => 'Entities\HartreeEnergy',
 			'joule' => 'Entities\Joule',
+			'J' => 'Entities\Joule',
 			// kilocalorie
 			// kcal
 			// kilojoule
@@ -73,6 +74,7 @@ class Categories {
 			'caesium133' => 'Entities\Caesium133',
 			// gigahertz
 			'hertz' => 'Entities\Hertz',
+			'Hz' => 'Entities\Hertz',
 			// 'kilohertz' => 'Entities\KiloHertz',
 			// 'kHz' => 'Entities\KiloHertz',
 			// megahertz
@@ -116,6 +118,20 @@ class Categories {
 			'pound' => 'Entities\Pound',
 			// slug
 			'solar_mass' => 'Entities\SolarMass',
+		],
+		'pressure' => [
+			// atmosphere
+			// bar
+			'barye' => 'Entities\Barye',
+			// EPa
+			// GPa
+			// kPa
+			// millibar
+			// mmHg
+			// MPa
+			'pascal' => 'Entities\Pascal',
+			'Pa' => 'Entities\Pascal',
+			// psi
 		],
 		'substance_amount' => [
 			'mole' => 'Entities\Mole',

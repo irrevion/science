@@ -20,9 +20,13 @@ enum SI: string implements SystemInterface {
 	case newton = 'force.newton';
 	case N = 'force.N';
 	case hertz = 'frequency.hertz';
+	case Hz = 'frequency.Hz';
 	case joule = 'energy.joule';
+	case J = 'energy.J';
 	case nit = 'brightness.nit';
 	case radian = 'angle.radian';
+	case pascal = 'pressure.pascal';
+	case Pa = 'pressure.Pa';
 	case volt = 'electric_tension.volt';
 	case watt_second = 'energy.watt_second';
 

@@ -172,4 +172,12 @@ print "$x is $y \n";
 $z = $y->convert(Planck::force);
 print "$y is $z \n";
 ?>
+
+<?php
+$x = new Quantity(10.01, SI::Pa);
+$y = $x->convert(CGS::barye);
+print "$x is $y \n";
+// $z = $y->convert(NonStandard::mmHg);
+// print "$y is $z \n";
+?>
 </pre>
