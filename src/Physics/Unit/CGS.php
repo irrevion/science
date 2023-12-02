@@ -2,6 +2,7 @@
 namespace irrevion\science\Physics\Unit;
 
 enum CGS: string implements SystemInterface {
+	case abwatt = 'power.abwatt';
 	case abampere = 'electric_current.abampere';
 	case barye = 'pressure.barye';
 	case ergs_per_second = 'power.ergs_per_second';

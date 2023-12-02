@@ -5,6 +5,8 @@ namespace irrevion\science\Physics\Unit;
 enum Natural: string implements SystemInterface {
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
+	case elementary_charge = 'electric_charge.elementary_charge';
+	case e = 'electric_charge.e';
 	case eV = 'energy.eV';
 	case hartree = 'energy.hartree';
 	case hartree_force = 'force.hartree_force';

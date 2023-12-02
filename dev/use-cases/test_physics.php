@@ -186,4 +186,10 @@ $x = new Quantity(23.579, CGS::ergs_per_second);
 $y = $x->convert(SI::W);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(155.21e32, Natural::e);
+$y = $x->convert(SI::C);
+print "$x is $y \n";
+?>
 </pre>

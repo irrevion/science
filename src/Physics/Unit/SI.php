@@ -7,6 +7,7 @@ enum SI: string implements SystemInterface {
 	// 7 base units
 	case ampere = 'electric_current.ampere';
 	case kelvin = 'temperature.kelvin';
+	case K = 'temperature.K';
 	case kilogram = 'mass.kilogram';
 	case kg = 'mass.kg';
 	case metre = 'length.metre';
@@ -17,6 +18,8 @@ enum SI: string implements SystemInterface {
 	case caesium133 = 'frequency.caesium133';
 	case candela_per_square_metre = 'brightness.candela_per_square_metre';
 	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
+	case coulomb = 'electric_charge.coulomb';
+	case C = 'electric_charge.C';
 	case newton = 'force.newton';
 	case N = 'force.N';
 	case hertz = 'frequency.hertz';

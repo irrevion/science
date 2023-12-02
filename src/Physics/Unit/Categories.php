@@ -20,6 +20,14 @@ class Categories {
 			// skot
 			'stilb' => 'Entities\Stilb',
 		],
+		'electric_charge' => [
+			//'abcoulomb' => 'Entities\AbCoulomb',
+			'coulomb' => 'Entities\Coulomb',
+			'C' => 'Entities\Coulomb',
+			'elementary_charge' => 'Entities\ElementaryCharge',
+			'e' => 'Entities\ElementaryCharge',
+			//'statcoulomb' => 'Entities\StatCoulomb',
+		],
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
 			'ampere' => 'Entities\Ampere',
@@ -120,6 +128,7 @@ class Categories {
 			'solar_mass' => 'Entities\SolarMass',
 		],
 		'power' => [
+			'abwatt' => 'Entities\ErgsPerSecond',
 			//'btu_per_hour' => 'Entities\BTUPerHour',
 			//'calories_per_hour' => 'Entities\CaloriesPerHour',
 			//'decibel_milliwats' => 'Entities\DecibelMilliwats',
@@ -154,6 +163,7 @@ class Categories {
 			'celsius' => 'Entities\Celsius',
 			'fahrenheit' => 'Entities\Fahrenheit',
 			'kelvin' => 'Entities\Kelvin',
+			'K' => 'Entities\Kelvin',
 			'rankine' => 'Entities\Rankine',
 		],
 		'time' => [
