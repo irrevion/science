@@ -20,12 +20,24 @@ class Categories {
 			// skot
 			'stilb' => 'Entities\Stilb',
 		],
+		'capacitance' => [
+			'abfarad' => 'Entities\AbFarad',
+			'farad' => 'Entities\Farad',
+			//'μF' => 'Entities\MicroFarad',
+			//'pF' => 'Entities\PicoFarad',
+			//'statfarad' => 'Entities\StatFarad',
+		],
 		'electric_charge' => [
 			//'abcoulomb' => 'Entities\AbCoulomb',
+			//'amper_hour' => 'Entities\AmperHour',
+			//'Ah' => 'Entities\AmperHour',
 			'coulomb' => 'Entities\Coulomb',
 			'C' => 'Entities\Coulomb',
 			'elementary_charge' => 'Entities\ElementaryCharge',
 			'e' => 'Entities\ElementaryCharge',
+			//'faraday' => 'Entities\Faraday',
+			//'franklin' => 'Entities\StatCoulomb',
+			//'mAh' => 'Entities\MilliAmperHour',
 			//'statcoulomb' => 'Entities\StatCoulomb',
 		],
 		'electric_current' => [

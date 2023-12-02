@@ -192,4 +192,10 @@ $x = new Quantity(155.21e32, Natural::e);
 $y = $x->convert(SI::C);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(3e-13, CGS::abfarad);
+$y = $x->convert(SI::farad);
+print "$x is $y \n";
+?>
 </pre>

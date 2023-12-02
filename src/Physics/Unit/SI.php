@@ -20,6 +20,7 @@ enum SI: string implements SystemInterface {
 	// case celsius = 'temperature.celsius'; // disabled so autocasting still work
 	case coulomb = 'electric_charge.coulomb';
 	case C = 'electric_charge.C';
+	case farad = 'capacitance.farad';
 	case newton = 'force.newton';
 	case N = 'force.N';
 	case hertz = 'frequency.hertz';
