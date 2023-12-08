@@ -197,9 +197,11 @@ class Categories {
 	public static function get(string $path): \ReflectionClass {
 		list($cat, $unit) = explode('.', $path);
 		if (isset(self::list[$cat][$unit])) {
-			$classname = __NAMESPACE__.DIRECTORY_SEPARATOR.self::list[$cat][$unit];
+			// $classname = __NAMESPACE__.DIRECTORY_SEPARATOR.self::list[$cat][$unit];
+			$classname = __NAMESPACE__.'\\'.self::list[$cat][$unit];
 			$reflection = new \ReflectionClass($classname);
-			$interface = __NAMESPACE__.DIRECTORY_SEPARATOR.'Entities\\'.self::camelCase($cat);
+			// $interface = __NAMESPACE__.DIRECTORY_SEPARATOR.'Entities\\'.self::camelCase($cat);
+			$interface = __NAMESPACE__.'\\Entities\\'.self::camelCase($cat);
 			if (!$reflection->implementsInterface($interface)) {
 				throw new \Error("$classname must be implementing $interface to fit category");
 			}
