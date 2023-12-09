@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector};
 use irrevion\science\Math\Transformations\Matrix;
 ?>
@@ -98,6 +99,32 @@ $x = new Matrix([
 ]);
 $z = $x->det();
 print("det($x) is $z\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Matrix([
+	[2, -1, 0],
+	[1,-3, 0],
+	[0, 0, 1],
+]);
+$z = $x->determinant();
+print("determinant($x) is $z\n");
+// $y = new Matrix(Utils::arrayColumnsToAttributes($x->structure));
+$y = $x->transpose();
+$w = $y->determinant();
+print("determinant($y) is $w\n");
+unset($x, $z);
+?>
+
+<?php
+$x = new Matrix([
+	[2, -1, 0],
+	[1,-3, 0],
+	[0, new Complex(0, -3), new Complex(-1, -1)],
+], 'irrevion\science\Math\Entities\Complex');
+$z = $x->determinant();
+print("determinant($x) is $z\n");
 unset($x, $z);
 ?>
 </pre>

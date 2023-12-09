@@ -2,6 +2,7 @@
 namespace irrevion\science\Math\Transformations;
 
 use irrevion\science\Math\Math;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Entities\{Vector, Scalar};
 
@@ -91,7 +92,33 @@ class Matrix implements Transformation {
 		return $determinant_calculated;
 		// thats it, folks
 	}
-	public function determinant(...$args) {return $this->det(...$args);}
+
+	// Calculate Determinant using native types.
+	// The same as det() except does not converts values toNumber()
+	public function determinant() {
+		if ($this->rows!=$this->cols) {
+			throw new \Error("Determinant can be calculated only for square matrices, {$this->rows} x {$this->cols} given.");
+		}
+
+		if ($this->rows==1) {
+			return $this->structure[0][0];
+		}
+
+		if ($this->rows==2) {
+			return $this->structure[0][0]->multiply($this->structure[1][1])->subtract($this->structure[0][1]->multiply($this->structure[1][0]));
+		}
+
+		$k = 1;
+		$D = Delegator::wrap(0, $this->inner_type);
+		while ($k<=$this->cols) {
+			$M_det = $this->structure;
+			array_splice($M_det, ($k-1), 1);
+			$M_det = array_map(function($col) {return array_slice($col, 1);}, $M_det);
+			$D = $D->{(($k%2)? 'add': 'subtract')}($this->structure[$k-1][0]->multiply((new self($M_det, $this->inner_type))->determinant()));
+			$k++;
+		}
+		return $D;
+	}
 
 	public function applyTo($V) {
 		if (Delegator::getType($V)!=self::T_VECTOR) {
@@ -129,6 +156,10 @@ class Matrix implements Transformation {
 		return $composedM;
 	}
 
+	public function transpose(): self {
+		return new self(Utils::arrayColumnsToAttributes($this->structure), $this->inner_type);
+	}
+
 	public function updateMeta() {
 		$this->cols = count($this->structure);
 		if ($this->cols) {
@@ -152,9 +183,5 @@ class Matrix implements Transformation {
 			$this->inner_type = $t;
 		}
 	}
-
-	/* public function createFrom($struct) { // create new instance
-		throw new \Error('Not implemented yet');
-	} */
 }
 ?>
