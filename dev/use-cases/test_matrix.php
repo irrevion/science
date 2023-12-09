@@ -114,6 +114,8 @@ print("determinant($x) is $z\n");
 $y = $x->transpose();
 $w = $y->determinant();
 print("determinant($y) is $w\n");
+$m = $y->map(fn($v) =>$v->multiply(-1));
+print("mapped $y is $m \n");
 unset($x, $z);
 ?>
 

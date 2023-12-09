@@ -160,6 +160,17 @@ class Matrix implements Transformation {
 		return new self(Utils::arrayColumnsToAttributes($this->structure), $this->inner_type);
 	}
 
+	public function map(callable $f, string $t=self::T_SCALAR): self {
+		$M = $this->structure;
+		$Mr = [];
+		foreach ($M as $n=>$col) {
+			foreach ($col as $m=>$el) {
+				$Mr[$n][$m] = $f($el, $n, $m);
+			}
+		}
+		return new self($Mr, $t);
+	}
+
 	public function updateMeta() {
 		$this->cols = count($this->structure);
 		if ($this->cols) {

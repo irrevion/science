@@ -7,6 +7,10 @@ class Utils {
 		return sprintf('%.0f', $bigint);
 	}
 
+	public static function variableHasValue($var) {
+		return !(empty($var) && ($var!=='0') && ($var!==false));
+	}
+
 	public static function isEmptyArrayRecursive($arr, $zerosAreValue=1) {
 		if (empty($arr) && (!$zerosAreValue || ($zerosAreValue && !self::variableHasValue($arr)))) {return true;}
 		if (is_array($arr)) {
