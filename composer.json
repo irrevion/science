@@ -2,7 +2,7 @@
     "name": "irrevion/science",
     "description": "PHP library for extended mathematical operations",
     "type": "library",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "MIT",
     "homepage": "https://github.com/irrevion/science/",
     "autoload": {

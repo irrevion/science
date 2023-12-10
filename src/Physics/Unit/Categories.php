@@ -55,6 +55,7 @@ class Categories {
 		'electrical_resistance' => [
 			'abohm' => 'Entities\AbOhm',
 			'ohm' => 'Entities\Ohm',
+			'statohm' => 'Entities\StatOhm',
 		],
 		'energy' => [
 			// btu

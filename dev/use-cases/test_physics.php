@@ -203,5 +203,7 @@ print "$x is $y \n";
 $x = new Quantity(3e6, CGS::abohm);
 $y = $x->convert(SI::ohm);
 print "$x is $y \n";
+$z = $y->convert(CGS::statohm);
+print "$y is $z \n";
 ?>
 </pre>
