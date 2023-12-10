@@ -28,6 +28,7 @@ enum SI: string implements SystemInterface {
 	case joule = 'energy.joule';
 	case J = 'energy.J';
 	case nit = 'brightness.nit';
+	case ohm = 'electrical_resistance.ohm';
 	case radian = 'angle.radian';
 	case pascal = 'pressure.pascal';
 	case Pa = 'pressure.Pa';

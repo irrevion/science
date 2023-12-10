@@ -198,4 +198,10 @@ $x = new Quantity(3e-13, CGS::abfarad);
 $y = $x->convert(SI::farad);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(3e6, CGS::abohm);
+$y = $x->convert(SI::ohm);
+print "$x is $y \n";
+?>
 </pre>

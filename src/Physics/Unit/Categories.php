@@ -52,6 +52,10 @@ class Categories {
 			'statvolt' => 'Entities\StatVolt',
 			'volt' => 'Entities\Volt',
 		],
+		'electrical_resistance' => [
+			'abohm' => 'Entities\AbOhm',
+			'ohm' => 'Entities\Ohm',
+		],
 		'energy' => [
 			// btu
 			// calorie
