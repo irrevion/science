@@ -10,6 +10,7 @@ enum Natural: string implements SystemInterface {
 	case eV = 'energy.eV';
 	case hartree = 'energy.hartree';
 	case hartree_force = 'force.hartree_force';
+	case particle = 'substance_amount.particle';
 	case planck_length = 'length.planck_length';
 
 	public function i($const='') {

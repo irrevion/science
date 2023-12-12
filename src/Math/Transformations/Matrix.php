@@ -142,7 +142,6 @@ class Matrix implements Transformation {
 	}
 
 	public function composeWith(Matrix $M): Matrix {
-		//throw new \Error('Not implemented yet');
 		if ($this->cols!=$M->rows) {
 			throw new \Error('Primary matrix columns number should be equal to secondary matrix rows number');
 		}

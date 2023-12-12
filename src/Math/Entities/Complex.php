@@ -190,6 +190,10 @@ class Complex extends Imaginary implements Entity {
 		return $reciprocal;
 	}
 
+	public function conjugate() {
+		return new self($this->real, $this->imaginary->negative());
+	}
+
 	public function invert() {
 		return new self($this->value['real']->invert(), $this->value['imaginary']->invert());
 	}

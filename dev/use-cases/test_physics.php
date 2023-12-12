@@ -206,4 +206,10 @@ print "$x is $y \n";
 $z = $y->convert(CGS::statohm);
 print "$y is $z \n";
 ?>
+
+<?php
+$x = new Quantity(6.02225e24, Natural::particle);
+$y = $x->convert(SI::mole);
+print "$x is $y \n";
+?>
 </pre>

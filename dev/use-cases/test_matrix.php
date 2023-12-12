@@ -116,6 +116,8 @@ $w = $y->determinant();
 print("determinant($y) is $w\n");
 $m = $y->map(fn($v) =>$v->multiply(-1));
 print("mapped $y is $m \n");
+//$i = $x->composeWith($y);
+//print("$x composed with transponed itself $y is $i \n");
 unset($x, $z);
 ?>
 

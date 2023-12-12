@@ -77,12 +77,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function pad(int $length): Vector {
-		/* $x_len = $this->count();
-		$arr = $this->value;
-		while ($x_len<$length) {
-			$arr[] = Delegator::wrap(0, $this->inner_type);
-		}
-		return new self($arr, $this->inner_type); */
 		return new self($this->value, $this->inner_type, $length);
 	}
 
@@ -94,7 +88,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function cutZeroTail(): Vector {
 		$z = $this->value;
-		// print "cutZeroTail $this \n";
 		while (count($z)) {
 			$v = end($z);
 			if ($v===false) {break;}
@@ -109,12 +102,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function align($y) {
 		$x = clone $this;
-		// print "align $x and $y \n";
 		$x = $x->cutZeroTail();
 		$y = $y->cutZeroTail();
 		$x_len = $x->count();
 		$y_len = $y->count();
-		// print "$y_len!=$x_len \n";
 		if ($y_len<$x_len) {
 			$y = $y->pad($x_len);
 		} else if ($y_len>$x_len) {

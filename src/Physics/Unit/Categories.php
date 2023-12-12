@@ -131,6 +131,7 @@ class Categories {
 			'candela' => 'Entities\Candela',
 		],
 		'mass' => [
+			// atomic mass unit
 			// carat
 			// dalton
 			// earth
@@ -140,6 +141,7 @@ class Categories {
 			'kg' => 'Entities\Kilogram',
 			// moon
 			// ounce
+			// planck mass
 			'pound' => 'Entities\Pound',
 			// slug
 			'solar_mass' => 'Entities\SolarMass',
@@ -174,7 +176,15 @@ class Categories {
 			// psi
 		],
 		'substance_amount' => [
+			// examole
+			// kilomole
+			// megamole
 			'mole' => 'Entities\Mole',
+			// nanomole
+			'particle' => 'Entities\Particle',
+			// pound-mole
+			// quettamole
+			// zeptomole
 		],
 		'temperature' => [
 			'celsius' => 'Entities\Celsius',

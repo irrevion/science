@@ -124,4 +124,15 @@ print("{$x} / {$y} is {$z}\n");
 print("Type of z is ".Delegator::getType($z)."\n");
 unset($x, $y, $z);
 ?>
+
+<?php
+$x = new Complex(3.5, 17.3);
+$y = $x->conjugate();
+$z = $x->multiply($y);
+$w = $y->multiply($x);
+print("{$y} is conjugate of {$x}\n");
+print("xx* = {$z}\n");
+print("x*x = {$w}\n");
+unset($x, $y, $z, $w);
+?>
 </pre>
