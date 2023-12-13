@@ -243,7 +243,7 @@ class Fraction extends Scalar implements Entity {
 		return $x;
 	}
 
-	public function empty() {
+	public function empty(): bool {
 		return ($this->numerator->value==0);
 	}
 }

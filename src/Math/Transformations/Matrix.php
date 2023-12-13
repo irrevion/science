@@ -155,6 +155,25 @@ class Matrix implements Transformation {
 		return $composedM;
 	}
 
+	public function multiply($y) {
+		// as matrix is not value entity there is no such thing as matrix multiplication
+		// however, traditions shall be obeyed
+		$t = Delegator::getType($y);
+		if ($t==self::class) {
+			return $this->composeWith($y);
+		} else if ($t==self::T_VECTOR) {
+			return $this->applyTo($y);
+		} else if ($t==self::T_SCALAR) {
+			// return $this->map(fn($v) => $v->multiply($y));
+			return $this->multiplyScalar($y);
+		}
+		throw new \Error('Unknown argument type '+$t);
+	}
+
+	public function multiplyScalar($y): self {
+		return $this->map(fn($v) => $v->multiply($y));
+	}
+
 	public function transpose(): self {
 		return new self(Utils::arrayColumnsToAttributes($this->structure), $this->inner_type);
 	}

@@ -28,7 +28,7 @@ class Math extends BaseMath {
 		return parent::asin($x);
 	}
 
-	public static function compare(float $x=0.0, string $rel='==', float $y=1e-12) {
+	public static function compare($x=0.0, $rel='==', $y=0.0) {
 		if (Delegator::isEntity($x)) {$x = $x->toNumber();}
 		if (Delegator::isEntity($y)) {$y = $y->toNumber();}
 		return parent::compare($x, $rel, $y);

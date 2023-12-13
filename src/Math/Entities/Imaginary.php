@@ -1,6 +1,7 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
+use irrevion\science\Math\Math;
 use irrevion\science\Math\Entities\Scalar;
 use irrevion\science\Math\Operations\Delegator;
 
@@ -119,6 +120,16 @@ class Imaginary extends Scalar implements Entity {
 
 	public function invert() {
 		return new self($this->value*-1);
+	}
+
+	public function isEqual($y): bool {
+		if (Delegator::getType($y)!=self::class) return false;
+		return ($this->value==$y->value);
+	}
+
+	public function isNear($y): bool {
+		if (Delegator::getType($y)!=self::class) return false;
+		return Math::compare($this->value, '==', $y->value);
 	}
 }
 ?>

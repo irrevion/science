@@ -218,8 +218,29 @@ class ComplexPolar extends Complex implements Entity {
 		return clone $this->r;
 	}
 
-	public function empty() {
+	public function empty(): bool {
 		return $this->value['radius']->empty();
+	}
+
+	public function isEqual($y): bool {
+		// if (Delegator::getType($y)!=self::class) return false;
+		$t = Delegator::getType($y);
+		if ($t==self::T_COMPLEX) {
+			$y = $y->toPolar();
+		} else if ($t!=self::class) {
+			return false;
+		}
+		return ($this->r->isEqual($y->r) && $this->phi->isEqual($y->phi));
+	}
+
+	public function isNear($y): bool {
+		$t = Delegator::getType($y);
+		if ($t==self::T_COMPLEX) {
+			$y = $y->toPolar();
+		} else if ($t!=self::class) {
+			return false;
+		}
+		return ($this->r->isNear($y->r) && $this->phi->isNear($y->phi));
 	}
 }
 ?>

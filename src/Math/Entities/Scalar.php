@@ -1,6 +1,7 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
+use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
 
 class Scalar implements Entity {
@@ -152,8 +153,16 @@ class Scalar implements Entity {
 		return new self(1/$this->value);
 	}
 
-	public function empty() {
+	public function empty(): bool {
 		return ($this->value==0);
+	}
+
+	public function isEqual($y): bool {
+		return ($this->toNumber()==$y->toNumber());
+	}
+
+	public function isNear($y): bool {
+		return Math::compare($this, '==', $y);
 	}
 }
 ?>

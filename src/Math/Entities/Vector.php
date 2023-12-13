@@ -76,6 +76,86 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return ($this::class==self::class);
 	}
 
+	public function isOrthogonal($y) {
+		return $this->dot($y)->empty();
+	}
+
+	public function isCollinear($y, $method='DOT_PRODUCT'): bool {
+		if ($method=='DETERMINANT') {
+			list($x, $y) = $this->align($y);
+			if ($x->length>2) {
+				return $x->isCollinear($y, 'DOT_PRODUCT');
+				// silently switch to another method if unable to produce square matrix
+			}
+			$M = new (self::T_MATRIX)([$x->value, $y->value]);
+			$D = $M->determinant();
+			return $D->empty();
+		} else if ($method=='DOT_PRODUCT') {
+			$prod = $this->dot($y);
+			$abs_mul = $this->magnitude()->multiply($y->magnitude());
+			return ($prod==$abs_mul);
+		} else if ($method=='RATIO') {
+			// $ratio = $this->divideElementwise($y);
+			// you may consider this a good idea but this will lead to much more division by zero errors
+			// instead try good old foreach
+			$etalon = null;
+			list($x, $y) = $this->align($y);
+			foreach ($x->value as $i=>$component) {
+				// print "$i => $component; {$y->value[$i]} \n";
+				if (!isset($y->value[$i])) {return false;}
+				if ($y->value[$i]->empty()) {
+					if ($component->empty()) {
+						continue;
+						// [0, 2, 6, 0] and [0, 6, 18, 0] is collinear, right?
+						// so, just ignore empty components in both vectors
+					} else {
+						return false;
+						// no forgiveness here
+					}
+				}
+				$ratio = $component->divide($y->value[$i]);
+				if (is_null($etalon)) {
+					$etalon = $ratio;
+					// print "$etalon = $ratio = ($component / {$y->value[$i]}) \n";
+				} else {
+					if (!$ratio->isEqual($etalon)) {
+						// print "$ratio not equal to $etalon? ($component / {$y->value[$i]}) \n";
+						return false;
+						// this seems long way, but actually this is the most simple approach
+					}
+				}
+			}
+			return true;
+		} else if ($method=='NORM') {
+			$x = $this->normalize();
+			$y = $y->normalize();
+			// print "$x is equal $y? \n";
+			// return $x->isEqual($y);
+			return $x->isNear($y);
+		}
+		return false;
+	}
+
+	public function isEqual($y): bool {
+		list($x, $y) = $this->align($y);
+		foreach ($x as $i=>$component) {
+			if (!$component->isEqual($y[$i])) {return false;}
+		}
+		return true;
+	}
+
+	public function isNear($y): bool {
+		list($x, $y) = $this->align($y);
+		foreach ($x as $i=>$component) {
+			if (!$component->isNear($y[$i])) {return false;}
+		}
+		return true;
+	}
+
+	public function empty(): bool {
+		return ($this->length==0);
+	}
+
 	public function pad(int $length): Vector {
 		return new self($this->value, $this->inner_type, $length);
 	}
@@ -396,7 +476,11 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function conjugate() {
-		throw new \Error('Not implemented yet');
+		// https://en.wikipedia.org/wiki/Conjugate_transpose
+		// In mathematics, the conjugate transpose, also known as the Hermitian transpose, of an m × n complex matrix A is an n × m matrix obtained by transposing A and applying complex conjugation to each entry (the complex conjugate of a + ib being a − ib, for real numbers a and b). There are several notations, such as Aᴴ or A*, A′, or (often in physics) A†.
+		// For real matrices, the conjugate transpose is just the transpose, Aᴴ = Aᵀ. 
+		//return $this->transpose()->applyTo($this);
+		$axis = new Vector([0, 0, 1]);
 	}
 
 	public function normalize() {
@@ -411,7 +495,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 				$z[$i][0] = $v;
 			}
 		}
-		return Delegator::wrap($z, self::T_MATRIX);
+		//return Delegator::wrap($z, self::T_MATRIX);
+		return new (self::T_MATRIX)($z, $this->inner_type);
 	}
 
 	public function invert() {
@@ -437,10 +522,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public function abs() {
 		$magnitude = $this->magnitude();
 		return $magnitude;
-	}
-
-	public function empty() {
-		return ($this->length==0);
 	}
 
 	// methods to comply interface \Iterator

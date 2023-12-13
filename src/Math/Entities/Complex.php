@@ -1,8 +1,8 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
-use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
+use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Entities\{
 	Scalar, Imaginary
 };
@@ -21,7 +21,7 @@ class Complex extends Imaginary implements Entity {
 	public $value;
 	public $subset_of = [
 		__NAMESPACE__.'\Complex',
-		__NAMESPACE__.'\Vector'
+		// __NAMESPACE__.'\Vector'
 	];
 
 	public function __construct($real = 0, $imaginary = 0) {
@@ -203,8 +203,30 @@ class Complex extends Imaginary implements Entity {
 		return Delegator::wrap($abs, self::T_SCALAR);
 	}
 
-	public function empty() {
+	public function empty(): bool {
 		return ($this->value['real']->empty() && $this->value['imaginary']->empty());
+	}
+
+	public function isEqual($y): bool {
+		// if (Delegator::getType($y)!=self::class) return false;
+		$t = Delegator::getType($y);
+		if ($t==self::T_POLAR) {
+			$y = $y->toRectangular();
+		} else if ($t!=self::class) {
+			return false;
+		}
+		return ($this->value['real']->isEqual($y->value['real']) && $this->value['imaginary']->isEqual($y->value['imaginary']));
+	}
+
+	public function isNear($y): bool {
+		$t = Delegator::getType($y);
+		if ($t==self::T_POLAR) {
+			$y = $y->toRectangular();
+		} else if ($t!=self::class) {
+			return false;
+		}
+		// return (Math::compare($this->value['real'], '==', $y->value['real']) && Math::compare($this->value['imaginary'], '==', $y->value['imaginary']));
+		return ($this->value['real']->isNear($y->value['real']) && $this->value['imaginary']->isNear($y->value['imaginary']));
 	}
 }
 ?>

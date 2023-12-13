@@ -227,8 +227,55 @@ $y = $x->magnitude();
 $z = $x->normalize();
 print "$x / $y = $z (type ".$z::class." of {$x->inner_type})\n";
 $x = $z->multiply($y);
-print "$z * $y = $x (type ".$z::class." of {$x->inner_type})\n";
+print "$z * $y = $x (type ".$z::class." of {$z->inner_type})\n";
 $x = $x->invert();
 print "$x\n";
+?>
+
+<?php
+//$x = new Vector([3, 99999999]);
+//$y = $x->transpose();
+//print "{$x}ᵀ is $y (type ".$y::class." of {$y->inner_type})\n";
+//$z = $z->conjugate($x);
+//print "$x* is $z (type ".$z::class." of {$z->inner_type})\n";
+//$w = (new Vector([23, 17.5, -551]))->conjugate();
+//print "w is $w (type ".$w::class." of {$w->inner_type})\n";
+?>
+
+<?php
+$x = new Vector([3, 1]);
+$y = new Vector([-1, 3]);
+$z = $x->isOrthogonal($y);
+print "{$x} is".($z? '': ' not')." orthogonal to {$y}\n";
+$x = new Vector([3, 4, 0]);
+$y = new Vector([-4, 3, 2]);
+$z = $x->isOrthogonal($y);
+print "{$x} is".($z? '': ' not')." orthogonal to {$y}\n";
+$w = $x->dot($y);
+print "dot() = $w\n";
+?>
+
+<?php
+$x = new Vector([3, 1]);
+$y = new Vector([-1, 3]);
+$cl1 = $x->isCollinear($y, 'DETERMINANT');
+$cl2 = $x->isCollinear($y, 'DOT_PRODUCT');
+$cl3 = $x->isCollinear($y, 'RATIO');
+$cl4 = $x->isCollinear($y, 'NORM');
+print "{$x} is collinear to {$y}? ".($cl1? 'yes': 'no')." / ".($cl2? 'yes': 'no')." / ".($cl3? 'yes': 'no')." / ".($cl4? 'yes': 'no')." \n";
+$x = new Vector([1, 2, 3]);
+$y = new Vector([2, 4, 6]);
+$cl1 = $x->isCollinear($y, 'DETERMINANT');
+$cl2 = $x->isCollinear($y, 'DOT_PRODUCT');
+$cl3 = $x->isCollinear($y, 'RATIO');
+$cl4 = $x->isCollinear($y, 'NORM');
+print "{$x} is collinear to {$y}? ".($cl1? 'yes': 'no')." / ".($cl2? 'yes': 'no')." / ".($cl3? 'yes': 'no')." / ".($cl4? 'yes': 'no')." \n";
+$x = new Vector([0, 0.02, 0.04, 0.06, 0]);
+$y = new Vector([0, 2, 4, 6, 0]);
+$cl1 = $x->isCollinear($y, 'DETERMINANT');
+$cl2 = $x->isCollinear($y, 'DOT_PRODUCT');
+$cl3 = $x->isCollinear($y, 'RATIO');
+$cl4 = $x->isCollinear($y, 'NORM');
+print "{$x} is collinear to {$y}? ".($cl1? 'yes': 'no')." / ".($cl2? 'yes': 'no')." / ".($cl3? 'yes': 'no')." / ".($cl4? 'yes': 'no')." \n";
 ?>
 </pre>
