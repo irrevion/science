@@ -89,10 +89,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			}
 			$M = new (self::T_MATRIX)([$x->value, $y->value]);
 			$D = $M->determinant();
+			// print "determinant of $M is $D\n";
 			return $D->empty();
 		} else if ($method=='DOT_PRODUCT') {
-			$prod = $this->dot($y);
+			$prod = $this->dot($y)->abs();
 			$abs_mul = $this->magnitude()->multiply($y->magnitude());
+			// print "$prod==$abs_mul\n";
 			return ($prod==$abs_mul);
 		} else if ($method=='RATIO') {
 			// $ratio = $this->divideElementwise($y);
@@ -129,9 +131,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		} else if ($method=='NORM') {
 			$x = $this->normalize();
 			$y = $y->normalize();
-			// print "$x is equal $y? \n";
-			// return $x->isEqual($y);
-			return $x->isNear($y);
+			return ($x->isNear($y) || $x->isNear($y->negative()));
 		}
 		return false;
 	}
