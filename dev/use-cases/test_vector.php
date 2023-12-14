@@ -303,4 +303,27 @@ print "{$x} conjugate is {$y} \n";
 $z = $y->conjugate();
 print "{$y} conjugate is {$z} \n";
 ?>
+
+<?php
+$x = new Vector([-2, -4, -6]);
+$y = new Vector([5, 12, 43]);
+$z = new Vector([88, 513, 29103]);
+$w = $x->scalarTripleProduct($y, $z, 'DIRECT');
+print "{$x} ∙ ( {$y} ⨯ {$z} ) = {$w} \n";
+$w = $x->triple($y, $z, 'DETERMINANT');
+print "{$x} ∙ ( {$y} ⨯ {$z} ) = {$w} (det) \n";
+?>
+
+<?php
+$x = new Vector([-2, -4, -6]);
+$y = new Vector([5, 12, 43]);
+$z = new Vector([88, 513, 29103]);
+$cpl = $x->isCoplanar($y, $z);
+print "{$x}, {$y}, {$z} is".($cpl? '': ' not')." coplanar \n";
+$x = new Vector([1,2,3]);
+$y = new Vector([4,5,6]);
+$z = new Vector([7,8,9]);
+$cpl = $x->isCoplanar($y, $z);
+print "{$x}, {$y}, {$z} is".($cpl? '': ' not')." coplanar \n";
+?>
 </pre>

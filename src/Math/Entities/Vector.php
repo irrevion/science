@@ -95,12 +95,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			}
 			$M = new (self::T_MATRIX)([$x->value, $y->value]);
 			$D = $M->determinant();
-			// print "determinant of $M is $D\n";
 			return $D->empty();
 		} else if ($method=='DOT_PRODUCT') {
 			$prod = $this->dot($y)->abs();
 			$abs_mul = $this->magnitude()->multiply($y->magnitude());
-			// print "$prod==$abs_mul\n";
 			return ($prod==$abs_mul);
 		} else if ($method=='RATIO') {
 			// $ratio = $this->divideElementwise($y);
@@ -109,7 +107,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			$etalon = null;
 			list($x, $y) = $this->align($y);
 			foreach ($x->value as $i=>$component) {
-				// print "$i => $component; {$y->value[$i]} \n";
 				if (!isset($y->value[$i])) {return false;}
 				if ($y->value[$i]->empty()) {
 					if ($component->empty()) {
@@ -124,10 +121,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 				$ratio = $component->divide($y->value[$i]);
 				if (is_null($etalon)) {
 					$etalon = $ratio;
-					// print "$etalon = $ratio = ($component / {$y->value[$i]}) \n";
 				} else {
 					if (!$ratio->isEqual($etalon)) {
-						// print "$ratio not equal to $etalon? ($component / {$y->value[$i]}) \n";
 						return false;
 						// this seems long way, but actually this is the most simple approach
 					}
@@ -140,6 +135,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			return ($x->isNear($y) || $x->isNear($y->negative()));
 		}
 		return false;
+	}
+
+	public function isCoplanar($y, $z): bool {
+		return $this->triple($y, $z)->empty();
 	}
 
 	public function isEqual($y): bool {
@@ -245,7 +244,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	// scale vector using scalar scalarMultiply() (not scalar product!), k(), coefficient(), times(), scale()
-	// dot product ·→ aliases is dotProduct(), scalarProduct(), innerProduct(), dot() ***exclude scalarProduct() to avoid ambiquity
+	// dot product ·→ aliases is dotProduct(), innerProduct(), dot()
 	// Hadamard product ⊙→ aliases is multiplyElementwise(), hadamardProduct(), schurProduct()
 	// cross product ⨯→ aliases is crossProduct(), vectorProduct(), cross(), x()
 	// scalar triple product, aliases is scalarTripleProduct(), triple()
@@ -300,14 +299,13 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return $z;
 	}
 	public function dot(...$args) {return $this->dotProduct(...$args);}
-	// public function innerProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with Hermitian inner product or inner product via conjugation a.b = Conjugate[a].b
-	// public function scalarProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with scalar multiplication
 
 	public function dotT($y) {
 		$vector = $this->transpose()->applyTo($y);
 		$scalar = $vector[0]; // drop trailing zeros
 		return $scalar;
 	}
+	public function innerProduct(...$args) {return $this->dotT(...$args);}
 
 	public function multiply($y) {
 		$n = $this->count();
@@ -402,8 +400,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		$z_magnitude = $z->magnitude();
 		$sin_theta = $z_magnitude->divide($x_magnitude->multiply($y_magnitude));
 		$theta = Math::asin($sin_theta);
-		print "|c| $z_magnitude = |a| $x_magnitude * |b| $y_magnitude * sin(θ) $sin_theta \n";
-		print "angle θ is $theta RAD \n";
+		// print "|c| $z_magnitude = |a| $x_magnitude * |b| $y_magnitude * sin(θ) $sin_theta \n";
+		// print "angle θ is $theta RAD \n";
 
 		return $z;
 	}
@@ -433,6 +431,16 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public function crossProduct3D(...$args) {return $this->crossProduct(...$args);}
 	public function cross(...$args) {return $this->crossProduct(...$args);}
 	public function x(...$args) {return $this->crossProduct(...$args);}
+
+	public function scalarTripleProduct($y, $z, $method='DETERMINANT') {
+		if ($method=='DIRECT') {
+			return $this->dotT($y->x($z));
+		} else if ($method=='DETERMINANT') {
+			return (new (self::T_MATRIX)([$this->value, $y->value, $z->value]))->determinant();
+		}
+		throw new \Error('Invalid triple product method');
+	}
+	public function triple(...$args) {return $this->scalarTripleProduct(...$args);}
 
 	public function k($y) {
 		$z = [];
