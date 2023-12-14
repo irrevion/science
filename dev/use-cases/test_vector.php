@@ -97,6 +97,8 @@ $x = new Vector([4,4]);
 $y = new Vector([2,1]);
 $z = $x->dotProduct($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
+$w = $x->dotT($y);
+print "{$x}ᵀ ∙ $y = $w (".$w::class.")\n";
 ?>
 
 <?php
@@ -104,6 +106,8 @@ $x = new Vector([-3, 15]);
 $y = new Vector([5, 0.3]);
 $z = $x->dotProduct($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
+$w = $x->dotT($y);
+print "{$x}ᵀ ∙ $y = $w (".$w::class.")\n";
 ?>
 
 <?php
@@ -111,6 +115,8 @@ $x = new Vector([2, 3], 'irrevion\science\Math\Entities\Imaginary');
 $y = new Vector([-4, -5], 'irrevion\science\Math\Entities\Imaginary');
 $z = $x->dotProduct($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
+$w = $x->dotT($y);
+print "{$x}ᵀ ∙ $y = $w (".$w::class.")\n";
 ?>
 
 <?php
@@ -124,6 +130,8 @@ $y = new Vector([
 ], 'irrevion\science\Math\Entities\Complex');
 $z = $x->dotProduct($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
+$w = $x->dotT($y);
+print "{$x}ᵀ ∙ $y = $w (".$w::class.")\n";
 ?>
 
 <?php
@@ -131,6 +139,8 @@ $x = new Vector([347, 9821, 2093456, 0.001, -32, 1, 100.78, 4]);
 $y = new Vector([9, 43, 2, 999999, 1, 17.3, 821.004583, 2]);
 $z = $x->dot($y);
 print "$x ∙ $y = $z (".$z::class.")\n";
+$w = $x->dotT($y);
+print "{$x}ᵀ ∙ $y = $w (".$w::class.")\n";
 ?>
 
 <?php
@@ -284,5 +294,13 @@ $cl2 = $x->isCollinear($y, 'DOT_PRODUCT');
 $cl3 = $x->isCollinear($y, 'RATIO');
 $cl4 = $x->isCollinear($y, 'NORM');
 print "{$x} is collinear to {$y}? ".($cl1? 'yes': 'no')." / ".($cl2? 'yes': 'no')." / ".($cl3? 'yes': 'no')." / ".($cl4? 'yes': 'no')." \n";
+?>
+
+<?php
+$x = new Vector([-2, -4, -6]);
+$y = $x->conjugate();
+print "{$x} conjugate is {$y} \n";
+$z = $y->conjugate();
+print "{$y} conjugate is {$z} \n";
 ?>
 </pre>

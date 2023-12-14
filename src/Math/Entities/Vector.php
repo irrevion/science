@@ -6,6 +6,8 @@ use irrevion\science\Math\Operations\Delegator;
 
 class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countable {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
+	private const T_COMPLEX = __NAMESPACE__.'\Complex';
 	private const T_MATRIX = 'irrevion\science\Math\Transformations\Matrix';
 	private $pointer = 0;
 
@@ -14,10 +16,14 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public $inner_type = null;
 	public $subset_of = [
 		__NAMESPACE__.'\Vector',
-		// __NAMESPACE__.'\Matrix',
 	];
 
 	public function __construct($array, $type=self::T_SCALAR, $pad_to_length=0) {
+		if ($type==self::T_IMAGINARY) {
+			// switch type to more flexible type Complex to avoid problems when Imaginary transforms into Scalar
+			$type = self::T_COMPLEX;
+		}
+
 		$this->value = [];
 		$arr_type = Delegator::getType($array);
 		if (Delegator::isEntity($array)) {
@@ -242,6 +248,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	// dot product ·→ aliases is dotProduct(), scalarProduct(), innerProduct(), dot() ***exclude scalarProduct() to avoid ambiquity
 	// Hadamard product ⊙→ aliases is multiplyElementwise(), hadamardProduct(), schurProduct()
 	// cross product ⨯→ aliases is crossProduct(), vectorProduct(), cross(), x()
+	// scalar triple product, aliases is scalarTripleProduct(), triple()
 	// direct product ⊗→ (Kroneker product with transponed matrix) directProduct()
 	// Kronecker product ⊗→ aliases is kroneckerProduct(), tensorProduct(), matrixDirectProduct()
 	// exterior product is exteriorProduct();
@@ -295,6 +302,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	public function dot(...$args) {return $this->dotProduct(...$args);}
 	// public function innerProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with Hermitian inner product or inner product via conjugation a.b = Conjugate[a].b
 	// public function scalarProduct(...$args) {return $this->dotProduct(...$args);} // excluded not to mess with scalar multiplication
+
+	public function dotT($y) {
+		$vector = $this->transpose()->applyTo($y);
+		$scalar = $vector[0]; // drop trailing zeros
+		return $scalar;
+	}
 
 	public function multiply($y) {
 		$n = $this->count();
@@ -476,11 +489,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function conjugate() {
-		// https://en.wikipedia.org/wiki/Conjugate_transpose
-		// In mathematics, the conjugate transpose, also known as the Hermitian transpose, of an m × n complex matrix A is an n × m matrix obtained by transposing A and applying complex conjugation to each entry (the complex conjugate of a + ib being a − ib, for real numbers a and b). There are several notations, such as Aᴴ or A*, A′, or (often in physics) A†.
-		// For real matrices, the conjugate transpose is just the transpose, Aᴴ = Aᵀ. 
-		//return $this->transpose()->applyTo($this);
-		$axis = new Vector([0, 0, 1]);
+		// just to preserve compatibility with other entities
+		return $this->map(fn($v, $i) => $v->multiply($i? -1: 1));
 	}
 
 	public function normalize() {
@@ -497,6 +507,15 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		}
 		//return Delegator::wrap($z, self::T_MATRIX);
 		return new (self::T_MATRIX)($z, $this->inner_type);
+	}
+
+	public function map(callable $f, string $t=self::T_SCALAR): self {
+		$V = $this->value;
+		$Vr = [];
+		foreach ($V as $i=>$v) {
+			$Vr[$i] = $f($v, $i);
+		}
+		return new self($Vr, $t);
 	}
 
 	public function invert() {
