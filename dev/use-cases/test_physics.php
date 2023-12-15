@@ -129,6 +129,10 @@ print "$x is $y \n";
 $x = new Quantity(3.14, SI::radian);
 $y = $x->convert(NonStandard::degree);
 print "$x is $y \n";
+$z = $y->convert(NonStandard::grad);
+print "$y is $z \n";
+$w = $z->convert(NonStandard::turn);
+print "$z is $w \n";
 ?>
 
 <?php

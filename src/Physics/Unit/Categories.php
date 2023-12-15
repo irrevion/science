@@ -5,10 +5,11 @@ class Categories {
 	const list = [
 		'angle' => [
 			'degree' => 'Entities\Degree',
-			// gon
+			'gon' => 'Entities\Gradian',
+			'grad' => 'Entities\Gradian',
 			// mil
 			'radian' => 'Entities\Radian',
-			// turn
+			'turn' => 'Entities\Turn'
 		],
 		'brightness' => [
 			// apostilb
@@ -112,9 +113,10 @@ class Categories {
 			'au' => 'Entities\AstronomicalUnit',
 			// bohr_radius
 			// centimetre
-			// feet
+			// chi
+			// foot
 			// inch
-			// 'kilometre'
+			// 'kilometer'
 			// 'km'
 			'light_year' => 'Entities\LightYear',
 			'ly' => 'Entities\LightYear',
@@ -126,6 +128,7 @@ class Categories {
 			'planck_length' => 'Entities\PlanckLength',
 			// sm
 			// yard
+			// zhang
 		],
 		'luminous_intensity' => [
 			'candela' => 'Entities\Candela',
@@ -136,9 +139,12 @@ class Categories {
 			// dalton
 			// earth
 			'electron_mass' => 'Entities\ElectronMass',
+			// gongjin
 			// gram
+			// jin
 			'kilogram' => 'Entities\Kilogram',
 			'kg' => 'Entities\Kilogram',
+			// liang
 			// moon
 			// ounce
 			// planck mass
