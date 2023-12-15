@@ -28,6 +28,13 @@ class Math extends BaseMath {
 		return parent::asin($x);
 	}
 
+	public static function acos($x) {
+		if (Delegator::isEntity($x)) {
+			$x = $x->toNumber();
+		}
+		return parent::acos($x);
+	}
+
 	public static function compare($x=0.0, $rel='==', $y=0.0) {
 		if (Delegator::isEntity($x)) {$x = $x->toNumber();}
 		if (Delegator::isEntity($y)) {$y = $y->toNumber();}

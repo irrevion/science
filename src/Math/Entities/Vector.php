@@ -307,6 +307,16 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 	public function innerProduct(...$args) {return $this->dotT(...$args);}
 
+	public function cos($y) {
+		// →a · →b = |a||b|cos(θ)
+		// cos(θ) = 〈a, b〉/ |a| |b|
+		return $this->dot($y)->divide($this->magnitude())->divide($y->magnitude());
+	}
+
+	public function angle($y) {
+		return Math::acos($this->cos($y));
+	}
+
 	public function multiply($y) {
 		$n = $this->count();
 		if (empty($n)) {

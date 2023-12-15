@@ -322,4 +322,15 @@ $z = new Vector([7,8,9]);
 $cpl = $x->isCoplanar($y, $z);
 print "{$x}, {$y}, {$z} is".($cpl? '': ' not')." coplanar \n";
 ?>
+
+<?php
+$x = new Vector([3, 4]);
+$y = new Vector([4, 3]);
+$z = $x->angle($y);
+print "{$z} is angle between {$x} and {$y}\n";
+$x = new Vector([3,4,0]);
+$y = new Vector([2,2,1]);
+$z = $x->angle($y);
+print "{$z} is angle between {$x} and {$y}\n";
+?>
 </pre>
