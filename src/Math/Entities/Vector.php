@@ -18,7 +18,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		__NAMESPACE__.'\Vector',
 	];
 
-	public function __construct($array, $type=self::T_SCALAR, $pad_to_length=0) {
+	public function __construct($array=[], $type=self::T_SCALAR, $pad_to_length=0) {
 		if ($type==self::T_IMAGINARY) {
 			// switch type to more flexible type Complex to avoid problems when Imaginary transforms into Scalar
 			$type = self::T_COMPLEX;
@@ -493,7 +493,9 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function reciprocal() {
-		throw new \Error('Not implemented yet');
+		$V_unary = (new self(pad_to_length: $this->length))->map(fn() => 1);
+		$V_reciprocal = $V_unary->divideElementwise($this);
+		return $V_reciprocal;
 	}
 
 	public function conjugate() {

@@ -66,20 +66,6 @@ try {
 
 <?php /*
 try {
-	$x = new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float');
-	print("Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') to string is {$x}\n");
-	print("Type of x is ".($x::class)." of {$x->inner_type}\n");
-	var_dump($x->value);
-	unset($x);
-} catch (\Error $e) {
-	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') -> ".$e->getMessage()."\n";
-} catch (\ReflectionException $e) {
-	print "Error: new Vector(['k', 'a', 'p', 'u', 's', 't', 'a'], 'float') -> ".$e->getMessage()."\n";
-} */
-?>
-
-<?php /*
-try {
 	$x = new Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex');
 	print("Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex') to string is {$x}\n");
 	print("Type of x is ".($x::class)." of {$x->inner_type}\n");
@@ -90,6 +76,16 @@ try {
 } catch (\ReflectionException $e) {
 	print "Error: new Vector([73, 82, 995], 'irrevion\science\Math\Entities\Complex') -> ".$e->getMessage()."\n";
 } */
+?>
+
+<?php
+$x = new Vector([4,4]);
+$y = new Vector([2,1]);
+$z = $x->divide($y);
+print "$x / $y = $z (".$z::class.")\n";
+$rz = $y->reciprocal();
+$w = $x->multiply($rz);
+print "$x * $rz = $w (".$w::class.")\n";
 ?>
 
 <?php
