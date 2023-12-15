@@ -7,7 +7,9 @@ class Categories {
 			'degree' => 'Entities\Degree',
 			'gon' => 'Entities\Gradian',
 			'grad' => 'Entities\Gradian',
-			// mil
+			'mil' => 'Entities\Milliradian',
+			'mrad' => 'Entities\Milliradian',
+			'nato_mils' => 'Entities\NatoMils',
 			'radian' => 'Entities\Radian',
 			'turn' => 'Entities\Turn'
 		],

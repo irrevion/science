@@ -133,6 +133,10 @@ $z = $y->convert(NonStandard::grad);
 print "$y is $z \n";
 $w = $z->convert(NonStandard::turn);
 print "$z is $w \n";
+$u = $w->convert(NonStandard::mrad);
+print "$w is $u \n";
+$v = $u->convert(NonStandard::nato_mils);
+print "$u is $v \n";
 ?>
 
 <?php
