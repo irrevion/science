@@ -20,6 +20,10 @@ enum NonStandard: string implements SystemInterface {
 	case nrad = 'angle.nrad';
 	case planck_length = 'length.planck_length';
 	case rankine = 'temperature.rankine';
+	case square_arcminute = 'angular_square.square_arcminute';
+	case square_arcsecond = 'angular_square.square_arcsecond';
+	case square_degree = 'angular_square.square_degree';
+	case spat = 'angular_square.spat';
 	case turn = 'angle.turn';
 	case ussr_mrad = 'angle.ussr_mrad';
 	case year = 'time.year';

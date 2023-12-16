@@ -11,7 +11,7 @@ class Categories {
 			'grad' => 'Entities\Gradian',
 			'mas' => 'Entities\MilliArcSecond',
 			'microarcsecond' => 'Entities\MicroArcSecond',
-			'mil' => 'Entities\Milliradian',
+			'mil' => 'Entities\MilliRadian',
 			'milliarcsecond' => 'Entities\MilliArcSecond',
 			'milliradian' => 'Entities\MilliRadian',
 			'mrad' => 'Entities\MilliRadian',
@@ -21,6 +21,13 @@ class Categories {
 			'radian' => 'Entities\Radian',
 			'turn' => 'Entities\Turn',
 			'ussr_mrad' => 'Entities\UssrMrad'
+		],
+		'angular_square' => [
+			'steradian' => 'Entities\Steradian',
+			'spat' => 'Entities\Spat',
+			'square_degree' => 'Entities\SquareDegree',
+			'square_arcminute' => 'Entities\SquareArcMinute',
+			'square_arcsecond' => 'Entities\SquareArcSecond'
 		],
 		'brightness' => [
 			// apostilb

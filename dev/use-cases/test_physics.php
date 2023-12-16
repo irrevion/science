@@ -161,6 +161,24 @@ print "$z is $n \n";
 ?>
 
 <?php
+$x = new Quantity(0.0314, NonStandard::square_arcsecond);
+$y = $x->convert(NonStandard::square_arcminute);
+$z = $x->convert(NonStandard::square_degree);
+$w = $x->convert(SI::steradian);
+$v = $x->convert(NonStandard::spat);
+print "$x is $y is $z is $w is $v \n";
+
+$x = new Quantity(1, NonStandard::square_degree);
+$y = $x->convert(NonStandard::square_arcminute);
+$z = $x->convert(NonStandard::square_arcsecond);
+print "$x is $y is $z \n";
+
+$x = new Quantity(1, SI::steradian);
+$y = $x->convert(NonStandard::square_degree);
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(220, SI::volt);
 $y = $x->convert(CGS::statvolt);
 print "$x is $y \n";

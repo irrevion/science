@@ -32,6 +32,7 @@ enum SI: string implements SystemInterface {
 	case radian = 'angle.radian';
 	case pascal = 'pressure.pascal';
 	case Pa = 'pressure.Pa';
+	case steradian = 'angular_square.steradian';
 	case volt = 'electric_tension.volt';
 	case watt = 'power.watt';
 	case W = 'power.W';
