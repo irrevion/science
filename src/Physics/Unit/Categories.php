@@ -4,6 +4,7 @@ namespace irrevion\science\Physics\Unit;
 class Categories {
 	const list = [
 		'angle' => [
+			'arcminute' => 'Entities\ArcMinute',
 			'degree' => 'Entities\Degree',
 			'gon' => 'Entities\Gradian',
 			'grad' => 'Entities\Gradian',
@@ -11,7 +12,8 @@ class Categories {
 			'mrad' => 'Entities\Milliradian',
 			'nato_mils' => 'Entities\NatoMils',
 			'radian' => 'Entities\Radian',
-			'turn' => 'Entities\Turn'
+			'turn' => 'Entities\Turn',
+			'ussr_mrad' => 'Entities\UssrMrad'
 		],
 		'brightness' => [
 			// apostilb

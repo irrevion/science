@@ -137,6 +137,12 @@ $u = $w->convert(NonStandard::mrad);
 print "$w is $u \n";
 $v = $u->convert(NonStandard::nato_mils);
 print "$u is $v \n";
+$a = $v->convert(NonStandard::ussr_mrad);
+print "$v is $a \n";
+
+$x = new Quantity(0.731, NonStandard::degree);
+$y = $x->convert(NonStandard::arcminute);
+print "$x is $y \n";
 ?>
 
 <?php
