@@ -1,7 +1,7 @@
 <?php
 namespace irrevion\science\Physics\Unit\Entities;
 
-class Milliradian implements Angle, NonStandard {
+class MilliRadian implements Angle, NonStandard {
 	const name = 'Milliradian';
 	const short_name = 'mrad';
 	// const category = 'angle'; // defined by interface

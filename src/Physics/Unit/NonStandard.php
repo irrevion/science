@@ -3,15 +3,21 @@ namespace irrevion\science\Physics\Unit;
 
 enum NonStandard: string implements SystemInterface {
 	case arcminute = 'angle.arcminute';
+	case arcsecond = 'angle.arcsecond';
 	case celsius = 'temperature.celsius';
 	case degree = 'angle.degree';
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
 	case grad = 'angle.grad';
 	case gon = 'angle.gon';
+	case mas = 'angle.mas';
+	case microarcsecond = 'angle.microarcsecond';
 	case mil = 'angle.mil';
+	case milliarcsecond = 'angle.milliarcsecond';
 	case mrad = 'angle.mrad';
+	case nanoradian = 'angle.nanoradian';
 	case nato_mils = 'angle.nato_mils';
+	case nrad = 'angle.nrad';
 	case planck_length = 'length.planck_length';
 	case rankine = 'temperature.rankine';
 	case turn = 'angle.turn';

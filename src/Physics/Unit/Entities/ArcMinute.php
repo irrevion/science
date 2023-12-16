@@ -5,7 +5,7 @@ use irrevion\science\Physics\Physics;
 
 class ArcMinute implements Angle, NonStandard {
 	const name = 'arcminutes';
-	const short_name = '′';
+	const short_name = 'arcmin';
 	// const category = 'angle'; // defined by interface
 	// const unit_system = 'NonStandard'; // defined by interface
 	const measure = '′';

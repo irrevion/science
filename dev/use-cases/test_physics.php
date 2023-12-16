@@ -139,10 +139,25 @@ $v = $u->convert(NonStandard::nato_mils);
 print "$u is $v \n";
 $a = $v->convert(NonStandard::ussr_mrad);
 print "$v is $a \n";
+$b = $a->convert(NonStandard::microarcsecond);
+print "$a is $b \n";
 
 $x = new Quantity(0.731, NonStandard::degree);
 $y = $x->convert(NonStandard::arcminute);
 print "$x is $y \n";
+$z = $y->convert(NonStandard::arcsecond);
+print "$y is $z \n";
+$w = $z->convert(NonStandard::milliarcsecond);
+print "$z is $w \n";
+
+$x = new Quantity(1, NonStandard::milliarcsecond);
+$y = $x->convert(SI::radian);
+print "$x is $y \n";
+$z =  new Quantity(1, NonStandard::microarcsecond);
+$w = $z->convert(SI::radian);
+print "$z is $w \n";
+$n = $z->convert(NonStandard::nanoradian);
+print "$z is $n \n";
 ?>
 
 <?php
