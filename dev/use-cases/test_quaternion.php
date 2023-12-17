@@ -30,7 +30,12 @@ $j1_8 = $minus_i6->multiply($k03);
 print "$minus_i6 x $k03 is $j1_8 (".($j1_8::class).")\n";
 $minus_a1_8 = $j1_8->multiply($j);
 print "$j1_8 x $j is $minus_a1_8 (".($minus_a1_8::class).")\n";
-$error = $minus_a1_8->multiply($k);
-print "$minus_a1_8 x $k is $error (".($error::class).")\n";
+$Q = $minus_a1_8->multiply($k);
+print "$minus_a1_8 x $k is $Q (".($Q::class).")\n";
+//var_export($Q->j());
+//print "\n";
+$j0 = $Q->j();
+$j0 = $j0->multiply(new QuaternionComponent(-0.0, 'j'));
+print "try to eliminate negative zero $j0 \n";
 ?>
 </pre>

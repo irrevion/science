@@ -57,7 +57,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			$this->inner_type = $type;
 			// set specified type for all elements
 			foreach ($this->value as $i=>$el) {
-				$this->value[$i] = Delegator::wrap($el, $type);
+				if (Delegator::getType($el)!=$type) {$this->value[$i] = Delegator::wrap($el, $type);}
 			}
 		} else {
 			if ($this->length) {
@@ -158,7 +158,9 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function empty(): bool {
-		return ($this->length==0);
+		// return ($this->length==0);
+		foreach ($this as $v) {if (!$v->empty()) {return false;}}
+		return true;
 	}
 
 	public function pad(int $length): Vector {

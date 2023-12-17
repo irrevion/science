@@ -78,6 +78,10 @@ class QuaternionComponent extends Imaginary implements Entity {
 		$i = parent::multiply($y);
 		return new self($i, $this->symbol);
 	}
+
+	public function empty(): bool {
+		return ($this->value==0);
+	}
 }
 
 ?>
