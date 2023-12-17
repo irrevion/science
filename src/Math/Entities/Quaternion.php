@@ -3,13 +3,14 @@ namespace irrevion\science\Math\Entities;
 
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{Scalar, Imaginary, QuaternionComponent, Complex, Vector};
+use irrevion\science\Math\Entities\{Scalar, Imaginary, QuaternionComponent, Complex, ComplexPolar, Vector};
 
 class Quaternion extends Complex {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
 	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
 	private const T_QUATERNION_COMPONENT = __NAMESPACE__.'\QuaternionComponent';
 	private const T_COMPLEX = __NAMESPACE__.'\Complex';
+	private const T_COMPLEX_POLAR = __NAMESPACE__.'\ComplexPolar';
 	private const T_VECTOR = __NAMESPACE__.'\Vector';
 	private const T_MATRIX = 'irrevion\science\Math\Transformations\Matrix';
 
@@ -36,15 +37,30 @@ class Quaternion extends Complex {
 			$this->value['vector'] = self::V(...[$q->symbol => $q->value]);
 			return;
 		} else if ($t==self::T_COMPLEX) {
-			throw new \Error("Not implemented yet");
+			$this->value['scalar'] = $q->real;
+			$this->value['vector'] = self::V($q->imaginary);
+			return;
+		} else if ($t==self::T_COMPLEX_POLAR) {
+			$q = $q->toRectangular();
+			$this->value['scalar'] = $q->real;
+			$this->value['vector'] = self::V($q->imaginary);
+			return;
 		} else if ($t==self::T_VECTOR) {
 			if ($q->inner_type!==self::T_QUATERNION_COMPONENT) {throw new \Error('Vector components type is invalid');}
 			if ($q->length!==3) {throw new \Error('Vector length is invalid');}
+			if ($q[0]->symbol.$q[1]->symbol.$q[2]->symbol!='ijk') {throw new \Error('Vector components is a mess');}
 			$this->value['scalar'] = Delegator::wrap(0);
 			$this->value['vector'] = $q;
 			return;
 		} else if ($t==self::class) {
-			throw new \Error("Not implemented yet");
+			$this->value['scalar'] = clone $q->value['scalar'];
+			$this->value['vector'] = clone $q->value['vector'];
+			return;
+		} else if ($t=='array') {
+			if (count($q)!==4) {throw new \Error('Invalid number of components');}
+			$this->value['scalar'] = Delegator::wrap($q[0]);
+			$this->value['vector'] = self::V($q[1], $q[2], $q[3]);
+			return;
 		}
 		throw new \Error("Unsupported argument type ( $t )");
 	}

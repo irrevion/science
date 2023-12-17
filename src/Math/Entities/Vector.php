@@ -158,7 +158,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function empty(): bool {
-		// return ($this->length==0);
 		foreach ($this as $v) {if (!$v->empty()) {return false;}}
 		return true;
 	}
@@ -213,10 +212,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 		if ($y->length!=$x->length) {
 			// throw new \Error('Mismatch of the vectors length');
-			// print "vector add mismatch $x + $y\n";
 			list($x, $y) = $x->align($y);
 		}
-		// print "vector add $x + $y\n";
 
 		foreach ($x as $i=>$v) {
 			$z[] = $v->add($y[$i]);
@@ -326,14 +323,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		}
 		$yt = Delegator::getType($y);
 		if ($yt!=self::class) {
-			// if ($yt==self::T_SCALAR) {
 			if (Delegator::isEntity($y) && !Delegator::implements($y, 'Traversable')) {
 				return $this->k($y);
 			} else {
 				$y = new self($y, $this->inner_type, $n);
 			}
 		}
-		// return $this->vectorProduct($y);
 		return $this->multiplyElementwise($y);
 	}
 

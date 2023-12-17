@@ -38,4 +38,31 @@ $j0 = $Q->j();
 $j0 = $j0->multiply(new QuaternionComponent(-0.0, 'j'));
 print "try to eliminate negative zero $j0 \n";
 ?>
+
+<?php
+$Q = new Quaternion(new Scalar(-5.75));
+print "-5.75 -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new Imaginary(0));
+print "0i -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new Imaginary(-9.999999e-13));
+print "-9.999999e-13i -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new QuaternionComponent(Math::PI, 'k'));
+print "πk -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new Complex(7.21, -135.296));
+print "[7.21 + -135.296i] -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new ComplexPolar(26.3, 0.0974));
+print "[r 26.3, φ 0.0974] -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new ComplexPolar(26.3, (-Math::PI+0.0974)));
+print "[r 26.3, φ -π+0.0974] -> $Q (".($Q::class).")\n";
+$Q = new Quaternion(new Vector([
+	new QuaternionComponent(-1, 'i'),
+	new QuaternionComponent(17.3, 'j'),
+	new QuaternionComponent(-2, 'k'),
+], QuaternionComponent::class));
+print "[-1i, 17.3j, -2k] -> $Q (".($Q::class).")\n";
+$Q = new Quaternion($Q);
+print "[-1i, 17.3j, -2k] -> $Q (".($Q::class).")\n";
+$Q = new Quaternion([4.1, 8.2, 16.4, 32.8]);
+print "[4.1, 8.2, 16.4, 32.8] -> $Q (".($Q::class).")\n";
+?>
 </pre>
