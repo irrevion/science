@@ -101,6 +101,14 @@ class Quaternion extends Complex {
 
 		throw new \Error('Not implemented yet');
 	}
+
+	public function add($y) {
+		if (Delegator::getType($y)!=self::class) $y = new self($y);
+		$z = clone $this;
+		$z->value['scalar'] = $this->value['scalar']->add($y->value['scalar']);
+		$z->value['vector'] = $this->value['vector']->add($y->value['vector']);
+		return $z;
+	}
 }
 
 ?>

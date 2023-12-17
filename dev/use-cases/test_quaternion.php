@@ -13,6 +13,21 @@ use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, Comple
 <pre>
 <?php
 $i = new QuaternionComponent(1);
+$j = new QuaternionComponent(1, 'j');
+$k = new QuaternionComponent(1, 'k');
+$Q = $k->add($j);
+print "$k + $j = $Q ".($Q::class)." \n";
+$i6 = new QuaternionComponent(6, 'i');
+$j13 = new QuaternionComponent(13, 'j');
+$k27 = new QuaternionComponent(27, 'k');
+$Q = $j13->add($i6->add($k27));
+print "$j13 + $i6 + $k27 = $Q ".($Q::class)." \n";
+$Q = $j13->add($i6)->add($k27);
+print "$j13 + $i6 + $k27 = $Q ".($Q::class)." \n";
+?>
+
+<?php
+$i = new QuaternionComponent(1);
 print "$i type of ".($i::class)." \n";
 $j = new QuaternionComponent(1, 'j');
 print "$j type of ".($j::class)." \n";

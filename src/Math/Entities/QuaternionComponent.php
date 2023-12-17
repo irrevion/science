@@ -25,7 +25,7 @@ class QuaternionComponent extends Imaginary implements Entity {
 	public $value;
 	public $symbol = 'i';
 	public $subset_of = [
-		__NAMESPACE__.'\QuaternionComponent',
+		// __NAMESPACE__.'\QuaternionComponent',
 		__NAMESPACE__.'\Quaternion'
 	];
 
@@ -40,6 +40,10 @@ class QuaternionComponent extends Imaginary implements Entity {
 
 	public function __toString() {
 		return "{$this->value}{$this->symbol}";
+	}
+
+	public function isQuaternionComponent() {
+		return ($this::class==self::class);
 	}
 
 	public function rule($symbol='i') {
@@ -77,6 +81,21 @@ class QuaternionComponent extends Imaginary implements Entity {
 
 		$i = parent::multiply($y);
 		return new self($i, $this->symbol);
+	}
+
+	public function add($y) {
+		$t = Delegator::getType($y);
+		if ($t!=self::class) {
+			if (in_array($t, $this->subset_of)) {
+				return Delegator::delegate('add', $this, $y); // Quaternion will do
+			}
+			throw new \Error('Quaternion component addition defined only for same type objects');
+		}
+		if ($y->symbol==$this->symbol) {
+			return new self(($this->value + $y->value), $this->symbol);
+		} else {
+			return Delegator::delegate('add', $this, $y); // Quaternion will do
+		}
 	}
 
 	public function empty(): bool {

@@ -57,9 +57,9 @@ class Delegator {
 
 	public static function delegate($operation, $x, $y) {
 		$superset = self::getSuperset($x, $y);
-		if (empty($superset)) throw new \ArithmeticError("This entities are incompatible");
-		if (!class_exists($superset)) throw new \ArithmeticError("Invalid superset name $superset");
-		if (!self::hasMethod($superset, $operation)) throw new \ArithmeticError("Invalid operation to delegate in $superset");
+		if (empty($superset)) throw new \Error("This entities are incompatible");
+		if (!class_exists($superset)) throw new \Error("Invalid superset name $superset");
+		if (!self::hasMethod($superset, $operation)) throw new \Error("Invalid operation to delegate in $superset");
 		if (Delegator::getType($x)!=$superset) {$x = self::wrap($x, $superset);}
 		if (Delegator::getType($y)!=$superset) {$y = self::wrap($y, $superset);}
 		$z = $x->$operation($y);
