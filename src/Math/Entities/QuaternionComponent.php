@@ -3,13 +3,15 @@ namespace irrevion\science\Math\Entities;
 
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{Scalar, Imaginary, Vector, Matrix};
+use irrevion\science\Math\Entities\{Scalar, Imaginary, Complex, Quaternion, Vector};
 
 class QuaternionComponent extends Imaginary implements Entity {
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
-	private const T_IMAGINARY = 'irrevion\science\Math\Entities\Imaginary';
-	private const T_VECTOR = 'irrevion\science\Math\Entities\Vector';
-	private const T_MATRIX = 'irrevion\science\Math\Entities\Matrix';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
+	private const T_COMPLEX = __NAMESPACE__.'\Complex';
+	private const T_QUATERNION = __NAMESPACE__.'\Quaternion';
+	private const T_VECTOR = __NAMESPACE__.'\Vector';
+	private const T_MATRIX = 'irrevion\science\Math\Transformations\Matrix';
 
 	// i² = j² = k² = ijk = -1
 	// https://en.wikipedia.org/wiki/William_Rowan_Hamilton
@@ -23,8 +25,8 @@ class QuaternionComponent extends Imaginary implements Entity {
 	public $value;
 	public $symbol = 'i';
 	public $subset_of = [
-		'irrevion\science\Math\Entities\QuaternionComponent',
-		'irrevion\science\Math\Entities\Quaternion'
+		__NAMESPACE__.'\QuaternionComponent',
+		__NAMESPACE__.'\Quaternion'
 	];
 
 	public function __construct($coefficient=1, $symbol='i') {

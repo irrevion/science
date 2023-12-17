@@ -7,7 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, Matrix, QuaternionComponent, Quaternion};
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, QuaternionComponent, Quaternion};
 ?>
 
 <pre>

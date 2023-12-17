@@ -8,7 +8,8 @@ class Scalar implements Entity {
 	public $value;
 	public $subset_of = [
 		__NAMESPACE__.'\Complex',
-		__NAMESPACE__.'\Vector'
+		__NAMESPACE__.'\Quaternion',
+		__NAMESPACE__.'\Vector',
 	];
 
 	public function __construct($x = 0) {

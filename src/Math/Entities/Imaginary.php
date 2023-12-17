@@ -6,12 +6,13 @@ use irrevion\science\Math\Entities\Scalar;
 use irrevion\science\Math\Operations\Delegator;
 
 class Imaginary extends Scalar implements Entity {
-	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
+	private const T_SCALAR = __NAMESPACE__.'\Scalar';
 
 	public $value;
 	public $subset_of = [
-		'irrevion\science\Math\Entities\Complex',
-		'irrevion\science\Math\Entities\Vector'
+		__NAMESPACE__.'\Complex',
+		__NAMESPACE__.'\Quaternion',
+		__NAMESPACE__.'\Vector'
 	];
 
 	public function __construct($x = 0) {

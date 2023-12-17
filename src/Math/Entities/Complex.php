@@ -21,6 +21,7 @@ class Complex extends Imaginary implements Entity {
 	public $value;
 	public $subset_of = [
 		__NAMESPACE__.'\Complex',
+		__NAMESPACE__.'\Quaternion',
 		// __NAMESPACE__.'\Vector'
 	];
 

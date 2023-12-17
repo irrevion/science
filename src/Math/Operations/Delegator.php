@@ -50,8 +50,11 @@ class Delegator {
 		if (!self::isEntity($y)) return null;
 		$superX = (empty($x->subset_of)? []: $x->subset_of);
 		$superY = (empty($y->subset_of)? []: $y->subset_of);
+		// print 'Supersets are '.var_export($superX, 1).' + '.var_export($superY, 1)."\n";
 		$supersets = array_intersect($superX, $superY);
-		if (count($supersets)) return $supersets[0];
+		// print 'Shared supersets are '.var_export($supersets, 1)."\n";
+		// if (count($supersets)) return $supersets[0];
+		if (count($supersets)) return array_shift($supersets);
 		return null;
 	}
 
