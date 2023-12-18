@@ -37,6 +37,11 @@ class Imaginary extends Scalar implements Entity {
 		return (string)$this->value."i";
 	}
 
+	public function toScalar() {
+		// use when you need the coefficient only without imaginary properties
+		return new (Scalar::class)($this->value);
+	}
+
 	public function isImaginary() {
 		return ($this::class==self::class);
 	}
@@ -61,7 +66,6 @@ class Imaginary extends Scalar implements Entity {
 			}
 			throw new \TypeError("Invalid argument type ( {$type} )");
 		}
-		return null;
 	}
 
 	public function subtract($x) {
@@ -69,14 +73,13 @@ class Imaginary extends Scalar implements Entity {
 			throw new \TypeError("Built-in types casting not allowed for imaginary numbers due to ambiguity. Explicitly convert either to Scalar or to Imaginary.");
 		} else if (is_object($x)) {
 			if ($x::class==self::class) {
-				// $x = new self($x);
-				$z = $this->add($this->negative($x));
+				$z = $this->add($x->negative());
 				return $z;
 			} else if (Delegator::isEntity($x)) {
 				return Delegator::delegate('subtract', $this, $x);
 			}
 		}
-		return null;
+		throw new \Error('Unsupported argument type');
 	}
 
 	public function multiply($x) {

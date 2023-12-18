@@ -11,6 +11,8 @@ use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, Comple
 ?>
 
 <pre>
+- - - - - - - Quaternion component - - - - - - - -
+
 <?php
 $i = new QuaternionComponent(1);
 $j = new QuaternionComponent(1, 'j');
@@ -54,6 +56,8 @@ $j0 = $j0->multiply(new QuaternionComponent(-0.0, 'j'));
 print "try to eliminate negative zero $j0 \n";
 ?>
 
+- - - - - - - Quaternion - - - - - - - -
+
 <?php
 $Q = new Quaternion(new Scalar(-5.75));
 print "-5.75 -> $Q (".($Q::class).")\n";
@@ -79,5 +83,30 @@ $Q = new Quaternion($Q);
 print "[-1i, 17.3j, -2k] -> $Q (".($Q::class).")\n";
 $Q = new Quaternion([4.1, 8.2, 16.4, 32.8]);
 print "[4.1, 8.2, 16.4, 32.8] -> $Q (".($Q::class).")\n";
+?>
+
+<?php
+$Qx = new Quaternion([3, 0, 0, 0]);
+$Qy = new Quaternion([5, 0, 0, 0]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+
+$Qx = new Quaternion([3, 0, 0, 0]);
+$Qy = new Quaternion([0, 5, 7, 9]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+
+$Qx = new Quaternion([0, 3, -2, 4]);
+$Qy = new Quaternion([0, 5, 7, 9]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+
+$Qx = new Quaternion([4.1, 8.2, 16.4, 32.8]);
+$Qy = new Quaternion([-0.2, 7.843, 194.34, 9999.9999]);
+$Qz = $Qx->multiply($Qy, 'ALGEBRAIC');
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+$Qz = $Qx->multiply($Qy, 'GEOMETRIC');
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "reference is -331252.305 +157656.163i -80949.235j +42458.402k ( dev/ref/quaternion.py )\n";
 ?>
 </pre>

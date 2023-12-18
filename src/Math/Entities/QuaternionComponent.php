@@ -98,6 +98,23 @@ class QuaternionComponent extends Imaginary implements Entity {
 		}
 	}
 
+	public function subtract($y) {
+		if (is_numeric($y)) {
+			throw new \TypeError("Built-in types casting not allowed for imaginary numbers due to ambiguity. Explicitly convert either to Scalar or to Imaginary.");
+		} else if (is_object($y)) {
+			if ($y::class==self::class) {
+				return $this->add($y->negative());
+			} else if (Delegator::isEntity($y)) {
+				return Delegator::delegate('subtract', $this, $y);
+			}
+		}
+		throw new \Error('Unsupported argument type');
+	}
+
+	public function invert() {
+		return $this->multiply(new Scalar(-1));
+	}
+
 	public function empty(): bool {
 		return ($this->value==0);
 	}

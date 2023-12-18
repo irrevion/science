@@ -536,7 +536,7 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function invert() {
-		return $this->k(-1);
+		return $this->k(new Scalar(-1));
 	}
 
 	public function magnitude() {
