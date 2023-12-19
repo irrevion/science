@@ -140,12 +140,28 @@ class QuaternionComponent extends Imaginary implements Entity {
 		throw new \Error('Unsupported argument type');
 	}
 
+	public function abs($nowrap=false) {
+		$abs = abs($this->value);
+		return ($nowrap? $abs: Delegator::wrap($abs));
+	}
+
 	public function invert() {
 		return $this->multiply(new Scalar(-1));
 	}
 
 	public function empty(): bool {
 		return ($this->value==0);
+	}
+
+	public function isEqual($y): bool {
+		if (Delegator::getType($y)!=self::class) return false;
+		return (($this->value==$y->value) && ($this->symbol==$y->symbol));
+	}
+
+	public function isNear($y): bool {
+		if (Delegator::getType($y)!=self::class) return false;
+		if ($this->symbol!=$y->symbol) return false;
+		return Math::compare($this->value, '==', $y->value);
 	}
 }
 

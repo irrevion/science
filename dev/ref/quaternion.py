@@ -28,6 +28,8 @@ qx = Quaternion(x)
 qy = Quaternion(y)
 qz = qx * qy
 print(qz)
+print('magnitude')
+print(qz.magnitude)
 
 x = np.array([0., 1., 0., 0.])
 y = np.array([0., 0., 1., 0.])
@@ -37,3 +39,27 @@ qz = qx / qy
 print(qz)
 qz = qy / qx
 print(qz)
+
+x = np.array([0., 15., 0., 0.])
+y = np.array([0., 0., 3., 0.])
+qx = Quaternion(x)
+qy = Quaternion(y)
+qz = qx / qy
+print(qz)
+qz = qy / qx
+print(qz)
+qz = qx / 5
+print(qz)
+
+x = np.array([0., 0., 0., 0.03])
+y = np.array([0., 0., 89305.2, 0.])
+qx = Quaternion(x)
+qy = Quaternion(y)
+qz = qx / qy
+print(qz)
+qz = qy / qx
+print(qz)
+
+qy = Quaternion(np.array([0., 0., 6., 0.]))
+z = 12 / qy
+print(z)

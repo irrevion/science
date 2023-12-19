@@ -22,11 +22,12 @@ class Quaternion extends Complex {
 		__NAMESPACE__.'\Quaternion'
 	];
 
-	public function __construct($q) {
+	public function __construct($q, $v=0) {
+		if (is_numeric($q)) $q = Delegator::wrap($q);
 		$t = Delegator::getType($q);
 		if ($t==self::T_SCALAR) {
 			$this->value['scalar'] = $q;
-			$this->value['vector'] = self::V();
+			$this->value['vector'] = (empty($v)? self::V(): self::V($v[0]->value, $v[1]->value, $v[2]->value));
 			return;
 		} else if ($t==self::T_IMAGINARY) {
 			$this->value['scalar'] = Delegator::wrap(0);
@@ -81,6 +82,10 @@ class Quaternion extends Complex {
 		return "[{$this->value['scalar']} + {$this->value['vector'][0]} + {$this->value['vector'][1]} + {$this->value['vector'][2]}]";
 	}
 
+	public function toNumber() {
+		return $this->abs(nowrap: true);
+	}
+
 	public function real() {return $this->value['scalar'];}
 	public function i() {return $this->value['vector'][0];}
 	public function j() {return $this->value['vector'][1];}
@@ -101,16 +106,20 @@ class Quaternion extends Complex {
 		return null;
 	}
 
-	public function multiply($y, $method='GEOMETRIC') {
+	public function isQuaternion() {
+		return ($this::class==self::class);
+	}
+
+	public function multiply($y, $method='ALGEBRAIC') {
 		$x = clone $this;
 
 		$t = Delegator::getType($y);
 		if ($t!=self::class) {
-			if (in_array($t, [self::T_SCALAR, self::T_IMAGINARY, self::T_QUATERNION_COMPONENT, self::T_COMPLEX, self::T_VECTOR, 'array'])) {
+			//if (in_array($t, [self::T_SCALAR, self::T_IMAGINARY, self::T_QUATERNION_COMPONENT, self::T_COMPLEX, self::T_VECTOR, 'array', 'int', 'double', 'float'])) {
 				$y = new self($y);
-			} else {
-				throw new \Error('Invalid argument type '.$t);
-			}
+			//} else {
+			//	throw new \Error('Invalid argument type '.$t);
+			//}
 		}
 
 		// ( a , 0 ) ( b , 0 ) = ( a b , 0 )
@@ -147,7 +156,10 @@ class Quaternion extends Complex {
 		// or, algebraically
 		// (a+bi+cj+dk)*(w+xi+yj+zk) = aw+axi+ayj+azk+bwi+bxi**2+byij+bzik+cwj+cxji+cyj**2+czjk+dwk+dxki+dykj+dzk**2 =
 		// = (aw-bx-cy-dz)+(ax+bw+cz-dy)i+(ay-bz+cw+dx)j+(az+by-cx+dw)k
-		if ($method=='ALGEBRAIC') {
+		// = ( {aw} - {bx+cy+dz} ) + ( {(ax+bw)i+(ay+cw)j+(az+dw)k} + {(cz-dy)i+(-bz+dx)k+(by-cx)k} )
+		// = ( {scalar} - {dot} ) + ( {(ax)i+(ay)j+(az)k} + {(bw)i+(cw)j+(dw)k} + {cross} )
+		// = ( {scalar} - {dot} ) + ( {v.factor(a)} + {u.factor(w)} + {cross} )
+		if ($method=='ALGEBRAIC') { // 1.5389424468297 times faster then geometric
 			return new self([
 				($x->real->multiply($y->real)
 					->subtract($x->i->multiply($y->i))
@@ -186,6 +198,25 @@ class Quaternion extends Complex {
 		$z->value['scalar'] = $this->value['scalar']->add($y->value['scalar']);
 		$z->value['vector'] = $this->value['vector']->add($y->value['vector']);
 		return $z;
+	}
+
+	public function abs($nowrap=false) {
+		$abs = Math::sqrt($this->real->value**2 + $this->i->value**2 + $this->j->value**2 + $this->k->value**2);
+		return ($nowrap? $abs: Delegator::wrap($abs));
+	}
+
+	public function empty(): bool {
+		return ($this->real->empty() && $this->i->empty() && $this->j->empty() && $this->k->empty());
+	}
+
+	public function isEqual($y): bool {
+		if (Delegator::getType($y)!=$this::class) return false;
+		return ($this->value['scalar']->isEqual($y->value['scalar']) && $this->value['vector']->isEqual($y->value['vector']));
+	}
+
+	public function isNear($y): bool {
+		if (Delegator::getType($y)!=$this::class) return false;
+		return ($this->value['scalar']->isNear($y->value['scalar']) && $this->value['vector']->isNear($y->value['vector']));
 	}
 }
 
