@@ -77,10 +77,39 @@ class QuaternionComponent extends Imaginary implements Entity {
 			$z = $this->applyRule($transforms_to);
 			$z->value*=$y->value;
 			return $z;
+		} else if (in_array($t, $this->subset_of)) {
+			return Delegator::delegate('multiply', $this, $y);
 		}
 
 		$i = parent::multiply($y);
 		return new self($i, $this->symbol);
+	}
+
+	public function divide($y) {
+		$t = Delegator::getType($y);
+		if ($t==self::T_IMAGINARY) {
+			$y = new self($y, 'i');
+			$t = self::class;
+		}
+		if ($t==self::class) {
+			if ($this->symbol==$y->symbol) {
+				return new (Scalar::class)($this->value / $y->value);
+			} else {
+				$transforms_to = $this->rule($y->symbol);
+				$z = clone $this;
+				$z->value = $this->value / $y->value;
+				$z = $z->applyRule($transforms_to)->negative();
+				return $z;
+			}
+		} else if ($t==Scalar::class) {
+			$z = clone $this;
+			$z->value = $this->value / $y->value;
+			return $z;
+		} else if (in_array($t, $this->subset_of)) {
+			return Delegator::delegate('divide', $this, $y);
+		}
+
+		throw new \Error('Unsupported argument type');
 	}
 
 	public function add($y) {

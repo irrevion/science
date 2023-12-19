@@ -28,3 +28,12 @@ qx = Quaternion(x)
 qy = Quaternion(y)
 qz = qx * qy
 print(qz)
+
+x = np.array([0., 1., 0., 0.])
+y = np.array([0., 0., 1., 0.])
+qx = Quaternion(x)
+qy = Quaternion(y)
+qz = qx / qy
+print(qz)
+qz = qy / qx
+print(qz)

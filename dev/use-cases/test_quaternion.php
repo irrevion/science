@@ -56,6 +56,15 @@ $j0 = $j0->multiply(new QuaternionComponent(-0.0, 'j'));
 print "try to eliminate negative zero $j0 \n";
 ?>
 
+<?php
+$i = new QuaternionComponent(1, 'i');
+$j = new QuaternionComponent(1, 'j');
+$z = $i->divide($j);
+print "reference is [0.000 +0.000i +0.000j -1.000k], result obtained is $z \n";
+$z = $j->divide($i);
+print "reference is [0.000 +0.000i +0.000j +1.000k], result obtained is $z \n";
+?>
+
 - - - - - - - Quaternion - - - - - - - -
 
 <?php
@@ -86,6 +95,21 @@ print "[4.1, 8.2, 16.4, 32.8] -> $Q (".($Q::class).")\n";
 ?>
 
 <?php
+$Qx = new Quaternion([0, 1, 0, 0]);
+$Qy = new Quaternion([0, 0, 1, 0]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+$Qx = new Quaternion([0, 0, 1, 0]);
+$Qy = new Quaternion([0, 1, 0, 0]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+$Qx = new Quaternion([0, 0, 0, 1]);
+$Qy = new Quaternion([0, 0, 0, 1]);
+$Qz = $Qx->multiply($Qy);
+print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+$Qz = (new Quaternion([0, 1, 0, 0]))->multiply(new Quaternion([0, 0, 1, 0]))->multiply(new Quaternion([0, 0, 0, 1]));
+print "ijk = $Qz (".($Q::class).")\n";
+
 $Qx = new Quaternion([3, 0, 0, 0]);
 $Qy = new Quaternion([5, 0, 0, 0]);
 $Qz = $Qx->multiply($Qy);
