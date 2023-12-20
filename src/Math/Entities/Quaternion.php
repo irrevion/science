@@ -86,6 +86,26 @@ class Quaternion extends Complex {
 		return $this->abs(nowrap: true);
 	}
 
+	public function toArray() {
+		return [
+			'scalar' => $this->real->toNumber(),
+			'vector' => $this->vector->toArray()
+		];
+	}
+
+	public function toVector() {
+		return new Vector([$this->real, $this->i, $this->j, $this->k]);
+	}
+
+	public function toPolar() {
+		$i = new Imaginary($this->abs(nowrap: true));
+		list($r, $phi) = Math::rectangular2polar($this->real, $i);
+		return new ComplexPolar([
+			'radius' => $r,
+			'phase' => $phi
+		]);
+	}
+
 	public function real() {return $this->value['scalar'];}
 	public function i() {return $this->value['vector'][0];}
 	public function j() {return $this->value['vector'][1];}
@@ -218,6 +238,12 @@ class Quaternion extends Complex {
 		$z->value['scalar'] = $this->value['scalar']->add($y->value['scalar']);
 		$z->value['vector'] = $this->value['vector']->add($y->value['vector']);
 		return $z;
+	}
+
+	public function subtract($y) {
+		if (Delegator::getType($y)!=$this::class) $y = new ($this::class)($y);
+		$y = $y->negative($y);
+		return $this->add($y);
 	}
 
 	public function magnitude() {

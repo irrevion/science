@@ -3,6 +3,7 @@ namespace irrevion\science\Math;
 
 use irrevion\science\Math\Branches\BaseMath;
 use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary};
 
 class Math extends BaseMath {
 	public static function abs($x) {
@@ -42,7 +43,7 @@ class Math extends BaseMath {
 	}
 
 	public static function pow($base, $exponent = 1) {
-		$exponent = $exponent * 1;
+		$exponent = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent * 1));
 
 		if (is_object($base)) {
 			if (Delegator::isEntity($base)) {
@@ -63,7 +64,8 @@ class Math extends BaseMath {
 						// x^{-1, -2, -3, ... , Integer min}
 						return Delegator::wrap(1)->divide(self::pow($base, self::abs($exponent)));
 					} else {
-						throw new \ArithmeticError("Method not implemented by Entity");
+						$exponent = new Fraction($exponent);
+						return self::pow($base, $exponent->numerator)->divide(self::pow($base, $exponent->denominator->negative()));
 					}
 				}
 			}

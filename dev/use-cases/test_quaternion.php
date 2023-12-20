@@ -26,6 +26,10 @@ $Q = $j13->add($i6->add($k27));
 print "$j13 + $i6 + $k27 = $Q ".($Q::class)." \n";
 $Q = $j13->add($i6)->add($k27);
 print "$j13 + $i6 + $k27 = $Q ".($Q::class)." \n";
+$R = new Scalar(777.3);
+$j277d3 = new QuaternionComponent(277.3, 'j');
+$Q = $R->subtract($j277d3);
+print "$R - $j277d3 = $Q ".($Q::class)." \n";
 ?>
 
 <?php
@@ -173,6 +177,37 @@ print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
 $Qy = (new Quaternion([6897, 3419, 6793, 7401]))->multiply(1.0+1.3e-14);
 print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
 
+$Qx = Math::pow(new Quaternion([1, 0, 0, 0]), 2);
+print "[1, 0, 0, 0]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 1, 0, 0]), 2);
+print "[0, 1, 0, 0]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 0, 1, 0]), 2);
+print "[0, 0, 1, 0]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 0, 0, 1]), 2);
+print "[0, 0, 0, 1]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 0, 0, 1]), 3);
+print "[0, 0, 0, 1]**3 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 1, 0, 1]), 2);
+print "[0, 1, 0, 1]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 1, 2, 1]), 2);
+print "[0, 1, 2, 1]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0, 2, 3, 5]), 2);
+print "[0, 2, 3, 5]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([10, 2, 3, 5]), 2);
+print "[10, 2, 3, 5]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([10, 2, 3, 5]), 3);
+print "[10, 2, 3, 5]**3 is $Qx \n";
+$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), 2);
+print "[2.4, 4.81, 9.621, 19.2431]**2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), 3);
+print "[2.4, 4.81, 9.621, 19.2431]**3 is $Qx \n";
+$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), 1/2);
+print "[2.4, 4.81, 9.621, 19.2431]**1/2 is $Qx \n";
+$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), -5);
+print "[2.4, 4.81, 9.621, 19.2431]**-5 is $Qx \n";
+$Qx = Math::pow(new Quaternion([0.00067225, 0.03, -5.21e-7, 1e-35]), -5);
+print "[0.00067225, 0.03, -5.21e-7, 1e-35]**-5 is $Qx (ref: 4594590.884 -40843029.678i +709.307j -0.000k) \n";
+
 /*
 $arr = [];
 $start = microtime(true);
@@ -238,5 +273,20 @@ $Qy = new Quaternion([2, 4, 8, 16]);
 $Qz = $Qx->divide($Qy);
 print "$Qx / $Qy = $Qz ( ".($Qz::class)." ) \n";
 print "ref is [1.253 -0.065i +0.100j -0.065k] \n";
+?>
+
+<?php
+$Qx = new Quaternion([3, 0, 11, 0]);
+$Qy = new Quaternion([2, 0, 8, 16]);
+$Qz = $Qx->add($Qy);
+print "$Qx + $Qy = $Qz ( ".($Qz::class)." ) \n";
+$Qx = new Quaternion([0, 0, 0, 0]);
+$Qy = new Quaternion([1, -5, 332.56, -9431.4739]);
+$Qz = $Qx->subtract($Qy);
+print "$Qx + $Qy = $Qz ( ".($Qz::class)." ) \n";
+$Qx = new Quaternion([3, 0, 11, 0]);
+$Cy = new Complex(2, 15);
+$Qz = $Qx->subtract($Cy);
+print "$Qx + $Cy = $Qz ( ".($Qz::class)." ) \n";
 ?>
 </pre>

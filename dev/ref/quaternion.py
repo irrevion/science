@@ -70,3 +70,13 @@ print(1/qy)
 qx = Quaternion([2., 4., 8., 16.])
 print('division')
 print(qy/qx)
+
+qx = Quaternion([2.4, 4.81, 9.621, 19.2431])
+print('pow-5')
+print(qx**-5)
+print(1/qx**5)
+
+qx = Quaternion([0.00067225, 0.03, -5.21e-7, 1e-35])
+print('pow-5')
+print(qx**-5)
+print(1/qx**5)

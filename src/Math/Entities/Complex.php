@@ -82,7 +82,6 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function toPolar() {
-		//return Math::rectangular2polar($this->getReal(), $this->getImaginary());
 		list($r, $phi) = Math::rectangular2polar($this->getReal(), $this->getImaginary());
 		return Delegator::wrap([
 			'radius' => $r,
