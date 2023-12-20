@@ -192,12 +192,36 @@ class Quaternion extends Complex {
 		}
 	}
 
+	public function divide($y) {
+		// if (Delegator::getType($y)!=self::class) $y = new self($y); // avoid self, it causes problems when using parent methods in chilld classes (creates parent instance instead of self)
+		if (Delegator::getType($y)!=$this::class) $y = new ($this::class)($y);
+		return $this->multiply($y->reciprocal());
+	}
+
+	public function reciprocal() {
+		// Q_reciprocal = Q_conjugate / R_magnitude**2
+		$Q_reciprocal = $this->conjugate()->multiply(Math::pow($this->magnitude(), -2));
+		return $Q_reciprocal;
+	}
+
+	public function conjugate() {
+		return new ($this::class)($this->real, $this->vector->negative());
+	}
+
+	public function invert() {
+		return new ($this::class)($this->real->negative(), $this->vector->negative());
+	}
+
 	public function add($y) {
 		if (Delegator::getType($y)!=self::class) $y = new self($y);
 		$z = clone $this;
 		$z->value['scalar'] = $this->value['scalar']->add($y->value['scalar']);
 		$z->value['vector'] = $this->value['vector']->add($y->value['vector']);
 		return $z;
+	}
+
+	public function magnitude() {
+		return $this->abs();
 	}
 
 	public function abs($nowrap=false) {

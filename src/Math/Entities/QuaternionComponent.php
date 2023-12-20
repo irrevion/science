@@ -92,9 +92,13 @@ class QuaternionComponent extends Imaginary implements Entity {
 			$t = self::class;
 		}
 		if ($t==self::class) {
-			if ($this->symbol==$y->symbol) {
+			if ($this->symbol==$y->symbol) { // cancels out
 				return new (Scalar::class)($this->value / $y->value);
 			} else {
+				// j/k = ji/ki = -kk/jk = 1/i
+				// j/k = jj/kj = -1/-i = 1/i
+				// and from Imaginary class we know that
+				// a / bi = ai / bi^2 = ai / -b = ( -a / b ) * i
 				$transforms_to = $this->rule($y->symbol);
 				$z = clone $this;
 				$z->value = $this->value / $y->value;

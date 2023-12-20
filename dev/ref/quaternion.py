@@ -63,3 +63,10 @@ print(qz)
 qy = Quaternion(np.array([0., 0., 6., 0.]))
 z = 12 / qy
 print(z)
+
+qy = Quaternion(3., 7., 11., 19.)
+print('reciprocal')
+print(1/qy)
+qx = Quaternion([2., 4., 8., 16.])
+print('division')
+print(qy/qx)

@@ -82,8 +82,8 @@ $z = $k->divide($j);
 print "reference is [0.000 +0.000i +0.000j +0.000k], result obtained is $z \n";
 $z = $j->divide($k);
 print "reference is [0.000 -2976840.000i +0.000j +0.000k], result obtained is $z \n";
-//$z = (new Scalar(12))->divide(new QuaternionComponent(6, 'j'));
-//print "reference is [?], result obtained is $z \n";
+$z = (new Scalar(12))->divide(new QuaternionComponent(6, 'j'));
+print "reference is [0.000 +0.000i -2.000j +0.000k], result obtained is $z \n";
 ?>
 
 - - - - - - - Quaternion - - - - - - - -
@@ -225,5 +225,18 @@ $t = $stop-$start;
 print "abs on ".count($arr)." quaternions performed in $t \n";
 unset($arr);
 */
+?>
+
+<?php
+$Qx = new Quaternion([3, 7, 11, 19]);
+$Qr = $Qx->reciprocal();
+print "$Qx reciprocal is $Qr ( ".($Qr::class)." ) \n";
+print "ref is [0.006 -0.013i -0.020j -0.035k] \n";
+
+$Qx = new Quaternion([3, 7, 11, 19]);
+$Qy = new Quaternion([2, 4, 8, 16]);
+$Qz = $Qx->divide($Qy);
+print "$Qx / $Qy = $Qz ( ".($Qz::class)." ) \n";
+print "ref is [1.253 -0.065i +0.100j -0.065k] \n";
 ?>
 </pre>
