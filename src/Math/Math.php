@@ -42,34 +42,49 @@ class Math extends BaseMath {
 		return parent::compare($x, $rel, $y);
 	}
 
-	public static function pow($base, $exponent = 1) {
-		$exponent = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent * 1));
-
+	public static function pow($base, $exponent=1) {
 		if (is_object($base)) {
 			if (Delegator::isEntity($base)) {
-				if (method_exists($base, 'pow')) {
-					return $x->pow($exponent);
-				} else {
-					if ($exponent==0) {
-						// x^0 = 1
-						return Delegator::wrap(1);
-					} else if ($exponent==1) {
-						// x^1 = x
-						return $base;
-					// } else if (($exponent>0) && !($exponent%1)) {
-					} else if (($exponent>0) && !self::fmod($exponent, 1)) {
-						// x^{2, 3, ... , Integer max}
-						return $base->multiply(self::pow($base, $exponent-1));
-					} else if (($exponent<0) && !self::fmod($exponent, 1)) {
-						// x^{-1, -2, -3, ... , Integer min}
-						return Delegator::wrap(1)->divide(self::pow($base, self::abs($exponent)));
+				$exponent_numeric = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent*1));
+				$is_fractional_exp = self::fmod($exponent_numeric, 1);
+				$exponent_fractional = ($is_fractional_exp?
+					((Delegator::getType($exponent)==Fraction::class)?
+						$exponent:
+						(new Fraction($exponent))
+					):
+					null
+				);
+
+				if ($is_fractional_exp) {
+					if (method_exists($base, 'pow')) {
+						if (method_exists($base, 'root')) {
+							return $base->root($exponent_fractional->denominator)->pow($exponent_fractional->numerator);
+						} else {
+							return $base->pow($exponent);
+						}
 					} else {
-						$exponent = new Fraction($exponent);
-						return self::pow($base, $exponent->numerator)->divide(self::pow($base, $exponent->denominator->negative()));
+						return parent::pow($base->toNumber(), $exponent_numeric);
 					}
+				} else {
+					if (method_exists($base, 'pow')) {return $base->pow($exponent);}
+				}
+
+				if ($exponent_numeric==0) {
+					// x^0 = 1
+					return Delegator::wrap(1);
+				} else if ($exponent_numeric==1) {
+					// x^1 = x
+					return $base;
+				} else if ($exponent_numeric>0) {
+					// x^{2, 3, ... , n}
+					return $base->multiply(self::pow($base, $exponent_numeric-1));
+				} else if ($exponent_numeric<0) {
+					// x^{-1, -2, -3, ... , -n}
+					return Delegator::wrap(1)->divide(self::pow($base, self::abs($exponent_numeric)));
 				}
 			}
 		} else if (is_numeric($base)) {
+			$exponent = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent*1));
 			$result = parent::pow($base, $exponent);
 			return (is_nan($result)? null: $result);
 		} else {
