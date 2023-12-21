@@ -218,6 +218,34 @@ class ComplexPolar extends Complex implements Entity {
 		return clone $this->r;
 	}
 
+	public function root($n=2, $all_roots=false, $rectangular=true) {
+		if ($this->empty()) {return new ($rectangular? (Complex::class): (self::class))(0);}
+		if (Delegator::isEntity($n)) {$n = $n->toNumber();}
+		$roots = [];
+		$r_root = Math::pow($this->r, new Fraction("1/{$n}"));
+		$k = 0;
+		while ($k<$n) {
+			$real = $r_root->multiply(Math::cos($this->phi->add(2*Math::PI*$k)->divide($n)));
+			$imaginary = new Imaginary($r_root->multiply(Math::sin($this->phi->add(2*Math::PI*$k)->divide($n)))->toNumber());
+			$C = new Complex($real, $imaginary);
+			$roots[] = ($rectangular? $C: $C->toPolar());
+			// print "root found $C \n";
+			$k++;
+		}
+		return ($all_roots? $roots: $roots[0]);
+	}
+
+	public function pow($n, $rectangular=true) {
+		if (Delegator::isEntity($n)) {$n = $n->toNumber();}
+		if ($this->empty()) {return new ($rectangular? (Complex::class): (self::class))($n? 0: 1);}
+		$roots = [];
+		$r_root = Math::pow($this->r, $n);
+		$real = $r_root->multiply(Math::cos($this->phi->multiply($n)));
+		$imaginary = new Imaginary($r_root->multiply(Math::sin($this->phi->multiply($n)))->toNumber());
+		$C = new Complex($real, $imaginary);
+		return ($rectangular? $C: $C->toPolar());
+	}
+
 	public function empty(): bool {
 		return $this->value['radius']->empty();
 	}

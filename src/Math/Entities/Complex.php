@@ -203,6 +203,18 @@ class Complex extends Imaginary implements Entity {
 		return Delegator::wrap($abs, self::T_SCALAR);
 	}
 
+	public function root($n=2) {
+		if ($this->empty()) {return new self(0);}
+		$C = new (self::T_POLAR)($this);
+		return $C->root($n);
+	}
+
+	public function pow($n) {
+		if ($this->empty()) {return new self($n? 0: 1);}
+		$C = new (self::T_POLAR)($this);
+		return $C->pow($n);
+	}
+
 	public function empty(): bool {
 		return ($this->value['real']->empty() && $this->value['imaginary']->empty());
 	}

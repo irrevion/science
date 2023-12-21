@@ -3,7 +3,7 @@ namespace irrevion\science\Math;
 
 use irrevion\science\Math\Branches\BaseMath;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary};
+use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex};
 
 class Math extends BaseMath {
 	public static function abs($x) {
@@ -36,6 +36,20 @@ class Math extends BaseMath {
 		return parent::acos($x);
 	}
 
+	public static function sin($x) {
+		if (Delegator::isEntity($x)) {
+			$x = $x->toNumber();
+		}
+		return parent::sin($x);
+	}
+
+	public static function cos($x) {
+		if (Delegator::isEntity($x)) {
+			$x = $x->toNumber();
+		}
+		return parent::cos($x);
+	}
+
 	public static function compare($x=0.0, $rel='==', $y=0.0) {
 		if (Delegator::isEntity($x)) {$x = $x->toNumber();}
 		if (Delegator::isEntity($y)) {$y = $y->toNumber();}
@@ -63,7 +77,21 @@ class Math extends BaseMath {
 							return $base->pow($exponent);
 						}
 					} else {
-						return parent::pow($base->toNumber(), $exponent_numeric);
+						//return parent::pow($base->toNumber(), $exponent_numeric);
+						$base_num = $base->toNumber();
+						if ($base_num<0) {
+							if ($exponent_fractional->denominator->value%2) {
+								// odd root, result gonna be negative real number
+								// But! PHP returns NaN, Python and other calculators returns complex
+								// lets stick with negative real number as root
+								return Delegator::wrap(parent::pow(abs($base_num), $exponent_numeric), $base::class)->negative();
+							} else {
+								// even root, result gonna be complex number
+								$C = new Complex($base);
+								return Math::pow($C->root($exponent_fractional->denominator), $exponent_fractional->numerator);
+							}
+						}
+						return Delegator::wrap(parent::pow($base_num, $exponent_numeric), $base::class);
 					}
 				} else {
 					if (method_exists($base, 'pow')) {return $base->pow($exponent);}
@@ -80,15 +108,18 @@ class Math extends BaseMath {
 					return $base->multiply(self::pow($base, $exponent_numeric-1));
 				} else if ($exponent_numeric<0) {
 					// x^{-1, -2, -3, ... , -n}
-					return Delegator::wrap(1)->divide(self::pow($base, self::abs($exponent_numeric)));
+					$denominator = self::pow($base, self::abs($exponent_numeric));
+					// print "$base ** $exponent_numeric = 1/$denominator \n";
+					if ($denominator->empty()) {return new NaN;}
+					return Delegator::wrap(1)->divide($denominator);
 				}
 			}
 		} else if (is_numeric($base)) {
 			$exponent = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent*1));
 			$result = parent::pow($base, $exponent);
-			return (is_nan($result)? null: $result);
+			return (is_nan($result)? (new NaN): $result);
 		} else {
-			return null;
+			return new NaN;
 		}
 	}
 
