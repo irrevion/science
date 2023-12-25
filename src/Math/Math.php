@@ -139,7 +139,6 @@ class Math extends BaseMath {
 				} else if ($exponent_numeric<0) {
 					// x^{-1, -2, -3, ... , -n}
 					$denominator = self::pow($base, self::abs($exponent_numeric));
-					// print "$base ** $exponent_numeric = 1/$denominator \n";
 					if ($denominator->empty()) {return new NaN;}
 					return Delegator::wrap(1)->divide($denominator);
 				}

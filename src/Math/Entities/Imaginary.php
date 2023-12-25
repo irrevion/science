@@ -117,6 +117,18 @@ class Imaginary extends Scalar implements Entity {
 		throw new \TypeError("Built-in types casting not allowed for imaginary numbers due to ambiguity. Explicitly convert either to Scalar or to Imaginary.");
 	}
 
+	public function pow($n) {
+		if (!Delegator::isEntity($n)) {$n = Delegator::wrap($n*1.0);}
+		if (Delegator::getType($n)!=self::T_SCALAR) {return Delegator::delegate('pow', $this, $n);}
+		$k = new Scalar(Math::pow($this->value, $n->value));
+		$i = new self(1);
+		// i**0=1; i**1=i; i**2=-1; i**3=-i; i**4=1;
+		$pattern = [1, $i, -1, $i->negative()];
+		$axis = $pattern[($n->toNumber()%4)];
+		$result = $k->multiply($axis);
+		return $result;
+	}
+
 	public function abs() {
 		// return new self(abs($this->value));
 		return Delegator::wrap(abs($this->value), self::T_SCALAR);
