@@ -3,8 +3,11 @@ namespace irrevion\science\Math\Branches;
 
 class BaseMath {
 	const E = M_E;
+	const E_M = 0.5772156649015; // Euler-Mascheroni Constant
 	const EPSILON = 1e-13; // PHP_FLOAT_EPSILON is too small
 	const EULER = M_EULER;
+	const GOLDEN_RATIO = 1.6180339887499;
+	const I_POW_I = 0.2078795763507; // i**i
 	const LN2 = M_LN2;
 	const LNPI = M_LNPI;
 	const LN10 = M_LN10;
@@ -151,6 +154,18 @@ class BaseMath {
 		return expm1($num);
 	}
 
+	public static function factorial($n) {
+		if (is_float($n)) $n = (int)round($n);
+		if ($n<0) throw new \Error('Factorial defined only for positive integers');
+		if ($n===0) return 1;
+		$f = 1.0;
+		while ($n) {
+			$f*=$n;
+			$n--;
+		}
+		return $f;
+	}
+
 	public static function fdiv($x, $y) {
 		return fdiv($x, $y);
 	}
@@ -201,6 +216,10 @@ class BaseMath {
 
 	public static function log($num, $base = M_E) {
 		return log($num, $base);
+	}
+
+	public static function ln($n) {
+		return log($n);
 	}
 
 	public static function octdec($octal_string) {

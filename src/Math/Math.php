@@ -24,30 +24,16 @@ class Math extends BaseMath {
 
 	public static function asin($x) {
 		if (Delegator::isEntity($x)) {
-			$x = $x->toNumber();
+			return new Scalar(parent::asin($x->toNumber()));
 		}
 		return parent::asin($x);
 	}
 
 	public static function acos($x) {
 		if (Delegator::isEntity($x)) {
-			$x = $x->toNumber();
+			return new Scalar(parent::acos($x->toNumber()));
 		}
 		return parent::acos($x);
-	}
-
-	public static function sin($x) {
-		if (Delegator::isEntity($x)) {
-			$x = $x->toNumber();
-		}
-		return parent::sin($x);
-	}
-
-	public static function cos($x) {
-		if (Delegator::isEntity($x)) {
-			$x = $x->toNumber();
-		}
-		return parent::cos($x);
 	}
 
 	public static function compare($x=0.0, $rel='==', $y=0.0) {
@@ -56,7 +42,51 @@ class Math extends BaseMath {
 		return parent::compare($x, $rel, $y);
 	}
 
+	public static function cos($x) {
+		if (Delegator::isEntity($x)) {
+			return new Scalar(parent::cos($x->toNumber()));
+		}
+		return parent::cos($x);
+	}
+
+	public static function exp($n) {
+		// exponentiation of eⁿ
+		// where n is scalar number
+		// for exponentiation of e to imaginary or complex power use Complex::exp()
+		if (Delegator::isEntity($n)) {
+			return new Scalar(parent::exp($n->toNumber()));
+		}
+		return parent::exp($n);
+	}
+
+	public static function factorial($n) {
+		if (Delegator::isEntity($n)) {
+			if (self::fmod($n->toNumber(), 1)) return new NaN;
+			$n = clone $n;
+			$f = new ($n::class)(1);
+			while (!($n->empty() || $n->isNear(0))) {
+				$f = $f->multiply($n);
+				$n = $n->subtract(new ($n::class)(1));
+			}
+			return $f;
+		}
+		return parent::factorial($n);
+	}
+
+	public static function ln($n) {
+		if (Delegator::isEntity($n)) {
+			return new Scalar(parent::ln($n->toNumber()));
+		}
+		return parent::ln($n);
+	}
+
 	public static function pow($base, $exponent=1) {
+		$exp_type = Delegator::getType($exponent);
+
+		if (in_array($exp_type, [Imaginary::class, Complex::class])) {
+			return (new Complex($base))->powI($exponent);
+		}
+
 		if (is_object($base)) {
 			if (Delegator::isEntity($base)) {
 				$exponent_numeric = (Delegator::isEntity($exponent)? $exponent->toNumber(): ($exponent*1));
@@ -121,6 +151,13 @@ class Math extends BaseMath {
 		} else {
 			return new NaN;
 		}
+	}
+
+	public static function sin($x) {
+		if (Delegator::isEntity($x)) {
+			return new Scalar(parent::sin($x->toNumber()));
+		}
+		return parent::sin($x);
 	}
 
 	public static function sum($array, $wrap=null) {

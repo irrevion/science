@@ -203,16 +203,36 @@ class Complex extends Imaginary implements Entity {
 		return Delegator::wrap($abs, self::T_SCALAR);
 	}
 
-	public function root($n=2) {
+	public function root($n=2, $all_roots=false) {
 		if ($this->empty()) {return new self(0);}
 		$C = new (self::T_POLAR)($this);
-		return $C->root($n);
+		return $C->root(n: $n, all_roots: $all_roots, rectangular: true);
+	}
+
+	public function roots($n) {
+		return $this->root(n: $n, all_roots: true);
 	}
 
 	public function pow($n) {
 		if ($this->empty()) {return new self($n? 0: 1);}
 		$C = new (self::T_POLAR)($this);
-		return $C->pow($n);
+		return $C->pow(n: $n, rectangular: true);
+	}
+
+	public function powI($n) {
+		$C = new (self::T_POLAR)($this);
+		return $C->powI(n: $n, rectangular: true);
+	}
+
+	public function exp() {
+		// exponential function of e -> eⁿ -> eˣ⁺ⁱʸ
+		// where n is ($this->value)
+		// eˣ⁺ⁱʸ = eˣ*cos(y) + i*eˣ*sin(y)
+		$c = clone $this;
+		$scalar_exp = Math::exp($c->real);
+		$real = $scalar_exp->multiply(Math::cos($c->imaginary));
+		$imaginary = new Imaginary($scalar_exp->multiply(Math::sin($c->imaginary))->value);
+		return new self($real, $imaginary);
 	}
 
 	public function empty(): bool {
