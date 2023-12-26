@@ -7,7 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\{Scalar, Imaginary};
+use irrevion\science\Math\Entities\{Scalar, Imaginary, Complex};
 ?>
 
 <pre>
@@ -133,6 +133,28 @@ $y = new Scalar(7);
 $z = Math::pow($x, $y);
 print "{$x}**{$y} is {$z} (".($z::class).") \n";
 print "ref: -i \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+// 1.0000001j**283967013 in python is (75204.5433688295+2150453565990.7637j) the real part is non-0 because of growing float error, thats why power value is decreased
+$x = new Imaginary(1.0000001);
+$y = new Scalar(28367013);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} (".($z::class).") \n";
+print "ref py: (6.074069914817451e-08+17.059396389624425j) \n";
+print "ref complex: ".(new Complex(new Imaginary(1.0000001)))->pow($z)." \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Scalar(1.0000001);
+$y = new Imaginary(283967013);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} (".($z::class).") \n";
+print "ref py: (-0.9925226164252797-0.1220608695869281j) \n";
 print "\n ".memory_get_usage()." memory used \n\n";
 unset($x, $y, $z);
 ?>
