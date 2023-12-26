@@ -73,6 +73,22 @@ class Math extends BaseMath {
 		return parent::factorial($n);
 	}
 
+	public static function isFloat($n) {
+		if (Delegator::isEntity($n)) $n = $n->toNumber();
+		return parent::isFloat($n);
+	}
+
+	public static function isNaN($n) {
+		if (Delegator::isEntity($n)) $n = $n->toNumber();
+		return parent::isNaN($n);
+	}
+
+	public static function isNegative($n) {
+		if (self::isNaN($n)) {return null;}
+		if (self::sign($n)===-1) {return true;}
+		return false;
+	}
+
 	public static function ln($n) {
 		if (Delegator::isEntity($n)) {
 			return new Scalar(parent::ln($n->toNumber()));
@@ -150,6 +166,11 @@ class Math extends BaseMath {
 		} else {
 			return new NaN;
 		}
+	}
+
+	public static function sign($n) {
+		if (Delegator::isEntity($n)) $n = $n->toNumber();
+		return parent::sign($n);
 	}
 
 	public static function sin($x) {

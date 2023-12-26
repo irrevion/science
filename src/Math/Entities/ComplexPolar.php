@@ -223,8 +223,12 @@ class ComplexPolar extends Complex implements Entity {
 		if (Delegator::isEntity($n)) {$n = $n->toNumber();}
 		$roots = [];
 		$r_root = Math::pow($this->r, new Fraction("1/{$n}"));
+		$n_sign = Math::sign($n);
+		// $n_abs = Math::abs($n);
+		$n = Math::abs($n);
 		$k = 0;
 		while ($k<$n) {
+		// while ($k<$n_abs) {
 			$real = $r_root->multiply(Math::cos($this->phi->add(2*Math::PI*$k)->divide($n)));
 			$imaginary = new Imaginary($r_root->multiply(Math::sin($this->phi->add(2*Math::PI*$k)->divide($n)))->toNumber());
 			$C = new Complex($real, $imaginary);
@@ -232,6 +236,7 @@ class ComplexPolar extends Complex implements Entity {
 			if (!$all_roots) break;
 			$k++;
 		}
+		if ($n_sign==-1) {array_map(fn($r) => ((new Scalar(1))->divide($r)), $roots);}
 		return ($all_roots? $roots: $roots[0]);
 	}
 

@@ -206,6 +206,16 @@ class BaseMath {
 		return intdiv($x, $y);
 	}
 
+	public static function isFloat($n) {
+		return (!self::isNaN($n) && is_float($n) && self::fmod($n, 1));
+	}
+
+	public static function isNaN($n) {
+		if (is_null($n) || is_object($n) || is_array($n)) return true;
+		$n = floatval($n);
+		return (is_nan($n) || is_infinite($n));
+	}
+
 	public static function log10($x) {
 		return log10($x);
 	}
@@ -264,6 +274,10 @@ class BaseMath {
 
 	public static function round($num, $precision=0, $mode=PHP_ROUND_HALF_UP) {
 		return round($num, $precision, $mode);
+	}
+
+	public static function sign($n) {
+		return (($n<0)? -1: 1);
 	}
 
 	public static function sin($x) {

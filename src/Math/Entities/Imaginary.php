@@ -120,6 +120,7 @@ class Imaginary extends Scalar implements Entity {
 	public function pow($n) {
 		if (!Delegator::isEntity($n)) {$n = Delegator::wrap($n*1.0);}
 		if (Delegator::getType($n)!=self::T_SCALAR) {return Delegator::delegate('pow', $this, $n);}
+		if (Math::isFloat($n)) {return Delegator::delegate('pow', $this, $n);}
 		$k = new Scalar(Math::pow($this->value, $n->value));
 		$i = new self(1);
 		// i**0=1; i**1=i; i**2=-1; i**3=-i; i**4=1;

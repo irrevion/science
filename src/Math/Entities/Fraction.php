@@ -10,6 +10,8 @@ class Fraction extends Scalar implements Entity {
 	public $value;
 	public $subset_of = [
 		__NAMESPACE__.'\Fraction',
+		__NAMESPACE__.'\Scalar',
+		__NAMESPACE__.'\Complex',
 	];
 
 	public function __construct($number) {

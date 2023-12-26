@@ -116,4 +116,15 @@ class Utils {
 		array_multisort($by, SORT_ASC, SORT_STRING, $arr);
 		return $arr;
 	}
+
+	public static function printR($arr) {
+		if (is_iterable($arr)) {
+			$str = "";
+			foreach ($arr as $v) {
+				$str.=(strlen($str)? ', ': '').self::printR($v);
+			}
+			return "[$str]";
+		}
+		return "$arr";
+	}
 }
