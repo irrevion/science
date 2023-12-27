@@ -134,6 +134,13 @@ print "ref php: ".((1.678903)**-2.5)." \n"; // no problem here
 print "ref py: (8.382756431709652e-17-0.2738016034515765j) \n";
 print "\n ".memory_get_usage()." memory used \n\n";
 
+$x = new Scalar(125);
+$y = new Fraction('1/3');
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+print "ref: 25 \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+
 $x = new Scalar(625);
 $z = Math::pow($x, new Scalar(0.2));
 print "{$x}**0.2 is {$z} ( ".($z::class)." ) \n";

@@ -184,6 +184,7 @@ class BaseMath {
 		if ($b>$a) {
 			list($a, $b) = [$b, $a]; // swap
 		}
+		if (!$b) {return 1;} // prevent division by zero
 		$remnant = $a%$b;
 		if ($remnant==0) {return $b;}
 		return self::gcd($b, $remnant);

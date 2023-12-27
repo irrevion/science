@@ -14,7 +14,7 @@ composer require irrevion/science
 
 ## Usage
 If installed via composer include composer generated autoloader and add `use irrevion\science\Math\Math` statement for example.
-If you are not using composer or using a custom folder you can modify and include (custom autoloader)[https://github.com/irrevion/science/blob/main/dev/autoloader.php].
+If you are not using composer or using a custom folder you can modify and include [custom autoloader](https://github.com/irrevion/science/blob/main/dev/autoloader.php).
 Example:
 ```
 require_once("../autoloader.php");
@@ -43,3 +43,64 @@ $diff = $n->subtract(new Scalar(2));
 $prod = $n->multiply(new Scalar(10));
 $quotient = $n->divide(new Scalar(3));
 ```
+As mentioned above, significant enhancement of pow() function has been made:
+```
+use irrevion\science\Helpers\Utils;
+use irrevion\science\Math\Math;
+use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex};
+
+$x = 2;
+$y = 3;
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".Delegator::getType($z)." ) \n";
+// Output: 2**3 is 8 ( integer )
+
+$x = new Scalar(25);
+$y = new Scalar(2);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+// Output: 25**2 is 625 ( irrevion\science\Math\Entities\Scalar )
+
+$x = new Scalar(25);
+$y = new Scalar(-2);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+// Output: 25**-2 is 0.0016 ( irrevion\science\Math\Entities\Scalar )
+
+$x = new Scalar(-1.678903);
+$y = new Scalar(-2.5);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+// Output: -1.678903**-2.5 is [8.3827564317097E-17 + -0.27380160345158i] ( irrevion\science\Math\Entities\Complex )
+// Vanilla PHP will give you: NAN
+// Python will give you: (8.382756431709652e-17-0.2738016034515765j)
+
+$x = new Scalar(Math::E);
+$y = new Imaginary(Math::PI);
+$z = Math::pow($x, $y);
+print "e**πi is {$z} ( ".($z::class)." ) \n";
+// Output: e**πi is [-1 + 1.2246467991474E-16i] ( irrevion\science\Math\Entities\Complex )
+// Python gives: (-1+1.2246467991473532e-16j)
+// Expected: -1 by formulae e**πi+1=0
+
+$x = new Scalar(125);
+$y = new Fraction('1/3');
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+// Output: 125**1/3 is 5 ( irrevion\science\Math\Entities\Scalar )
+
+$x = new Scalar(4);
+$y = new Complex(2.5, 2);
+$z = Math::pow($x, $y);
+print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
+// Output: 4**(2.5+2i) is [-29.845986458754 + 11.541970902054i] ( irrevion\science\Math\Entities\Complex )
+// Python gives: (-29.845986458754275+11.541970902053793j)
+```
+So, as you can see, the following operations are supported:
+- raise of real number to a real power
+- raise of real number to a fractional power (2/3 means cubic root squared)
+- raise of negative number to a rational or real power (1/n is n-th root of a number)
+- raise of an any number to negative power (rational or real)
+- raise of a number to imaginary or complex power
+- raise of an any available value (entity-type instance: mixed/numeric, Scalar, Fraction, Imaginary, Complex, ComplexPolar, QuaternionComponent, Quaternion, Vector, etc) at least to positive integer power

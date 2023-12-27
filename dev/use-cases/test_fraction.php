@@ -181,11 +181,11 @@ unset($x, $y, $z);
 ?>
 
 <?php
-$x = new Fraction('9/3');
-$y = new Fraction('27/9');
+$x = new Fraction('43/42');
+$y = new Fraction('9999/1');
 $z = Math::pow($x, $y);
 print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
-print "ref py: 27.0 \n";
+print "ref py: 1.5185624323363708e+102 \n";
 print "\n ".memory_get_usage()." memory used \n\n";
 unset($x, $y, $z);
 ?>
