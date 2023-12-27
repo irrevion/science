@@ -3,11 +3,11 @@ PHP library for extended mathematical operations
 
 ## Killer-features and advantages:
 - Improved pow() function
-- Support for Complex numbers and Quaternions (just like Python with NumPy + ~~SciPy~~ + PyQuaternion)
+- Support for Complex numbers and Quaternions (just like Python with [NumPy](https://numpy.org/doc/stable/user/quickstart.html) + ~~SciPy~~ + [PyQuaternion](http://kieranwynn.github.io/pyquaternion/)
 - Physics units conversion (more units to be added...)
 
 ## Installation
-Available on Packagist and could be installed using CLI command:
+Library is available on [Packagist](https://packagist.org/packages/irrevion/science) and could be installed using CLI command:
 ```
 composer require irrevion/science
 ```
@@ -96,6 +96,12 @@ $z = Math::pow($x, $y);
 print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
 // Output: 4**(2.5+2i) is [-29.845986458754 + 11.541970902054i] ( irrevion\science\Math\Entities\Complex )
 // Python gives: (-29.845986458754275+11.541970902053793j)
+```
+It is also possible to get all roots of a number
+```
+$roots = (new Complex(-64))->roots(3);
+print Utils::printR($roots)." \n";
+// Output: [[2 + 3.4641016151378i], [-4 + 4.8985871965894E-16i], [2 + -3.4641016151378i]]
 ```
 So, as you can see, the following operations are supported:
 - raise of real number to a real power

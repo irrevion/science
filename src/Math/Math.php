@@ -141,7 +141,7 @@ class Math extends BaseMath {
 				}
 			} else {
 				if (method_exists($base, 'pow')) {return $base->pow($exponent);}
-				if ($base_type==Scalar::class) {return Delegator::wrap(self::pow($base->toNumber(), $exponent_numeric));}
+				if (in_array($base_type, [Scalar::class, Fraction::class])) {return Delegator::wrap(self::pow($base->toNumber(), $exponent_numeric), $base_type);}
 			}
 
 			if ($exponent_numeric==0) {

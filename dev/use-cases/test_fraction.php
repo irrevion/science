@@ -6,7 +6,8 @@ ini_set('html_errors', true);
 require_once("../autoloader.php");
 
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\{Scalar, Fraction};
+use irrevion\science\Helpers\Utils;
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, Vector};
 ?>
 
 <pre>
@@ -186,6 +187,56 @@ $y = new Fraction('9999/1');
 $z = Math::pow($x, $y);
 print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
 print "ref py: 1.5185624323363708e+102 \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction(0.15);
+$y = new Scalar(7.2);
+$z = Math::pow($x, $y);
+print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
+print "ref py: 1.1691145492539425e-06 \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction('27/3');
+$y = new Fraction('-2/4');
+$z = Math::pow($x, $y);
+print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
+print "ref py: 0.333 \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction('-27/3');
+$y = new Fraction('-2/4');
+$z = Math::pow($x, $y);
+print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
+print "ref py: (2.041077998578922e-17-0.3333333333333333j) \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction('7/4');
+$y = new Imaginary(-1);
+$z = Math::pow($x, $y);
+print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
+print "ref py: (0.8474591366187356-0.5308606330869028j) \n";
+print "\n ".memory_get_usage()." memory used \n\n";
+unset($x, $y, $z);
+?>
+
+<?php
+$x = new Fraction('7/4');
+$y = new Complex(-1, 3.14);
+$z = Math::pow($x, $y);
+print("{$x}**{$y} is {$z} ≅ ".$z->toNumber()." ( ".($z::class)." )\n");
+print "ref py: (-0.10589700489484924+0.5615304413824759j) \n";
 print "\n ".memory_get_usage()." memory used \n\n";
 unset($x, $y, $z);
 ?>

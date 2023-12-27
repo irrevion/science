@@ -44,7 +44,7 @@ class Utils {
 		return self::arrayFilterKeys($arr, array_diff(array_keys($arr), $keys));
 	}
 
-	public static function array_divide($array, $parts=1) {
+	public static function arrayDivide($array, $parts=1) {
 		$parts = intval($parts);
 		if (($parts<=1)) {return $array;}
 		$total = count($array);
@@ -126,5 +126,20 @@ class Utils {
 			return "[$str]";
 		}
 		return "$arr";
+	}
+
+	public static function map($arr, $fn, ...$args) {
+		if (is_iterable($arr)) {
+			if (is_object($arr) && method_exists($arr, 'map')) {
+				return $arr->map($fn, ...$args);
+			} else {
+				$result = [];
+				foreach ($arr as $i=>$el) {
+					$result[] = $fn($el, $i, ...$args);
+				}
+				return $result;
+			}
+		}
+		return null;
 	}
 }
