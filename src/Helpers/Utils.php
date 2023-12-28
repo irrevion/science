@@ -11,6 +11,32 @@ class Utils {
 		return !(empty($var) && ($var!=='0') && ($var!==false));
 	}
 
+	public static function test($fn, $data=[], $check=null, $descr='', $strict=false) {
+		$t = microtime(true);
+		$m = memory_get_usage();
+		$res = null;
+		try {
+			$res = $fn(...$data);
+			if (!is_null($check)) {
+				if (is_callable($check)) {
+					$status = $check($res);
+				} else {
+					$status = ($strict? ($res===$check): ("$res"==$check));
+				}
+				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: 'Result is not valid')." = $res ( ".(is_object($res)? $res::class: gettype($res))." ) \n";
+			}
+		} catch (\Throwable $err) {
+			print "FAIL: Error thrown: ".$err->getMessage()." \n";
+		}
+		$t2 = microtime(true);
+		$m2 = memory_get_usage();
+		$dt = $t2-$t;
+		$dm = $m2-$m;
+		print "Performed in $dt seconds \n";
+		print "Allocated $dm bytes ( total $m2 ) \n";
+		return (empty($err)? $res: false);
+	}
+
 	public static function isEmptyArrayRecursive($arr, $zerosAreValue=1) {
 		if (empty($arr) && (!$zerosAreValue || ($zerosAreValue && !self::variableHasValue($arr)))) {return true;}
 		if (is_array($arr)) {

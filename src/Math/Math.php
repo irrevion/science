@@ -3,7 +3,7 @@ namespace irrevion\science\Math;
 
 use irrevion\science\Math\Branches\BaseMath;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex};
+use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex, ComplexPolar, QuaternionComponent, Quaternion, Vector};
 
 class Math extends BaseMath {
 	public static function abs($x) {
@@ -83,9 +83,33 @@ class Math extends BaseMath {
 		return parent::isNaN($n);
 	}
 
+	public static function isNatural($n) {
+		return (!self::isNaN($n) && !self::isFloat($n) && !self::isNegative($n));
+	}
+
 	public static function isNegative($n) {
 		if (self::isNaN($n)) {return null;}
 		if (self::sign($n)===-1) {return true;}
+		return false;
+	}
+
+	public static function isReal($n) { // checks if entity has real number representation
+		if (Delegator::isEntity($n)) {
+			$t = Delegator::getType($n);
+			if (in_array($t, [Scalar::class, Fraction::class])) {
+				return true;
+			} else if ($t==Complex::class) {
+				return $n->imaginary->isNear(new Imaginary(0));
+			} else if ($t==ComplexPolar::class) {
+				return $n->phi->isNear(0);
+			} else if ($t==Quaternion::class) {
+				return $n->vector->magnitude()->isNear($n->vector[0]);
+			} else if ($t==Vector::class) {
+				return $n->magnitude()->isNear($n[0]);
+			}
+		} else {
+			return is_numeric($n);
+		}
 		return false;
 	}
 
@@ -98,9 +122,10 @@ class Math extends BaseMath {
 
 	public static function pow($base, $exponent=1) {
 		$base_type = Delegator::getType($base);
+		$base_is_subset_of_complex = (Delegator::isEntity($base) && Delegator::belongsTo($base, Complex::class));
 		$exp_type = Delegator::getType($exponent);
 
-		if (in_array($exp_type, [Imaginary::class, Complex::class])) {
+		if (in_array($exp_type, [Imaginary::class, Complex::class]) && $base_is_subset_of_complex) {
 			return (new Complex($base))->powI($exponent);
 		}
 
@@ -122,8 +147,7 @@ class Math extends BaseMath {
 					} else {
 						return $base->pow($exponent);
 					}
-				} else {
-					//return parent::pow($base->toNumber(), $exponent_numeric);
+				} else if ($base_is_subset_of_complex) {
 					$base_num = $base->toNumber();
 					if ($base_num<0) {
 						if ($exponent_fractional->denominator->value%2) {

@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, QuaternionComponent, Quaternion};
 ?>
 
@@ -30,6 +31,7 @@ $R = new Scalar(777.3);
 $j277d3 = new QuaternionComponent(277.3, 'j');
 $Q = $R->subtract($j277d3);
 print "$R - $j277d3 = $Q ".($Q::class)." \n";
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 
 <?php
@@ -61,6 +63,8 @@ print "try to eliminate negative zero $j0 \n";
 
 $Nj0 = (new QuaternionComponent(-0.0, 'j'))->toNumber();
 print "to number ".var_export($Nj0, 1)." \n";
+
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 
 <?php
@@ -88,6 +92,7 @@ $z = $j->divide($k);
 print "reference is [0.000 -2976840.000i +0.000j +0.000k], result obtained is $z \n";
 $z = (new Scalar(12))->divide(new QuaternionComponent(6, 'j'));
 print "reference is [0.000 +0.000i -2.000j +0.000k], result obtained is $z \n";
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 
 - - - - - - - Quaternion - - - - - - - -
@@ -119,6 +124,7 @@ $Q = new Quaternion($Q);
 print "[-1i, 17.3j, -2k] -> $Q (".($Q::class).")\n";
 $Q = new Quaternion([4.1, 8.2, 16.4, 32.8]);
 print "[4.1, 8.2, 16.4, 32.8] -> $Q (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 
 <?php
@@ -126,31 +132,41 @@ $Qx = new Quaternion([0, 1, 0, 0]);
 $Qy = new Quaternion([0, 0, 1, 0]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
+
 $Qx = new Quaternion([0, 0, 1, 0]);
 $Qy = new Quaternion([0, 1, 0, 0]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
+
 $Qx = new Quaternion([0, 0, 0, 1]);
 $Qy = new Quaternion([0, 0, 0, 1]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
+
 $Qz = (new Quaternion([0, 1, 0, 0]))->multiply(new Quaternion([0, 0, 1, 0]))->multiply(new Quaternion([0, 0, 0, 1]));
 print "ijk = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 $Qx = new Quaternion([3, 0, 0, 0]);
 $Qy = new Quaternion([5, 0, 0, 0]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 $Qx = new Quaternion([3, 0, 0, 0]);
 $Qy = new Quaternion([0, 5, 7, 9]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 $Qx = new Quaternion([0, 3, -2, 4]);
 $Qy = new Quaternion([0, 5, 7, 9]);
 $Qz = $Qx->multiply($Qy);
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 $Qx = new Quaternion([4.1, 8.2, 16.4, 32.8]);
 $Qy = new Quaternion([-0.2, 7.843, 194.34, 9999.9999]);
@@ -159,8 +175,11 @@ print "$Qx * $Qy = $Qz (".($Q::class).")\n";
 $Qz = $Qx->multiply($Qy, 'GEOMETRIC');
 print "$Qx * $Qy = $Qz (".($Q::class).")\n";
 print "reference is -331252.305 +157656.163i -80949.235j +42458.402k ( dev/ref/quaternion.py )\n";
+print "\n ".memory_get_usage()." memory used \n\n";
+
 print "abs is ".$Qz->abs(1, 1)."===".$Qz->abs(1, 0)." ( ".($Qz::class)." ) \n";
 print "reference is 378072.8103811085 ( dev/ref/quaternion.py )\n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 $Qx = new Quaternion([0.007, 0.00013, 0.0000214, 0.0000007935]);
 $Qy = new Quaternion([0.008-0.001, 0.00012+0.00001, 0.0000214*1.0, 0.0000007936-0.0000000001]);
@@ -176,6 +195,7 @@ print "$Qx = $Qy? ".($Qx->isEqual($Qy)? 'yes': 'no')." \n";
 print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
 $Qy = (new Quaternion([6897, 3419, 6793, 7401]))->multiply(1.0+1.3e-14);
 print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
+print "\n ".memory_get_usage()." memory used \n\n";
 
 //$Qx = Math::pow(new Quaternion([1, 0, 0, 0]), 2);
 //print "[1, 0, 0, 0]**2 is $Qx \n";
@@ -187,6 +207,18 @@ print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
 //print "[0, 0, 0, 1]**2 is $Qx \n";
 //$Qx = Math::pow(new Quaternion([0, 0, 0, 1]), 3);
 //print "[0, 0, 0, 1]**3 is $Qx \n";
+
+// $Qx = (new Quaternion([0.97, -1.001, 0, 1]))->methodPowNaturalMultiply(999);
+// print "[0.97, -1.001, 0, 1]**999 is $Qx \n";
+// print "\n ".memory_get_usage()." memory used \n\n";
+Utils::test(
+	fn: function() {
+		return (new Quaternion([0.97, -1.001, 0, 1]))->methodPowNaturalMultiply(999);
+	},
+	check: '[4.4425991155259E+233 + -9.5696657389331E+233i + 3.6403304936473E+219j + 9.5601056332997E+233k]',
+	descr: '[0.97, -1.001, 0, 1]**999'
+);
+//print "ref py: 444259911552597290066118628614398031383945731561846574354735107382326975543213166346188440998186669164510536582655416006370417677592798055653753554160818071525184451915646025900536178909266048603067922169229232418408837762345057910784.000 -956966573893243930061434308203265967692690648180075647922908410998464995139259716751279288330591013071392977891309396764157709375697924166401700677768274843404492057716760390413229804166204670198096123458328671698714899040590641496064.000i +0.000j +956010563329913952568551685582789496840900797778170551965479914423547142620096176164503601602022742446782972526108356562393342321986015143484037158346132389417629936823649346373943802003088868445429063309190107806367942823989718548480.000k\n\n";
 //$Qx = Math::pow(new Quaternion([0, 1, 0, 1]), 2);
 //print "[0, 1, 0, 1]**2 is $Qx \n";
 //$Qx = Math::pow(new Quaternion([0, 1, 2, 1]), 2);
@@ -205,10 +237,8 @@ print "$Qx ≈ $Qy? ".($Qx->isNear($Qy)? 'yes': 'no')." \n";
 //print "[2.4, 4.81, 9.621, 19.2431]**1/2 is $Qx (ref: 3.505 +0.686i +1.372j +2.745k) \n";
 //$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), 2/3);
 //print "[2.4, 4.81, 9.621, 19.2431]**2/3 is $Qx (ref: 4.430 +1.425i +2.851j +5.702k) \n";
-$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), new Fraction('9/10'));
-print "[2.4, 4.81, 9.621, 19.2431]**0.9 is $Qx (ref: 4.098 +3.435i +6.870j +13.741k) \n";
-$x = Math::pow(new Scalar(225), new Fraction('9/10'));
-print "225**0.9 is $x (ref: 130.90742080935482) \n";
+//$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), new Fraction('9/10'));
+//print "[2.4, 4.81, 9.621, 19.2431]**0.9 is $Qx (ref: 4.098 +3.435i +6.870j +13.741k) \n";
 //$Qx = Math::pow(new Quaternion([2.4, 4.81, 9.621, 19.2431]), -5);
 //print "[2.4, 4.81, 9.621, 19.2431]**-5 is $Qx \n";
 //$Qx = Math::pow(new Quaternion([0.00067225, 0.03, -5.21e-7, 1e-35]), -5);
@@ -279,6 +309,8 @@ $Qy = new Quaternion([2, 4, 8, 16]);
 $Qz = $Qx->divide($Qy);
 print "$Qx / $Qy = $Qz ( ".($Qz::class)." ) \n";
 print "ref is [1.253 -0.065i +0.100j -0.065k] \n";
+
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 
 <?php
@@ -294,5 +326,7 @@ $Qx = new Quaternion([3, 0, 11, 0]);
 $Cy = new Complex(2, 15);
 $Qz = $Qx->subtract($Cy);
 print "$Qx + $Cy = $Qz ( ".($Qz::class)." ) \n";
+
+print "\n ".memory_get_usage()." memory used \n\n";
 ?>
 </pre>

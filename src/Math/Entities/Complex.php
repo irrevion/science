@@ -235,6 +235,12 @@ class Complex extends Imaginary implements Entity {
 		return new self($real, $imaginary);
 	}
 
+	public function ln() {
+		// z = r * e**iφ
+		// Ln(z) = ln(r) + iφ
+		return new self(Math::ln($this->abs()), new Imaginary($this->phase()));
+	}
+
 	public function empty(): bool {
 		return ($this->value['real']->empty() && $this->value['imaginary']->empty());
 	}

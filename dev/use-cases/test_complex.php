@@ -5,6 +5,8 @@ ini_set('html_errors', true);
 
 require_once("../autoloader.php");
 
+use irrevion\science\Math\Math;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Entities\{Scalar, Imaginary, Complex};
 ?>
@@ -134,5 +136,47 @@ print("{$y} is conjugate of {$x}\n");
 print("xx* = {$z}\n");
 print("x*x = {$w}\n");
 unset($x, $y, $z, $w);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 3))->ln();
+	},
+	// check: '[1.2824746787307684 + 0.982793723247329i]',
+	check: '[1.2824746787308 + 0.98279372324733i]',
+	descr: 'ln(2+3j)'
+);
+print "ref py: (1.2824746787307684+0.982793723247329j) \n\n";
+
+Utils::test(
+	fn: function() {
+		return (new Complex(-0.7, 3.14))->ln();
+	},
+	// check: '[1.1684739358107776 + 1.7901395814000833i]',
+	check: '[1.1684739358108 + 1.7901395814001i]',
+	descr: 'ln(-0.7+3.14j)'
+);
+print "ref py: (1.1684739358107776+1.7901395814000833j) \n\n";
+
+Utils::test(
+	fn: function() {
+		return (new Complex(32.5, -13.2))->exp()->ln();
+	},
+	// check: '[32.5-0.6336293856408264i]',
+	check: '[32.5 + -13.2i]', // ln of exp should be the initial value, result is differ, but the same as NumPy gives. Investigate, why? because of +2π / -2π * k ?
+	descr: 'ln(exp(32.5-13.2j))'
+);
+print "ref py: (32.5-0.6336293856408264j) \n\n";
+
+Utils::test(
+	fn: function() {
+		return (new Complex(32.5, -13.2))->exp();
+	},
+	// check: '[104916349800311-77080814660213.08i]',
+	check: '[1.0491634980031E+14 + -77080814660213i]',
+	descr: 'exp(32.5-13.2j)'
+);
+print "ref py: (104916349800311-77080814660213.08j) \n\n";
 ?>
 </pre>

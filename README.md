@@ -8,7 +8,7 @@ PHP library for extended mathematical operations
 
 ## Installation
 Library is available on [Packagist](https://packagist.org/packages/irrevion/science) and could be installed using CLI command:
-```
+```bash
 composer require irrevion/science
 ```
 
@@ -16,7 +16,7 @@ composer require irrevion/science
 If installed via composer include composer generated autoloader and add `use irrevion\science\Math\Math` statement for example.
 If you are not using composer or using a custom folder you can modify and include [custom autoloader](https://github.com/irrevion/science/blob/main/dev/autoloader.php).
 Example:
-```
+```php
 require_once("../autoloader.php");
 
 use irrevion\science\Helpers\Utils;
@@ -27,7 +27,7 @@ use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex};
 
 ## Examples
 Scalar is a basic number class:
-```
+```php
 use irrevion\science\Math\Entities\Scalar;
 
 $n = new Scalar(5);
@@ -37,14 +37,14 @@ print("Scalar to string is {$n}\nType of n is ".($n::class)."\n");
 // Type of n is irrevion\science\Math\Entities\Scalar
 ```
 Basic arithmetic operations available:
-```
+```php
 $sum = $n->add(new Scalar(3));
 $diff = $n->subtract(new Scalar(2));
 $prod = $n->multiply(new Scalar(10));
 $quotient = $n->divide(new Scalar(3));
 ```
 As mentioned above, significant enhancement of pow() function has been made:
-```
+```php
 use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
@@ -98,7 +98,7 @@ print "{$x}**{$y} is {$z} ( ".($z::class)." ) \n";
 // Python gives: (-29.845986458754275+11.541970902053793j)
 ```
 It is also possible to get all roots of a number
-```
+```php
 $roots = (new Complex(-64))->roots(3);
 print Utils::printR($roots)." \n";
 // Output: [[2 + 3.4641016151378i], [-4 + 4.8985871965894E-16i], [2 + -3.4641016151378i]]

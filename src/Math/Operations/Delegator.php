@@ -55,6 +55,14 @@ class Delegator {
 		return null;
 	}
 
+	public static function belongsTo(object $x, string $classname): bool {
+		return in_array($classname, $x->subset_of);
+	}
+
+	public static function isSubsetOf(mixed $x, mixed $y): bool {
+		return in_array((self::isEntity($y)? ($y::class): ((string)$y)), (self::isEntity($x)? $x->subset_of: ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
+	}
+
 	public static function delegate($operation, $x, $y) {
 		$superset = self::getSuperset($x, $y);
 		if (empty($superset)) throw new \Error("This entities are incompatible");

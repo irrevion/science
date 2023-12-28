@@ -217,6 +217,10 @@ class BaseMath {
 		return (is_nan($n) || is_infinite($n));
 	}
 
+	public static function isNatural($n) {
+		return (!self::isNaN($n) && !self::isFloat($n) && ($n>=0));
+	}
+
 	public static function log10($x) {
 		return log10($x);
 	}

@@ -21,6 +21,7 @@ class Quaternion extends Complex {
 	public $subset_of = [
 		__NAMESPACE__.'\Quaternion'
 	];
+	private $magnitude = 0;
 
 	public function __construct($q, $v=0) {
 		if (is_numeric($q)) $q = Delegator::wrap($q);
@@ -212,6 +213,49 @@ class Quaternion extends Complex {
 		}
 	}
 
+	public function methodPowNaturalMultiply($n) {
+		if (!Math::isNatural($n)) {
+			throw new \Error('Only natural exponent is supported.');
+		}
+		$n = (Delegator::isEntity($n)? $n->toNumber(): $n);
+		if ($n==0) {return new self(1);}
+		if ($n==1) {return new self($this);}
+		$res = $this;
+		$count = 1;
+		while ($count<$n) {
+			$res = $res->multiply($this);
+			$count++;
+		}
+		return $res;
+	}
+
+	public function pow($n) {
+		return $this->methodPowNaturalMultiply($n);
+	}
+
+	public function powI($n) {
+		throw new \Error('Not implemented yet');
+	}
+
+	public function root($n=2, $all_roots=false) {
+		throw new \Error('Not implemented yet');
+	}
+
+	public function roots($n) {
+		throw new \Error('Not implemented yet');
+	}
+
+	public function exp() {
+		throw new \Error('Not implemented yet');
+		// exponential function of e -> eⁿ -> eᵃ⁺ᵇⁱ⁺ᶜʲ⁺ᵈᵏ
+		$c = $this->toRectangular();
+		$scalar_exp = Math::exp($c->real);
+		$real = $scalar_exp->multiply(Math::cos($c->imaginary));
+		$imaginary = new Imaginary($scalar_exp->multiply(Math::sin($c->imaginary))->value);
+		$result = new Complex($real, $imaginary);
+		return ($rectangular? $result: $result->toPolar());
+	}
+
 	public function divide($y) {
 		// if (Delegator::getType($y)!=self::class) $y = new self($y); // avoid self, it causes problems when using parent methods in chilld classes (creates parent instance instead of self)
 		if (Delegator::getType($y)!=$this::class) $y = new ($this::class)($y);
@@ -251,7 +295,12 @@ class Quaternion extends Complex {
 	}
 
 	public function abs($nowrap=false) {
-		$abs = Math::sqrt($this->real->value**2 + $this->i->value**2 + $this->j->value**2 + $this->k->value**2);
+		if (empty($this->magnitude)) {
+			$abs = Math::sqrt($this->real->value**2 + $this->i->value**2 + $this->j->value**2 + $this->k->value**2);
+			$this->magnitude = $abs;
+		} else {
+			$abs =$this->magnitude;
+		}
 		return ($nowrap? $abs: Delegator::wrap($abs));
 	}
 
