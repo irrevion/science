@@ -109,4 +109,4 @@ So, as you can see, the following operations are supported:
 - raise of negative number to a rational or real power (1/n is n-th root of a number)
 - raise of an any number to negative power (rational or real)
 - raise of a number to imaginary or complex power
-- raise of an any available value (entity-type instance: mixed/numeric, Scalar, Fraction, Imaginary, Complex, ComplexPolar, QuaternionComponent, Quaternion, Vector, etc) at least to positive integer power
+- raise of an any available value (entity-type instance: mixed/numeric, Scalar, Fraction, Imaginary, [Complex](docs/Math/Entities/Complex.md), ComplexPolar, QuaternionComponent, Quaternion, Vector, etc) at least to positive integer power

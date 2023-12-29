@@ -221,6 +221,17 @@ class BaseMath {
 		return (!self::isNaN($n) && !self::isFloat($n) && ($n>=0));
 	}
 
+	public static function lcm($x, $y) {
+		$a = abs((int)$x);
+		$b = abs((int)$y);
+		$gcd = self::gcd($a, $b);
+		return ($b/$gcd)*$a;
+	}
+
+	public static function ln($n) {
+		return log($n);
+	}
+
 	public static function log10($x) {
 		return log10($x);
 	}
@@ -231,10 +242,6 @@ class BaseMath {
 
 	public static function log($num, $base = M_E) {
 		return log($num, $base);
-	}
-
-	public static function ln($n) {
-		return log($n);
 	}
 
 	public static function octdec($octal_string) {

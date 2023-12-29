@@ -147,14 +147,9 @@ class Fraction extends Scalar implements Entity {
 	}
 
 	public function add($y) {
-		$type = Delegator::getType($y);
-		if ($type==self::class) {
-			$y = clone $y;
-		} else {
-			$y = new self($y);
-		}
-		// $x = Delegator::wrap($this->__toString(), self::class);
-		$x = clone $this;
+		$x = new self("$this");
+		if (Delegator::getType($y)==self::class) $y = "$y";
+		$y = new self($y);
 
 		if ($y->denominator->value<0) {
 			$y->value['numerator']->value*=-1;
@@ -162,10 +157,19 @@ class Fraction extends Scalar implements Entity {
 		}
 
 		if ($y->denominator->value!=$x->denominator->value) {
+			/*
 			$x->value['numerator'] = $x->numerator->multiply($y->denominator->value);
 			$x->value['denominator'] = $x->denominator->multiply($y->denominator->value);
 			$y->value['numerator'] = $y->numerator->multiply($this->denominator->value);
 			$y->value['denominator'] = $y->denominator->multiply($this->denominator->value);
+			*/
+			$lcm = Math::lcm($x->denominator->value, $y->denominator->value);
+			$k_left = $lcm/$x->denominator->value;
+			$k_right = $lcm/$y->denominator->value;
+			$x->value['numerator'] = $x->numerator->multiply($k_left);
+			$x->value['denominator']->value = $lcm;
+			$y->value['numerator'] = $y->numerator->multiply($k_right);
+			$y->value['denominator']->value = $lcm;
 		}
 
 		$x->value['numerator'] = $x->numerator->add($y->numerator->value);

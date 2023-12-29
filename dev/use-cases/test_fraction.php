@@ -73,21 +73,77 @@ try {
 ?>
 
 <?php
-$x = new Fraction("2/3");
-$y = new Fraction("3/4");
-$z = $x->add($y);
-print("{$x} + {$y} is {$z}\n");
-print("Type of z is ".($z::class)."\n");
-unset($x, $y, $z);
+Utils::test(
+	fn: function() {
+		return Math::lcm(4, 2);
+	},
+	check: 4,
+	descr: 'Math::lcm(4, 2)'
+);
 ?>
 
 <?php
-$x = new Fraction("2/3");
-$y = new Fraction("3/4");
-$z = $x->subtract($y);
-print("{$x} - {$y} is {$z}\n");
-print("Type of z is ".($z::class)."\n");
-unset($x, $y, $z);
+Utils::test(
+	fn: function() {
+		return Math::lcm(0, -999999999);
+	},
+	check: 0,
+	descr: 'Math::lcm(0, -999999999)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Math::lcm(7, 13);
+	},
+	check: 91,
+	descr: 'Math::lcm(7, 13)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Math::lcm(7, 21);
+	},
+	check: 21,
+	descr: 'Math::lcm(7, 21)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Math::lcm(31, 117);
+	},
+	check: 3627,
+	descr: 'Math::lcm(31, 117)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Fraction("2/3");
+		$y = new Fraction("3/4");
+		return $x->add($y);
+	},
+	check: "17/12",
+	descr: "2/3 + 3/4"
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Fraction("2/3");
+		$y = new Fraction("3/4");
+		return $x->subtract($y);
+	},
+	check: "-1/12",
+	descr: "2/3 - 3/4"
+);
 ?>
 
 <?php
