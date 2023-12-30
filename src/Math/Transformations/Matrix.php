@@ -26,7 +26,7 @@ class Matrix implements Transformation, \ArrayAccess {
 	public function as($type) {
 		$M_arr = $this->structure;
 		foreach ($M_arr as $n=>$col) {
-			array_walk($M_arr[$n], function(&$v) use ($type) {$v = Delegator::wrap($v, $type);});
+			array_walk($M_arr[$n], function(&$v) use ($type) {$v = ((Delegator::getType($v)==$type)? $v: Delegator::wrap($v, $type));});
 		}
 		return $M_arr;
 	}
@@ -167,6 +167,20 @@ class Matrix implements Transformation, \ArrayAccess {
 		throw new \Error('Unknown argument type '+$t);
 	}
 
+	public function methodPowNaturalMultiply($n) {
+		if (Delegator::isEntity($n)) $n = (int)$n->toNumber();
+		if ($n===0) return self::M('I', "{$this->rows}x{$this->cols}", $this->inner_type);
+		if ($n===1) return clone $this;
+		if ($n==2) return $this->multiply($this);
+		if ($n>=3) return $this->multiply($this->methodPowNaturalMultiply($n-1));
+		throw new \Error('Exponent value is out of allowed range for selected method');
+	}
+
+	public function pow($n) {
+		if (Math::isNatural($n)) return $this->methodPowNaturalMultiply($n);
+		throw new \Error('Unsupported method');
+	}
+
 	public function multiplyScalar($y): self {
 		return $this->map(fn($v) => $v->multiply($y));
 	}
@@ -205,10 +219,9 @@ class Matrix implements Transformation, \ArrayAccess {
 		// indexes in formulas starts with 1, in arrays from 0, but since all we need is negate determinant when i is even and j is odd or j is even and i is odd, there is no difference of the starting value
 		// when both indexes is 0 negator is -1**0 = 1, and when both indexes is 1 negator is -1**2 = 1 too
 		// that means we can use $col_index+$row_index directly instead of ($col_index+1)+($row_index+1)
-		//return $this->map(fn($el, $col_index, $row_index) => $this->minor($col_index, $row_index)->determinant()->multiply(-1**($col_index+$row_index)), $this->inner_type);
 		return $this->map(function($el, $col_index, $row_index) {
-			// print "$el at ($col_index, $row_index): D is ".$this->minor($col_index, $row_index)->determinant().", negator is ".((-1)**($col_index+$row_index))." \n";
-			return $this->minor($col_index, $row_index)->determinant()->multiply((-1)**($col_index+$row_index));
+			$sign = (-1)**($col_index+$row_index);
+			return $this->minor($col_index, $row_index)->determinant()->multiply($sign);
 		}, $this->inner_type);
 	}
 
@@ -227,7 +240,12 @@ class Matrix implements Transformation, \ArrayAccess {
 		// https://www.toppr.com/guides/maths/determinants/adjoint-and-inverse-of-a-matrix/
 		// https://byjus.com/maths/determinants-and-matrices/#inverse-matrix
 		// https://en.wikipedia.org/wiki/Adjugate_matrix
+		// https://en.wikipedia.org/wiki/Invertible_matrix
 		// https://mathworld.wolfram.com/MatrixInverse.html
+		// for future implementation:
+		// https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse
+		// https://en.wikipedia.org/wiki/Singular_value_decomposition
+		// https://en.wikipedia.org/wiki/QR_decomposition
 
 		if ($this->rows!=$this->cols) {
 			throw new \Error("Matrix is not square; cannot get determinant of a {$this->rows} x {$this->cols} matrix");
@@ -272,6 +290,24 @@ class Matrix implements Transformation, \ArrayAccess {
 			$this->rows = $m;
 			$this->inner_type = $t;
 		}
+	}
+
+	// templates
+
+	public static function fromTemplate($size='2x2', $template='identity', $type=self::T_SCALAR) {
+		$tpl = [];
+		list($rows, $cols) = explode('x', $size);
+		$rows = abs((int)$rows);
+		$cols = abs((int)$cols);
+		if ($template=='identity') {
+			$tpl = Utils::map(array_fill(0, $cols, 0), fn($col, $i) => Utils::map(array_fill(0, $rows, 0), fn($el, $j) => (($j==$i)? 1: 0)));
+		}
+		return new self($tpl, $type);
+	}
+	public static function M($template='identity', $size='2x2', $type=self::T_SCALAR) { // alias for fromTemplate
+		$aliases = ['I' => 'identity'];
+		if (isset($aliases[$template])) {$template = $aliases[$template];}
+		return self::fromTemplate($size, $template, $type);
 	}
 
 	// methods to comply interface \ArrayAccess

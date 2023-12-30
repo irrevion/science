@@ -246,4 +246,124 @@ Utils::test(
  [ 1.5 -0.5]]
 */
 ?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Matrix::M('I');
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
+	},
+	descr: 'M("I")'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Matrix::fromTemplate('3x3', 'identity');
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 3x3: [[1, 0, 0], [0, 1, 0], [0, 0, 1]] ]");
+	},
+	descr: 'M("3x3", "I")'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Matrix::M('I', '23x23');
+	},
+	check: function($res, $err) {
+		return $res->cols==23;
+	},
+	descr: 'M("I", "23x23")'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(new Scalar(0.0));
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(new Scalar(0.0))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(1);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1, 2], [3, 4]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(1)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(2);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[7, 10], [15, 22]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(2)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(64);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1.2833525361571E+46, 1.8703927750031E+46], [2.8055891625047E+46, 4.0889416986618E+46]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(64)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(128);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[6.8945474312366E+92, 1.0048300321996E+93], [1.5072450482994E+93, 2.1966997914231E+93]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(128)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(256);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1.9898729332311E+186, 2.9000947538816E+186], [4.3501421308225E+186, 6.3400150640536E+186]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(256)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(512);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [ Matrix 2x2: [[INF, INF], [INF, INF]] ] ]"); // yep, brokes here, but it was expected
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(512)'
+);
+?>
 </pre>

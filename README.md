@@ -1,7 +1,7 @@
 # science
 PHP library for extended mathematical operations. Its mostly focused on operations with Complex numbers, Quaternions and Linear Algebra.
 
-## Killer-features and advantages:
+## Killer-features and advantages
 - Improved `Math::pow($base, $exponent)` function, able to raise any real or complex number to any real or complex exponent
 - Support for [Complex](docs/Math/Entities/Complex.md) numbers and Quaternions (just like Python with [NumPy](https://numpy.org/doc/stable/user/quickstart.html) + ~~SciPy~~ + [PyQuaternion](http://kieranwynn.github.io/pyquaternion/)
 - Physics units conversion (more units to be added...) using `(new Quantity(0.7, IAU::parsec))->convert(SI::metre)`
@@ -112,10 +112,17 @@ So, as you can see, the following operations are supported:
 - raise of an any available value (entity-type instance: mixed/numeric, Scalar, Fraction, Imaginary, [Complex](docs/Math/Entities/Complex.md), ComplexPolar, QuaternionComponent, Quaternion, Vector, etc) at least to positive integer power
 
 ## Versions history
+
+~dev-main
+- Matrix inversion implemented (as well as methods for finding cofactor matrix, adjugate, minors)
+- Complex power, exponentiation, natural logarythm implemented
+- Quaternions added
+
 v0.0.4
 - Vector checking methods added (orthogonal, collinear, coplarar)
 - Angle between vectors calculation added
 - Physics: Angle units added
+
 v0.0.3
 - Matrix determinant implemented
 - Physics: New units added (Ohm, Farad, Watt, etc)

@@ -84,7 +84,7 @@ class Math extends BaseMath {
 	}
 
 	public static function isNatural($n) {
-		return (!self::isNaN($n) && !self::isFloat($n) && !self::isNegative($n));
+		return (self::isReal($n) && !self::isNaN($n) && !self::isFloat($n) && !self::isNegative($n));
 	}
 
 	public static function isNegative($n) {
