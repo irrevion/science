@@ -6,7 +6,7 @@ use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Entities\{Vector, Scalar};
 
-class Matrix implements Transformation {
+class Matrix implements Transformation, \ArrayAccess {
 	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
 	private const T_VECTOR = 'irrevion\science\Math\Entities\Vector';
 
@@ -15,7 +15,7 @@ class Matrix implements Transformation {
 	public $cols;
 	public $inner_type;
 
-	public function __construct(?array $struct=null, $type=self::T_SCALAR) {
+	public function __construct(?array $struct=null, ?string $type=self::T_SCALAR) {
 		if (!empty($struct)) {
 			$this->structure = $struct;
 			if ($type) {$this->structure = $this->as($type);}
@@ -132,9 +132,7 @@ class Matrix implements Transformation {
 		foreach ($V as $axis=>$projection) {
 			$new_axis_unitV = new Vector($this->structure[$axis], $this->inner_type);
 			$new_projections[$axis] = $new_axis_unitV->multiply($projection);
-			// print "new axis {$new_projections[$axis]} unit {$new_axis_unitV}->multiply({$projection}); \n";
 		}
-		// print "new_projections: ".$this->print($new_projections)."\n";
 		foreach ($new_projections as $p) {
 			$transformedV = $transformedV->add($p);
 		}
@@ -164,7 +162,6 @@ class Matrix implements Transformation {
 		} else if ($t==self::T_VECTOR) {
 			return $this->applyTo($y);
 		} else if ($t==self::T_SCALAR) {
-			// return $this->map(fn($v) => $v->multiply($y));
 			return $this->multiplyScalar($y);
 		}
 		throw new \Error('Unknown argument type '+$t);
@@ -174,8 +171,72 @@ class Matrix implements Transformation {
 		return $this->map(fn($v) => $v->multiply($y));
 	}
 
+	public function divideScalar($y): self {
+		return $this->map(fn($v) => $v->divide($y));
+	}
+
 	public function transpose(): self {
 		return new self(Utils::arrayColumnsToAttributes($this->structure), $this->inner_type);
+	}
+
+	public function minor($col_index, $row_index) {
+		if ($this->rows!=$this->cols) {
+			throw new \Error("Minor can be defined only for square matrices, {$this->rows} x {$this->cols} given");
+		}
+		if (($col_index>=$this->cols) || ($row_index>=$this->rows)) {
+			throw new \Error("Element index ( column $col_index, row $row_index ) out of bound {$this->rows} x {$this->cols}");
+		}
+		if (($this->cols<2) || ($this->rows<2)) {
+			throw new \Error("Cannot get minor of such a small matrix");
+		}
+
+		$M = $this->structure;
+		array_splice($M, $col_index, 1); // remove column
+		foreach ($M as $curr_col_index=>$col) {
+			unset($col[$row_index]); // remove elements at row index
+			$col = array_values($col); // reorder indexes
+			$M[$curr_col_index] = $col;
+		}
+
+		return new self($M, $this->inner_type);
+	}
+
+	public function cofactorMatrix() {
+		// indexes in formulas starts with 1, in arrays from 0, but since all we need is negate determinant when i is even and j is odd or j is even and i is odd, there is no difference of the starting value
+		// when both indexes is 0 negator is -1**0 = 1, and when both indexes is 1 negator is -1**2 = 1 too
+		// that means we can use $col_index+$row_index directly instead of ($col_index+1)+($row_index+1)
+		//return $this->map(fn($el, $col_index, $row_index) => $this->minor($col_index, $row_index)->determinant()->multiply(-1**($col_index+$row_index)), $this->inner_type);
+		return $this->map(function($el, $col_index, $row_index) {
+			// print "$el at ($col_index, $row_index): D is ".$this->minor($col_index, $row_index)->determinant().", negator is ".((-1)**($col_index+$row_index))." \n";
+			return $this->minor($col_index, $row_index)->determinant()->multiply((-1)**($col_index+$row_index));
+		}, $this->inner_type);
+	}
+
+	public function adjugate() {
+		if ($this->rows!=$this->cols) {
+			throw new \Error("Matrix is not square; cannot get adjugate Matrix of a {$this->rows} x {$this->cols} matrix");
+		}
+		// A**-1 = M_adj(A) / Det(A)
+		// So in case 1x1 martix Det(A) = a(1, 1) => A**-1 = 1/a(1, 1) = M(1) / Det(A)
+		if ($this->cols===1) {return new self([[1]]);}
+		// M_adj(A) = M_tr( M_cf( A ))
+		return $this->cofactorMatrix()->transpose();
+	}
+
+	public function reverseTransformation() {
+		// https://www.toppr.com/guides/maths/determinants/adjoint-and-inverse-of-a-matrix/
+		// https://byjus.com/maths/determinants-and-matrices/#inverse-matrix
+		// https://en.wikipedia.org/wiki/Adjugate_matrix
+		// https://mathworld.wolfram.com/MatrixInverse.html
+
+		if ($this->rows!=$this->cols) {
+			throw new \Error("Matrix is not square; cannot get determinant of a {$this->rows} x {$this->cols} matrix");
+		}
+		$D = $this->determinant();
+		if ($D===0) {
+			throw new \Error("Determinant is 0; cannot get reverse transformation of a singular matrix");
+		}
+		return $this->adjugate()->divideScalar($D);
 	}
 
 	public function map(callable $f, string $t=self::T_SCALAR): self {
@@ -211,6 +272,27 @@ class Matrix implements Transformation {
 			$this->rows = $m;
 			$this->inner_type = $t;
 		}
+	}
+
+	// methods to comply interface \ArrayAccess
+
+	public function offsetExists($offset): bool {
+		return isset($this->structure[$offset]);
+	}
+
+	public function offsetGet($offset): mixed {
+		return (isset($this->structure[$offset])? $this->structure[$offset]: null);
+	}
+
+	public function offsetSet($offset, $value): void {
+		throw new \Error('Cannot directly overwrite whole column');
+	}
+
+	public function offsetUnset($offset): void {
+		// throw new \Error('Immutable object');
+		unset($this->structure[$offset]);
+		$this->structure = array_values($this->structure);
+		$this->updateMeta();
 	}
 }
 ?>

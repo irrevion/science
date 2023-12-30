@@ -1,10 +1,10 @@
 # science
-PHP library for extended mathematical operations
+PHP library for extended mathematical operations. Its mostly focused on operations with Complex numbers, Quaternions and Linear Algebra.
 
 ## Killer-features and advantages:
-- Improved pow() function
-- Support for Complex numbers and Quaternions (just like Python with [NumPy](https://numpy.org/doc/stable/user/quickstart.html) + ~~SciPy~~ + [PyQuaternion](http://kieranwynn.github.io/pyquaternion/)
-- Physics units conversion (more units to be added...)
+- Improved `Math::pow($base, $exponent)` function, able to raise any real or complex number to any real or complex exponent
+- Support for [Complex](docs/Math/Entities/Complex.md) numbers and Quaternions (just like Python with [NumPy](https://numpy.org/doc/stable/user/quickstart.html) + ~~SciPy~~ + [PyQuaternion](http://kieranwynn.github.io/pyquaternion/)
+- Physics units conversion (more units to be added...) using `(new Quantity(0.7, IAU::parsec))->convert(SI::metre)`
 
 ## Installation
 Library is available on [Packagist](https://packagist.org/packages/irrevion/science) and could be installed using CLI command:
@@ -13,8 +13,8 @@ composer require irrevion/science
 ```
 
 ## Usage
-If installed via composer include composer generated autoloader and add `use irrevion\science\Math\Math` statement for example.
-If you are not using composer or using a custom folder you can modify and include [custom autoloader](https://github.com/irrevion/science/blob/main/dev/autoloader.php).
+If installed via composer include composer generated autoloader and add `use irrevion\science\Math\Math` statement for example.  
+If you are not using composer or using a custom folder you can modify and include [custom autoloader](https://github.com/irrevion/science/blob/main/dev/autoloader.php).  
 Example:
 ```php
 require_once("../autoloader.php");
@@ -110,3 +110,12 @@ So, as you can see, the following operations are supported:
 - raise of an any number to negative power (rational or real)
 - raise of a number to imaginary or complex power
 - raise of an any available value (entity-type instance: mixed/numeric, Scalar, Fraction, Imaginary, [Complex](docs/Math/Entities/Complex.md), ComplexPolar, QuaternionComponent, Quaternion, Vector, etc) at least to positive integer power
+
+## Versions history
+v0.0.4
+- Vector checking methods added (orthogonal, collinear, coplarar)
+- Angle between vectors calculation added
+- Physics: Angle units added
+v0.0.3
+- Matrix determinant implemented
+- Physics: New units added (Ohm, Farad, Watt, etc)

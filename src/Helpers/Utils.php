@@ -19,14 +19,19 @@ class Utils {
 			$res = $fn(...$data);
 			if (!is_null($check)) {
 				if (is_callable($check)) {
-					$status = $check($res);
+					$status = $check($res, null);
 				} else {
 					$status = ($strict? ($res===$check): ("$res"==$check));
 				}
 				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: 'Result is not valid')." = $res ( ".(is_object($res)? $res::class: gettype($res))." ) \n";
 			}
 		} catch (\Throwable $err) {
-			print "FAIL: Error thrown: ".$err->getMessage()." \n";
+			if (is_callable($check)) {
+				$status = $check(null, $err);
+				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
+			} else {
+				print "FAIL: ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
+			}
 		}
 		$t2 = microtime(true);
 		$m2 = memory_get_usage();

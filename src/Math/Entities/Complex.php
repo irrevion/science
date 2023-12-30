@@ -8,6 +8,7 @@ use irrevion\science\Math\Entities\{
 };
 
 class Complex extends Imaginary implements Entity {
+	//https://www.youtube.com/watch?v=cUzklzVXJwo&t=19m18s
 	public const SPACE = 'euclidean';
 	public const COORDINATE_SYSTEM = 'rectangular';
 	public const DIMENSIONS_NUMBER = '2';

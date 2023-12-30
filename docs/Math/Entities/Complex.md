@@ -45,3 +45,39 @@ $is_empty = (new Complex(0, 0))->empty(); // true
 $is_equal = $x->isEqual($x); // true
 $is_near = $x->isNear(new Complex(2.0000000000001, 7)); // true
 ```
+
+## Constructor
+
+You can create instance of Complex number in a different ways.  
+The most trivial was already shown above:
+```php
+$x = new Complex(5);
+$y = new Complex(5, -3);
+$z = new Complex(0, 29);
+```
+which is similar to
+```php
+$x = new Complex(new Scalar(5));
+$y = new Complex(new Scalar(5), new Imaginary(-3));
+$z = new Complex(new Imaginary(29));
+```
+> [!WARNING]
+> It is not allowed to pass Scalar as second argument. Error will be thrown.
+
+You can also create a copy of another Complex number including ComplexPolar form:
+```php
+$c1 = new Complex(-0.3, 0.7);
+$c2 = new Complex($c1);
+
+$cp = new ComplexPolar(12, Math::PI/2);
+$c3 = new Complex($cp);
+```
+
+And some more exotic ways are available:
+```php
+$c4 = new Complex(['real' => 5.045, 'imaginary' => -9.3]);
+$c5 = $cp->toRectangular();
+$c6 = (new Scalar(5))->add(new Imaginary(-3));
+$c7 = Math::pow(new Scalar(-42.42), new Fraction('1/3'));
+$c8 = new Quaternion([5, -3, 0, 0])->toComplex();
+```

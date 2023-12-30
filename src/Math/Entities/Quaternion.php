@@ -99,12 +99,18 @@ class Quaternion extends Complex {
 	}
 
 	public function toPolar() {
-		$i = new Imaginary($this->abs(nowrap: true));
+		// $i = new Imaginary($this->abs(nowrap: true));
+		$i = new Imaginary($this->i->value);
 		list($r, $phi) = Math::rectangular2polar($this->real, $i);
 		return new ComplexPolar([
 			'radius' => $r,
 			'phase' => $phi
 		]);
+	}
+
+	public function toComplex() {
+		// return new Complex($this->real, new Imaginary($this->abs(nowrap: true)));
+		return new Complex($this->real, new Imaginary($this->i->value));
 	}
 
 	public function real() {return $this->value['scalar'];}
