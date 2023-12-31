@@ -23,7 +23,7 @@ class Utils {
 				} else {
 					$status = ($strict? ($res===$check): ("$res"==$check));
 				}
-				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: 'Result is not valid')." = $res ( ".(is_object($res)? $res::class: gettype($res))." ) \n";
+				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: 'Result is not valid')." = ".(is_array($res)? (self::printR($res)): $res)." ( ".(is_object($res)? $res::class: gettype($res))." ) \n";
 			}
 		} catch (\Throwable $err) {
 			if (is_callable($check)) {
@@ -156,7 +156,7 @@ class Utils {
 			}
 			return "[$str]";
 		}
-		return "$arr";
+		return (is_null($arr)? 'NULL': "$arr");
 	}
 
 	public static function map($arr, $fn, ...$args) {

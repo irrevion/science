@@ -46,6 +46,26 @@ class Matrix implements Transformation, \ArrayAccess {
 		return "[ Matrix {$this->rows}x{$this->cols}: ".$this->print($this->structure)." ]";
 	}
 
+	public function isEqual(Matrix $y): bool {
+		if (($this->cols!=$y->cols) || ($this->rows!=$y->rows)) return false;
+		foreach ($this->structure as $n=>$col) {
+			foreach ($col as $m=>$el) {
+				if (!$el->isEqual($y[$n][$m])) return false;
+			}
+		}
+		return true;
+	}
+
+	public function isNear(Matrix $y): bool {
+		if (($this->cols!=$y->cols) || ($this->rows!=$y->rows)) return false;
+		foreach ($this->structure as $n=>$col) {
+			foreach ($col as $m=>$el) {
+				if (!$el->isNear($y[$n][$m])) return false;
+			}
+		}
+		return true;
+	}
+
 	public function det() {
 		// https://en.wikipedia.org/wiki/Determinant
 		// https://mathworld.wolfram.com/Determinant.html

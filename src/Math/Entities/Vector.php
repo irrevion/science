@@ -242,14 +242,17 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return $z;
 	}
 
-	// scale vector using scalar scalarMultiply() (not scalar product!), k(), coefficient(), times(), scale()
+	// Multiply vectors
+	// https://www.youtube.com/watch?v=htYh-Tq7ZBI ( Freya Holmér - Why can't you multiply vectors? )
+	// scale vector using scalar is k(), coefficient(), times(), scale()
 	// dot product ·→ aliases is dotProduct(), innerProduct(), dot()
 	// Hadamard product ⊙→ aliases is multiplyElementwise(), hadamardProduct(), schurProduct()
 	// cross product ⨯→ aliases is crossProduct(), vectorProduct(), cross(), x()
 	// scalar triple product, aliases is scalarTripleProduct(), triple()
-	// direct product ⊗→ (Kroneker product with transponed matrix) directProduct()
 	// Kronecker product ⊗→ aliases is kroneckerProduct(), tensorProduct(), matrixDirectProduct()
+	// direct product ⊗→ (Kroneker product with transponed matrix) directProduct()
 	// exterior product is exteriorProduct();
+	// wedge product ...
 
 	public function dotProduct($y) {
 		// In mathematics, the dot product or scalar product is an algebraic operation that takes two equal-length sequences of numbers (usually coordinate vectors), and returns a single number.
@@ -458,13 +461,12 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 			}
 		}
 
-		// return new self($z, Delegator::getType($z[0]));
 		return new self($z, $this->inner_type);
 	}
 	public function coefficient(...$args) {return $this->k(...$args);}
 	public function times(...$args) {return $this->k(...$args);}
 	public function scale(...$args) {return $this->k(...$args);}
-	public function scalarMultiply(...$args) {return $this->k(...$args);}
+	// public function scalarMultiply(...$args) {return $this->k(...$args);}
 
 	public function divide($y) {
 		$n = $this->count();
@@ -522,7 +524,6 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 				$z[$i][0] = $v;
 			}
 		}
-		//return Delegator::wrap($z, self::T_MATRIX);
 		return new (self::T_MATRIX)($z, $this->inner_type);
 	}
 

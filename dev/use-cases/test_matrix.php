@@ -8,6 +8,7 @@ require_once("../autoloader.php");
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
 use irrevion\science\Helpers\Utils;
+use irrevion\science\Helpers\R;
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector};
 use irrevion\science\Math\Transformations\Matrix;
 ?>
@@ -20,6 +21,54 @@ $x = new Matrix([
 ]);
 print("{$x} of {$x->inner_type}\n");
 unset($x);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 4], [5, 6]]))->isEqual(new Matrix([[3, 4], [5, 6]]));
+	},
+	check: function($res, $err) {
+		return $res===true;
+	},
+	descr: '(new Matrix([[3, 4], [5, 6]]))->isEqual(new Matrix([[3, 4], [5, 6]]))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 4], [5, 6]]))->isEqual(new Matrix([[3, 4], [5, 6.0000000000001]]));
+	},
+	check: function($res, $err) {
+		return $res===false;
+	},
+	descr: '(new Matrix([[3, 4], [5, 6]]))->isEqual(new Matrix([[3, 4], [5, 6.0000000000001]]))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 4], [5, 6]]))->isNear(new Matrix([[3, 4], [5, 6.0000000000001]]));
+	},
+	check: function($res, $err) {
+		return $res===true;
+	},
+	descr: '(new Matrix([[3, 4], [5, 6]]))->isNear(new Matrix([[3, 4], [5, 6.0000000000001]]))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 4], [5, 6]]))->isNear(new Matrix([[3, 4], [5, 6.000000000001]]));
+	},
+	check: function($res, $err) {
+		return $res===false;
+	},
+	descr: '(new Matrix([[3, 4], [5, 6]]))->isNear(new Matrix([[3, 4], [5, 6.000000000001]]))'
+);
 ?>
 
 <?php
@@ -364,6 +413,54 @@ Utils::test(
 		return ("$res"=="[ Matrix 2x2: [ Matrix 2x2: [[INF, INF], [INF, INF]] ] ]"); // yep, brokes here, but it was expected
 	},
 	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(512)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return new R(3);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[0, 0, 0]");
+	},
+	descr: 'new R(3)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return [0.0, 0.0, 0.0];
+	},
+	check: function($res, $err) {
+		return (Utils::printR($res)=="[0, 0, 0]");
+	},
+	descr: '[0.0, 0.0, 0.0]'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new R(12))->map(fn($v) => $v+rand());
+	},
+	check: function($res, $err) {
+		return ($res->count()==12);
+	},
+	descr: '(new R(12))->map(fn($v) => $v+rand())'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return Utils::map([0,0,0,0,0,0,0,0,0,0,0,0], fn($v) => $v+rand());
+	},
+	check: function($res, $err) {
+		return (count($res)==12);
+	},
+	descr: 'Utils::map(arr(12), fn($v) => $v+rand())'
 );
 ?>
 </pre>
