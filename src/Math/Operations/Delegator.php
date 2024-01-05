@@ -59,8 +59,11 @@ class Delegator {
 		return in_array($classname, $x->subset_of);
 	}
 
-	public static function isSubsetOf(mixed $x, mixed $y): bool {
-		return in_array((self::isEntity($y)? ($y::class): ((string)$y)), (self::isEntity($x)? $x->subset_of: ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
+	public static function isSubsetOf(mixed $x, mixed $ref): bool {
+		if (!self::isEntity($x)) return false;
+		if (is_object($ref)) $ref = $ref::class;
+		return in_array((string)$ref, (is_object($x)? ($x?->subset_of): ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
+		// return in_array((self::isEntity($ref)? ($ref::class): ((string)$ref)), (self::isEntity($x)? $x->subset_of: ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
 	}
 
 	public static function delegate($operation, $x, $y) {

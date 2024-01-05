@@ -14,6 +14,7 @@ class Matrix implements Transformation, \ArrayAccess {
 	public $rows;
 	public $cols;
 	public $inner_type;
+	public $determinant = null;
 
 	public function __construct(?array $struct=null, ?string $type=self::T_SCALAR) {
 		if (!empty($struct)) {
@@ -66,8 +67,13 @@ class Matrix implements Transformation, \ArrayAccess {
 		return true;
 	}
 
+	public function isSquare(): bool {
+		return ($this->rows===$this->cols);
+	}
+
 	public function det() {
 		// https://en.wikipedia.org/wiki/Determinant
+		// https://en.wikipedia.org/wiki/Laplace_expansion
 		// https://mathworld.wolfram.com/Determinant.html
 
 		if ($this->rows!=$this->cols) {
@@ -120,6 +126,10 @@ class Matrix implements Transformation, \ArrayAccess {
 			throw new \Error("Determinant can be calculated only for square matrices, {$this->rows} x {$this->cols} given.");
 		}
 
+		if (!is_null($this->determinant)) {
+			return $this->determinant;
+		}
+
 		if ($this->rows==1) {
 			return $this->structure[0][0];
 		}
@@ -133,10 +143,12 @@ class Matrix implements Transformation, \ArrayAccess {
 		while ($k<=$this->cols) {
 			$M_det = $this->structure;
 			array_splice($M_det, ($k-1), 1);
-			$M_det = array_map(function($col) {return array_slice($col, 1);}, $M_det);
+			$M_det = array_map(fn($col) => array_slice($col, 1), $M_det);
 			$D = $D->{(($k%2)? 'add': 'subtract')}($this->structure[$k-1][0]->multiply((new self($M_det, $this->inner_type))->determinant()));
 			$k++;
 		}
+
+		$this->determinant = $D;
 		return $D;
 	}
 
@@ -198,7 +210,22 @@ class Matrix implements Transformation, \ArrayAccess {
 
 	public function pow($n) {
 		if (Math::isNatural($n)) return $this->methodPowNaturalMultiply($n);
+		if (Math::isNegative($n) && !Math::isFloat($n)) return $this->reverseTransformation()->methodPowNaturalMultiply(Math::abs($n));
 		throw new \Error('Unsupported method');
+	}
+
+	public function exp() {
+		// https://en.wikipedia.org/wiki/Matrix_exponential
+		if (!$this->isSquare()) throw new \Error('Matrix is not square');
+		$sum = self::M('zero', $this->rows.'x'.$this->cols, $this->inner_type);
+		$k = 0;
+		while ($k<=INF) {
+			$fc = Math::factorial($k);
+			$sum = $sum->entrywiseSum($this->methodPowNaturalMultiply($k)->multiplyScalar(1/$fc));
+			if ($fc==INF) break;
+			$k++;
+		}
+		return $sum;
 	}
 
 	public function multiplyScalar($y): self {
@@ -277,6 +304,24 @@ class Matrix implements Transformation, \ArrayAccess {
 		return $this->adjugate()->divideScalar($D);
 	}
 
+	public function trace() {
+		$trace = null;
+		if (($this->cols==$this->rows) && ($this->cols>0)) {
+			$trace = $this->structure[0][0];
+			$pos = 1;
+			while (isset($this->structure[$pos][$pos])) {
+				$trace->add($this->structure[$pos][$pos]);
+				$pos++;
+			}
+		}
+		return $trace;
+	}
+
+	public function entrywiseSum(Matrix $M_y): Matrix {
+		if (($this->rows!=$M_y->rows) || ($this->cols!=$M_y->cols)) throw new \Error('Rows and cols number must be equal');
+		return $this->map(fn($v, $i, $j) => $v = $v->add($M_y[$i][$j]), $this->inner_type);
+	}
+
 	public function map(callable $f, string $t=self::T_SCALAR): self {
 		$M = $this->structure;
 		$Mr = [];
@@ -312,15 +357,17 @@ class Matrix implements Transformation, \ArrayAccess {
 		}
 	}
 
-	// templates
+	// creating matrix from templates
 
-	public static function fromTemplate($size='2x2', $template='identity', $type=self::T_SCALAR) {
+	public static function fromTemplate($size='2x2', $template='identity', $type=self::T_SCALAR, $value=0) {
 		$tpl = [];
 		list($rows, $cols) = explode('x', $size);
 		$rows = abs((int)$rows);
 		$cols = abs((int)$cols);
 		if ($template=='identity') {
 			$tpl = Utils::map(array_fill(0, $cols, 0), fn($col, $i) => Utils::map(array_fill(0, $rows, 0), fn($el, $j) => (($j==$i)? 1: 0)));
+		} else if ($template=='zero') {
+			$tpl = Utils::map(array_fill(0, $cols, 0), fn($col, $i) => array_fill(0, $rows, 0));
 		}
 		return new self($tpl, $type);
 	}

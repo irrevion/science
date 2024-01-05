@@ -81,3 +81,25 @@ $c6 = (new Scalar(5))->add(new Imaginary(-3));
 $c7 = Math::pow(new Scalar(-42.42), new Fraction('1/3'));
 $c8 = new Quaternion([5, -3, 0, 0])->toComplex();
 ```
+
+## Addition / Subtraction
+
+As denoted above there is methods for addition and subtraction for complex numbers
+```
+$x = new Complex(2, 7);
+$y = new Complex(3, 13);
+$sum = $x->add($y); // result is [5 + 20i]
+$diff = $x->subtract($y); // result is [-1 + -6i]
+```
+Any non-complex value passed to this methods as argument will be converted to a complex number in a way that constructor called with only one argument does; or delegate operation to super type.
+```
+$sum1 = $x->add(1.25); // result is [3.25 + 7i] ( type of irrevion\science\Math\Entities\Complex )
+$sum2 = $x->add(new Scalar(1.25)); // [3.25 + 7i] ( irrevion\science\Math\Entities\Complex )
+$sum3 = $x->add(new Fraction('5/4')); // [3.25 + 7i] ( irrevion\science\Math\Entities\Complex )
+$sum4 = $x->add(new Imaginary(7.32)); // [2 + 14.32i] ( irrevion\science\Math\Entities\Complex )
+$sum5 = $x->add(new QuaternionComponent(13.2, 'k')); // [2 + 7i + 0j + 13.2k] ( irrevion\science\Math\Entities\Quaternion )
+$sum6 = $x->add(new Quaternion([1, 2, 3, 4])); // [3 + 9i + 3j + 4k] ( irrevion\science\Math\Entities\Quaternion )
+$sum7 = $x->add(new Vector([1, 2, 3, 4])); // Error thrown: This entities are incompatible
+$sum8 = $x->add(new Matrix([[1, 2], [3, 4]])); // Error thrown: This entities are incompatible
+```
+Adding vector or matrix to a complex number currently breaks with error, but this behavior can be changed in future. Complex number representation in vector or matrix form is not obvious and clear, so let it be.

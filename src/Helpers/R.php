@@ -9,7 +9,7 @@ class R extends \SplFixedArray {
 		parent::__construct($size);
 		$this->fill();
 	}
-	
+
 	public function __toString() {
 		return Utils::printR($this);
 	}

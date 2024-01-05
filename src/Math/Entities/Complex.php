@@ -118,7 +118,13 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function add($y) {
-		if (Delegator::getType($y)!=self::class) $y = new self($y);
+		if (Delegator::getType($y)!=self::class) {
+			if (Delegator::isSubsetOf($y, $this) || !Delegator::isEntity($y)) {
+				$y = new self($y);
+			} else {
+				return Delegator::delegate('add', $this, $y);
+			}
+		}
 		$real = $this->value['real']->add($y->value['real']);
 		$imaginary = $this->value['imaginary']->add($y->value['imaginary']);
 		return new self($real, $imaginary);

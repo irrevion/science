@@ -371,6 +371,30 @@ Utils::test(
 <?php
 Utils::test(
 	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->pow(-5);
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[-106.4375, 48.6875], [73.03125, -33.40625]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->pow(-5)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1, 2], [3, 4]]))->exp();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[-106.4375, 48.6875], [73.03125, -33.40625]] ]");
+	},
+	descr: '(new Matrix([[1, 2], [3, 4]]))->exp()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
 		return (new Matrix([[1, 2], [3, 4]]))->pow(64);
 	},
 	check: function($res, $err) {
@@ -461,6 +485,49 @@ Utils::test(
 		return (count($res)==12);
 	},
 	descr: 'Utils::map(arr(12), fn($v) => $v+rand())'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$nat_pow = (new Matrix([[1, 2], [3, 4]]))->methodPowNaturalMultiply(3);
+		return $nat_pow;
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[37, 54], [81, 118]] ]");
+	},
+	descr: 'M([[1, 2], [3, 4]]))->methodPowNaturalMultiply(3)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$nat_pow = (new Matrix([[1, 2], [3, 4]]))->methodPowDeterminant(3);
+		return $nat_pow;
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[37, 54], [81, 118]] ]");
+	},
+	descr: 'M([[1, 2], [3, 4]]))->methodPowDeterminant(3)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$M = new Matrix([[1, 2], [3, 4]]);
+		$D = $M->determinant();
+		$M_adj = $M->adjugate();
+		$M_v = $M->divideScalar($D);
+		$M_v2 = Matrix::M('I')->multiply($M_adj->reverseTransformation());
+		return [$M_v, $M_v2];
+	},
+	check: function($res, $err) {
+		return ($res[0]==$res[1]);
+	},
+	descr: '$M_v==$M_v2'
 );
 ?>
 </pre>

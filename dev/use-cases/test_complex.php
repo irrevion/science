@@ -8,7 +8,7 @@ require_once("../autoloader.php");
 use irrevion\science\Math\Math;
 use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{Scalar, Imaginary, Complex};
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, QuaternionComponent, Quaternion, Vector, Matrix};
 ?>
 
 <pre>
@@ -52,6 +52,86 @@ $z = $x->add($y);
 print("{$x} + {$y} is {$z}\n");
 print("Type of z is ".($z::class)."\n");
 unset($x, $y, $z);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(1.25);
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(1.25)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Scalar(1.25));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Scalar(1.25))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Fraction('5/4'));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Fraction(\'5/4\'))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Imaginary(7.32));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Imaginary(7.32))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new QuaternionComponent(13.2, 'k'));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new QuaternionComponent(13.2, \'k\'))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Quaternion([1, 2, 3, 4]));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Quaternion([1, 2, 3, 4]))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Vector([1, 2, 3, 4]));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Vector([1, 2, 3, 4]))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(2, 7))->add(new Vector([1, 2, 3, 4]));
+	},
+	check: '?',
+	descr: '(new Complex(2, 7))->add(new Matrix([[1, 2], [3, 4]]))'
+);
 ?>
 
 <?php
