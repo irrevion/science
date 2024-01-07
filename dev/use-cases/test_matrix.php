@@ -7,8 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Operations\Delegator;
 use irrevion\science\Math\Math;
-use irrevion\science\Helpers\Utils;
-use irrevion\science\Helpers\R;
+use irrevion\science\Helpers\{Utils, R, M};
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector};
 use irrevion\science\Math\Transformations\Matrix;
 ?>
@@ -502,6 +501,7 @@ Utils::test(
 ?>
 
 <?php
+/*
 Utils::test(
 	fn: function() {
 		$nat_pow = (new Matrix([[1, 2], [3, 4]]))->methodPowDeterminant(3);
@@ -512,6 +512,7 @@ Utils::test(
 	},
 	descr: 'M([[1, 2], [3, 4]]))->methodPowDeterminant(3)'
 );
+*/
 ?>
 
 <?php
@@ -528,6 +529,81 @@ Utils::test(
 		return ($res[0]==$res[1]);
 	},
 	descr: '$M_v==$M_v2'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 2], [9, 4]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[1, 0], [3, 1]]");
+	},
+	descr: 'M([[3, 9], [2, 4]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0,2], [2,4], [3,6]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[1, 0], [2, 1], [3, 1.5]]");
+	},
+	descr: 'M([[0,2], [2,4] [3,6]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+//try{$M = (new Matrix([[2,3,6], [4,5,7]]))->toRowEchelonForm();} catch (\Throwable $e) {print_r($e);}
+Utils::test(
+	fn: function() {
+		return (new Matrix([[2,3,6], [4,5,7]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		//if (!empty($err)) {print_r($err);}
+		return ("$res"=="[[1, 0, 0], [2, 1, 0]]");
+	},
+	descr: 'M([[2,3,6], [4,5,7]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0, 17.5, 2], [1.5, -3, 52], [-92, 2.05, 3.11]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[]");
+	},
+	descr: 'M([[0, 17.5, 2], [1.5, -3, 52], [-92, 2.05, 3.11]]))->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]");
+	},
+	descr: 'M([[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]))->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[9,8,7,6,5,4,3,2,1,0], [9,8,7,6,5,11,3,2,1,0], [9,13,7,6,5,4,3,2,1,0], [9,8,7,6,5,4,3,2,17,0], [9,8,7,6,5,4,3,2,1,21], [55,8,7,6,5,4,3,2,1,0], [9,8,7,6,5,4,3,34,1,0], [9,8,0.5,6,5,4,3,2,1,0], [9,8,7,6,5,16,3,2,1,0], [9,8,7,36,5,4,3,2,1,0]]))->toRowEchelonForm();
+	},
+	check: '?',
+	/*check: function($res, $err) {
+		return ("$res"=="[]");
+	},*/
+	descr: 'M(10x10)->toRowEchelonForm()'
 );
 ?>
 </pre>

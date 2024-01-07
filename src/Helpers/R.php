@@ -24,12 +24,32 @@ class R extends \SplFixedArray {
 		return $this;
 	}
 
+	public function find(callable $fn, int $start_from=0) {
+		foreach ($this as $i=>$v) {
+			if ($i<$start_from) continue;
+			if ($fn($v, $i)) return $i;
+		}
+		return null;
+	}
+
+	public function isLast(int $i): bool {
+		return ($this->count()===($i+1));
+	}
+
 	public function map(callable $fn) {
 		foreach ($this as $i=>$v) {
 			$this->offsetSet($i, $fn($v, $i));
 			//$this[$i] = $fn($v, $i);
 		}
 		return $this;
+	}
+
+	public function max() {
+		$max = null;
+		foreach ($this as $i=>$v) {
+			if (is_null($max) || ($v>$max)) {$max = $v;}
+		}
+		return $max;
 	}
 }
 ?>

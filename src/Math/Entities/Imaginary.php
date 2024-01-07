@@ -7,6 +7,7 @@ use irrevion\science\Math\Operations\Delegator;
 
 class Imaginary extends Scalar implements Entity {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
+	private const T_COMPLEX = __NAMESPACE__.'\Complex';
 
 	public $value;
 	public $subset_of = [
@@ -121,11 +122,14 @@ class Imaginary extends Scalar implements Entity {
 		if (!Delegator::isEntity($n)) {$n = Delegator::wrap($n*1.0);}
 		if (Delegator::getType($n)!=self::T_SCALAR) {return Delegator::delegate('pow', $this, $n);}
 		if (Math::isFloat($n)) {return Delegator::delegate('pow', $this, $n);}
+		//if (Math::isNegative($n)) {return Math::pow(Delegator::wrap($this, self::T_COMPLEX), $n);}
 		$k = new Scalar(Math::pow($this->value, $n->value));
 		$i = new self(1);
 		// i**0=1; i**1=i; i**2=-1; i**3=-i; i**4=1;
 		$pattern = [1, $i, -1, $i->negative()];
-		$axis = $pattern[($n->toNumber()%4)];
+		$entry = ($n->toNumber()%4);
+		$entry = (Math::isNegative($entry)? ($entry+4): $entry);
+		$axis = $pattern[$entry];
 		$result = $k->multiply($axis);
 		return $result;
 	}

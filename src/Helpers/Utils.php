@@ -31,8 +31,8 @@ class Utils {
 				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
 			} else {
 				print "FAIL: ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
-				print print_r($err->getTrace(), 1)."\n";
 			}
+			print print_r($err->getTrace(), 1)."\n";
 		}
 		$t2 = microtime(true);
 		$m2 = memory_get_usage();

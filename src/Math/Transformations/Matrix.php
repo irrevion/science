@@ -2,8 +2,8 @@
 namespace irrevion\science\Math\Transformations;
 
 use irrevion\science\Math\Math;
-use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\{Utils, R, M};
 use irrevion\science\Math\Entities\{Vector, Scalar};
 
 class Matrix implements Transformation, \ArrayAccess {
@@ -321,6 +321,62 @@ class Matrix implements Transformation, \ArrayAccess {
 		if (($this->rows!=$M_y->rows) || ($this->cols!=$M_y->cols)) throw new \Error('Rows and cols number must be equal');
 		return $this->map(fn($v, $i, $j) => $v = $v->add($M_y[$i][$j]), $this->inner_type);
 	}
+
+	public function toRowEchelonForm() {
+		// https://mathhelpplanet.com/static.php?p=metod-gaussa
+		// https://github.com/markrogoyski/math-php/blob/ea4f212732c333c62123c6f733edfb735a4e3abd/src/LinearAlgebra/Reduction/RowEchelonForm.php#L188C42-L188C42
+		if ($this->inner_type!=Scalar::class) throw new \Error('Cannot format matrix of '.$this->inner_type.' to row echelon form');
+		$r = new M($this->cols, $this->rows);
+		$r->map(fn($val, $col, $row) => $this->structure[$col][$row]->toNumber());
+		$row = $col = 0;
+		$completed = false;
+		while (!$completed) {
+			$nonzero_row = $r[$col]->find(function($val) {return Math::compare($val, '!=', 0);}, $row);
+			if (is_null($nonzero_row)) {
+				// No non-zero pivot, go to next column
+				if ($r->isLast($col)) {
+					$completed = true;
+					// break;
+				} else {
+					$col++;
+				}
+				continue;
+			}
+
+			// Scale pivot to 1
+			$divisor = $r[$col][$nonzero_row];
+			//print "Scale pivot to 1 by divisor $divisor \n";
+			$r->mapRow($nonzero_row, fn($val, $col, $row) => $val/$divisor);
+			//print "scaled $r\n";
+
+			// Eliminate elements below pivot
+			for ($sub_row=$nonzero_row+1; $sub_row<$this->rows; $sub_row++) {
+				if (Math::compare($r[$col][$sub_row], '!=', 0)) {
+					//print "nonzero {$r[$col][$sub_row]} at col {$col} row {$sub_row}\n";
+					$factor = $r[$col][$sub_row]*-1;
+					$r->mapRow($sub_row, fn($val, $j, $i) => $val+($r[$j][$nonzero_row]*$factor));
+				}
+			}
+
+			if ($nonzero_row>$row) {
+				// Swap pivot row and first/current row
+				$r->swapRows($nonzero_row, $row);
+			}
+
+			if ($r[$col]->isLast($row) || $r->isLast($col)) {
+				$completed = true;
+				// break;
+			} else {
+				$row++;
+				$col++;
+			}
+			//print "loop $r\n";
+		}
+		$r->map(fn($v) => (Math::compare($v, '=', 0)? 0: $v));
+		return $r;
+		// return new self($r->toArray(), $this->inner_type);
+	}
+	public function toREF() {return $this->toRowEchelonForm();}
 
 	public function map(callable $f, string $t=self::T_SCALAR): self {
 		$M = $this->structure;

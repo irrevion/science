@@ -63,7 +63,6 @@ class Delegator {
 		if (!self::isEntity($x)) return false;
 		if (is_object($ref)) $ref = $ref::class;
 		return in_array((string)$ref, (is_object($x)? ($x?->subset_of): ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
-		// return in_array((self::isEntity($ref)? ($ref::class): ((string)$ref)), (self::isEntity($x)? $x->subset_of: ((new \ReflectionClass((string)$x))->getDefaultProperties()['subset_of'])));
 	}
 
 	public static function delegate($operation, $x, $y) {

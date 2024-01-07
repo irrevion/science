@@ -131,7 +131,14 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function subtract($y) {
-		if (Delegator::getType($y)!=self::class) $y = new self($y);
+		// if (Delegator::getType($y)!=self::class) $y = new self($y);
+		if (Delegator::getType($y)!=self::class) {
+			if (Delegator::isSubsetOf($y, $this) || !Delegator::isEntity($y)) {
+				$y = new self($y);
+			} else {
+				return Delegator::delegate('subtract', $this, $y);
+			}
+		}
 		$y = $y->negative($y);
 		return $this->add($y);
 	}
@@ -253,7 +260,6 @@ class Complex extends Imaginary implements Entity {
 	}
 
 	public function isEqual($y): bool {
-		// if (Delegator::getType($y)!=self::class) return false;
 		$t = Delegator::getType($y);
 		if ($t==self::T_POLAR) {
 			$y = $y->toRectangular();

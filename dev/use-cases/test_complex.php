@@ -59,7 +59,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(1.25);
 	},
-	check: '?',
+	check: '[3.25 + 7i]',
 	descr: '(new Complex(2, 7))->add(1.25)'
 );
 ?>
@@ -69,7 +69,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(new Scalar(1.25));
 	},
-	check: '?',
+	check: '[3.25 + 7i]',
 	descr: '(new Complex(2, 7))->add(new Scalar(1.25))'
 );
 ?>
@@ -79,7 +79,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(new Fraction('5/4'));
 	},
-	check: '?',
+	check: '[3.25 + 7i]',
 	descr: '(new Complex(2, 7))->add(new Fraction(\'5/4\'))'
 );
 ?>
@@ -89,7 +89,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(new Imaginary(7.32));
 	},
-	check: '?',
+	check: '[2 + 14.32i]',
 	descr: '(new Complex(2, 7))->add(new Imaginary(7.32))'
 );
 ?>
@@ -99,7 +99,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(new QuaternionComponent(13.2, 'k'));
 	},
-	check: '?',
+	check: '[2 + 7i + 0j + 13.2k]',
 	descr: '(new Complex(2, 7))->add(new QuaternionComponent(13.2, \'k\'))'
 );
 ?>
@@ -109,7 +109,7 @@ Utils::test(
 	fn: function() {
 		return (new Complex(2, 7))->add(new Quaternion([1, 2, 3, 4]));
 	},
-	check: '?',
+	check: '[3 + 9i + 3j + 4k]',
 	descr: '(new Complex(2, 7))->add(new Quaternion([1, 2, 3, 4]))'
 );
 ?>
@@ -150,6 +150,66 @@ $z = $x->subtract($y);
 print("{$x} - {$y} is {$z}\n");
 print("Type of z is ".($z::class)."\n");
 unset($x, $y, $z);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(-0.175);
+	},
+	check: '[3.175 + 13i]',
+	descr: '(new Complex(3, 13))->subtract(-0.175)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(new Scalar(-0.175));
+	},
+	check: '[3.175 + 13i]',
+	descr: '(new Complex(3, 13))->subtract(new Scalar(-0.175))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(new Fraction('-7/40'));
+	},
+	check: '[3.175 + 13i]',
+	descr: '(new Complex(3, 13))->subtract(new Fraction(\'-7/40\'))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(new Imaginary(-7/40));
+	},
+	check: '[3 + 13.175i]',
+	descr: '(new Complex(3, 13))->subtract(new Imaginary(-7/40))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(new QuaternionComponent(-0.175, 'j'));
+	},
+	check: '[3 + 13i + 0.175j + 0k]',
+	descr: '(new Complex(3, 13))->subtract(new QuaternionComponent(-0.175, \'j\'))'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Complex(3, 13))->subtract(new Quaternion([9, -7, 5, -3]));
+	},
+	check: '[-6 + 20i + -5j + 3k]',
+	descr: '(new Complex(3, 13))->subtract(new Quaternion([9, -7, 5, -3]))'
+);
 ?>
 
 <?php

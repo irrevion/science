@@ -126,3 +126,19 @@ v0.0.4
 v0.0.3
 - Matrix determinant implemented
 - Physics: New units added (Ohm, Farad, Watt, etc)
+
+## Documentation
+
+- [Math](docs/Math/Math.md)
+	- NaN
+	- Scalar
+	- Fraction
+	- Imaginary
+	- [Complex](docs/Math/Entities/Complex.md)
+	- ComplexPolar
+	- QuaternionComponent
+	- Quaternion
+	- Vector
+	- [Matrix](docs/Math/Transformations/Matrix.md)
+- Physics
+	- Quantity

@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Entities\{Scalar, Imaginary};
 ?>
 
@@ -16,6 +17,22 @@ print Math::PI."\n";
 print (Math::TAU / Math::PI)."\n";
 print Math::E."\n";
 print Math::abs(-3)."\n";
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$e = new Scalar(Math::E);
+		$i = new Imaginary(1);
+		$π = new Scalar(Math::PI);
+		return Math::pow($e, $i->multiply($π))->add(1);
+	},
+	check: function($res, $err) {
+		//return $res->isNear(Delegator::wrap(0, $res::class));
+		return Math::compare($res, '=', 0);
+	},
+	descr: 'Math::pow($e, $i->multiply($π))->add(1)'
+);
 ?>
 
 <?php
@@ -142,10 +159,74 @@ unset($x, $z);
 
 <?php
 $x = new Imaginary(2);
+$z = Math::pow($x, -2);
+print "{$x}^-2 = {$z}\n";
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+
+Utils::test(
+	fn: function() {
+		return Math::pow(new Imaginary(2), -2);
+	},
+	check: function($res, $err) {
+		return ("$res"=="-0.25");
+	},
+	descr: 'Math::pow(new Imaginary(2), -2)===-0.25'
+);
+?>
+
+<?php
+$x = new Imaginary(2);
 $z = Math::pow($x, -3);
 print "{$x}^-3 = {$z}\n";
 print("Type of z is ".($z::class)."\n");
 unset($x, $z);
+
+Utils::test(
+	fn: function() {
+		return Math::pow(new Imaginary(2), -3);
+	},
+	check: function($res, $err) {
+		return ("$res"=="0.125i");
+	},
+	descr: 'Math::pow(new Imaginary(2), -3)===0.125i'
+);
+?>
+
+<?php
+$x = new Imaginary(2);
+$z = Math::pow($x, -4);
+print "{$x}^-4 = {$z}\n";
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+
+Utils::test(
+	fn: function() {
+		return Math::pow(new Imaginary(2), -4);
+	},
+	check: function($res, $err) {
+		return ("$res"=="0.0625");
+	},
+	descr: 'Math::pow(new Imaginary(2), -4)===0.0625'
+);
+?>
+
+<?php
+$x = new Imaginary(2);
+$z = Math::pow($x, -5);
+print "{$x}^-5 = {$z}\n";
+print("Type of z is ".($z::class)."\n");
+unset($x, $z);
+
+Utils::test(
+	fn: function() {
+		return Math::pow(new Imaginary(2), -5);
+	},
+	check: function($res, $err) {
+		return ("$res"=="-0.03125i");
+	},
+	descr: 'Math::pow(new Imaginary(2), -5)===-0.03125i'
+);
 ?>
 
 <?php

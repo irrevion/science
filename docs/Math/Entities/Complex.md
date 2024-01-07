@@ -84,15 +84,15 @@ $c8 = new Quaternion([5, -3, 0, 0])->toComplex();
 
 ## Addition / Subtraction
 
-As denoted above there is methods for addition and subtraction for complex numbers
-```
+As denoted above there are methods for addition and subtraction of complex numbers
+```php
 $x = new Complex(2, 7);
 $y = new Complex(3, 13);
 $sum = $x->add($y); // result is [5 + 20i]
 $diff = $x->subtract($y); // result is [-1 + -6i]
 ```
 Any non-complex value passed to this methods as argument will be converted to a complex number in a way that constructor called with only one argument does; or delegate operation to super type.
-```
+```php
 $sum1 = $x->add(1.25); // result is [3.25 + 7i] ( type of irrevion\science\Math\Entities\Complex )
 $sum2 = $x->add(new Scalar(1.25)); // [3.25 + 7i] ( irrevion\science\Math\Entities\Complex )
 $sum3 = $x->add(new Fraction('5/4')); // [3.25 + 7i] ( irrevion\science\Math\Entities\Complex )
@@ -103,3 +103,44 @@ $sum7 = $x->add(new Vector([1, 2, 3, 4])); // Error thrown: This entities are in
 $sum8 = $x->add(new Matrix([[1, 2], [3, 4]])); // Error thrown: This entities are incompatible
 ```
 Adding vector or matrix to a complex number currently breaks with error, but this behavior can be changed in future. Complex number representation in vector or matrix form is not obvious and clear, so let it be.
+
+Tha same can be told about subtraction.
+```php
+$diff1 = $y->subtract(-0.175); // [3.175 + 13i] ( irrevion\science\Math\Entities\Complex )
+$diff2 = $y->subtract(new Scalar(-0.175)); // [3.175 + 13i] ( irrevion\science\Math\Entities\Complex )
+$diff3 = $y->subtract(new Fraction('-7/40')); // [3.175 + 13i] ( irrevion\science\Math\Entities\Complex )
+$diff4 = $y->subtract(new Imaginary(-7/40)); // [3 + 13.175i] ( irrevion\science\Math\Entities\Complex )
+$diff5 = $y->subtract(new QuaternionComponent(-0.175, 'j')); // [3 + 13i + 0.175j + 0k] ( irrevion\science\Math\Entities\Quaternion )
+$diff6 = $y->subtract(new Quaternion([9, -7, 5, -3])); // [-6 + 20i + -5j + 3k] ( irrevion\science\Math\Entities\Quaternion )
+$diff7 = $y->subtract(new Vector([12, 6, 3, 1.5])); // Error thrown: This entities are incompatible
+$diff8 = $y->subtract(new Matrix([[0.22, 0.267], [-5.4, -5.3]])); // Error thrown: This entities are incompatible
+```
+Subtraction is implemented as adding negative of complex number ( opposite radius-vector on complex plane ). Such negative value can be obtained using `$x->invert()` or `$x->negative()` method. Keep in mind that complex number cannot be negative because unlike scalar/real numbers they form unordered set ( cant be compared to each other ).
+```php
+$x = new Complex(5, -3); // [5 + -3i]
+$y = $x->negative(); // [-5 + 3i]
+$is_negative_y = Math::isNegative($y); // false
+$is_negative_x = Math::isNegative($x); // false
+```
+The reason why this check if number is negative returns `false` is because the numerical representation of complex number is radius-vector magnitude. Radius always considered as positive value. There are such a polar coordinate representations existing in other sources where radius can be negative if phase angle greater than π radian to keep phase always positive in range from 0 to π, but in this library radius is always positive and phase range is 0≤φ<2π. So you can either check if real part of complex number is negative or the phase angle is negative that way:
+```php
+$is_negative = Math::isNegative($y->real); // true
+$is_negative = Math::compare($y->phase(), '>', Math::PI); // false
+```
+It is also possible to check if complex number equals 0 or close to 0:
+```php
+$z = new Complex(1e-13);
+$is_zero = $z->empty(); // false
+$is_zero = $z->isEqual(new Complex(0)); // false
+$is_zero = $z->isNear(new Complex(0)); // true
+```
+
+## Multiplication / Division
+
+Complex number multiplication, division, obtaining reciprocal and conjugate methods are pretty straitforward:
+```php
+$prod = $x->multiply($y); // result is [-85 + 47i]
+$quotient = $x->divide($y); // result is [0.54494382022472 + -0.028089887640449i]
+$reciprocal = $x->reciprocal(); // result is [0.037735849056604 + -0.13207547169811i]
+$conjugate = $x->conjugate(); // result is [2 + -7i]
+```
