@@ -47,6 +47,13 @@ class Matrix implements Transformation, \ArrayAccess {
 		return "[ Matrix {$this->rows}x{$this->cols}: ".$this->print($this->structure)." ]";
 	}
 
+	public function unwrap() {
+		// convert Matrix to numeric Fixed SPL Array
+		$r = new M($this->cols, $this->rows);
+		$r->map(fn($val, $col, $row) => $this->structure[$col][$row]->toNumber());
+		return $r;
+	}
+
 	public function isEqual(Matrix $y): bool {
 		if (($this->cols!=$y->cols) || ($this->rows!=$y->rows)) return false;
 		foreach ($this->structure as $n=>$col) {
@@ -322,21 +329,22 @@ class Matrix implements Transformation, \ArrayAccess {
 		return $this->map(fn($v, $i, $j) => $v = $v->add($M_y[$i][$j]), $this->inner_type);
 	}
 
+	// Gauss elimination
 	public function toRowEchelonForm() {
+		// https://mathworld.wolfram.com/EchelonForm.html
 		// https://mathhelpplanet.com/static.php?p=metod-gaussa
 		// https://github.com/markrogoyski/math-php/blob/ea4f212732c333c62123c6f733edfb735a4e3abd/src/LinearAlgebra/Reduction/RowEchelonForm.php#L188C42-L188C42
+		// https://www.emathhelp.net/en/calculators/linear-algebra/reduced-row-echelon-form-rref-calculator/
 		if ($this->inner_type!=Scalar::class) throw new \Error('Cannot format matrix of '.$this->inner_type.' to row echelon form');
-		$r = new M($this->cols, $this->rows);
-		$r->map(fn($val, $col, $row) => $this->structure[$col][$row]->toNumber());
+		$r = $this->unwrap();
 		$row = $col = 0;
 		$completed = false;
 		while (!$completed) {
-			$nonzero_row = $r[$col]->find(function($val) {return Math::compare($val, '!=', 0);}, $row);
+			$nonzero_row = $r[$col]->find(fn($val) => Math::compare($val, '!=', 0), $row);
 			if (is_null($nonzero_row)) {
 				// No non-zero pivot, go to next column
 				if ($r->isLast($col)) {
 					$completed = true;
-					// break;
 				} else {
 					$col++;
 				}
@@ -345,14 +353,11 @@ class Matrix implements Transformation, \ArrayAccess {
 
 			// Scale pivot to 1
 			$divisor = $r[$col][$nonzero_row];
-			//print "Scale pivot to 1 by divisor $divisor \n";
 			$r->mapRow($nonzero_row, fn($val, $col, $row) => $val/$divisor);
-			//print "scaled $r\n";
 
 			// Eliminate elements below pivot
 			for ($sub_row=$nonzero_row+1; $sub_row<$this->rows; $sub_row++) {
 				if (Math::compare($r[$col][$sub_row], '!=', 0)) {
-					//print "nonzero {$r[$col][$sub_row]} at col {$col} row {$sub_row}\n";
 					$factor = $r[$col][$sub_row]*-1;
 					$r->mapRow($sub_row, fn($val, $j, $i) => $val+($r[$j][$nonzero_row]*$factor));
 				}
@@ -365,18 +370,36 @@ class Matrix implements Transformation, \ArrayAccess {
 
 			if ($r[$col]->isLast($row) || $r->isLast($col)) {
 				$completed = true;
-				// break;
 			} else {
 				$row++;
 				$col++;
 			}
-			//print "loop $r\n";
 		}
 		$r->map(fn($v) => (Math::compare($v, '=', 0)? 0: $v));
-		return $r;
-		// return new self($r->toArray(), $this->inner_type);
+		return new self($r->toArray(), $this->inner_type);
 	}
 	public function toREF() {return $this->toRowEchelonForm();}
+
+	public function isREF(): bool {
+		// https://textbooks.math.gatech.edu/ila/row-reduction.html
+		// A matrix is in row echelon form if:
+		// 1. All zero rows are at the bottom.
+		// 2. The first nonzero entry of a row is to the right of the first nonzero entry of the row above.
+		// 3. Below the first nonzero entry of a row, all entries are zero.
+
+		$r = $this->unwrap();
+
+		// check if min zero row index is lower than max nonzero row index
+		if (!$r->zerosBelow()) return false;
+
+		// check if next row pivot index is always greater than current
+		if (!$r->isEchelon()) return false;
+
+		// Below the first nonzero entry of a row, all entries are zero.
+		// previous check "next pivot always on the right" already means that only zeros can be below
+
+		return true;
+	}
 
 	public function map(callable $f, string $t=self::T_SCALAR): self {
 		$M = $this->structure;

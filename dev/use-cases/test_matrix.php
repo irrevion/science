@@ -532,6 +532,30 @@ Utils::test(
 );
 ?>
 
+
+Row Echelon Form (Gaussian elimination) tests
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1,2], [3,4]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		if (is_null($res)) {
+			print "No response\n";
+			return;
+		}
+		print "result is $res \n";
+		print "sympy & emathhelp.net: [[1, 0], [3, -2]]\n"; // wrong: 3. The leading entry in any nonzero row is 1.
+		print "mathhelpplanet.com & atozmath.com: [[1, 0], [3, 1]]\n";
+		$is_ref = $res->isREF();
+		print "is".($is_ref? '': ' not')." REF\n";
+		return ("$res"=="[[1, 0], [3, -2]]");
+	},
+	descr: 'M([[1,2], [3,4]])->toRowEchelonForm()'
+);
+?>
+
 <?php
 Utils::test(
 	fn: function() {
@@ -541,6 +565,19 @@ Utils::test(
 		return ("$res"=="[[1, 0], [3, 1]]");
 	},
 	descr: 'M([[3, 9], [2, 4]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3,2], [1,1], [2,3]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		print "wolframalpha.com: [[1, 0], [0, 1], [-1, 5]]]\n";
+		return ("$res"=="[[1, 0], [0, 1], [-1, 5]]");
+	},
+	descr: 'M([[3,2], [1,1], [2,3]])->toRowEchelonForm()'
 );
 ?>
 
@@ -557,16 +594,41 @@ Utils::test(
 ?>
 
 <?php
-//try{$M = (new Matrix([[2,3,6], [4,5,7]]))->toRowEchelonForm();} catch (\Throwable $e) {print_r($e);}
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1,1,3], [1,2,4], [2,3,5]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[1, 0, 0], [1, 1, 0], [2, 1, -2]]");
+	},
+	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRowEchelonForm()'
+);
+?>
+
+<?php
 Utils::test(
 	fn: function() {
 		return (new Matrix([[2,3,6], [4,5,7]]))->toRowEchelonForm();
 	},
 	check: function($res, $err) {
-		//if (!empty($err)) {print_r($err);}
 		return ("$res"=="[[1, 0, 0], [2, 1, 0]]");
 	},
 	descr: 'M([[2,3,6], [4,5,7]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0,0,0,0], [1,1,2,4], [1,1,2,4], [1,2,1,4], [1,3,2,6], [1,2,1,4]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		print "correct answer [[0,0,0,0], [1,0,0,0], [1,0,0,0], [1,1,0,0], [1,2,2,0], [1,1,0,0]]\n";
+		//return ("$res"=="[[0, 1, 1, 1, 1, 1], [0, 0, 0, 1, 2, 1], [0, 0, 0, 0, 2, 0], [0, 0, 0, 0, 0, 0]]"); // sympy
+		return ("$res"=="[[0, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 1, 0, 0], [1, 2, 2, 0], [1, 1, 0, 0]]"); // sympy reshaped
+		return ("$res"=="[[0, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 1, 0, 0], [1, 2, 1, 0], [1, 1, 0, 0]]"); // actual result
+	},
+	descr: 'M([[0,0,0,0], [1,1,2,4], [1,1,2,4], [1,2,1,4], [1,3,2,6], [1,2,1,4]])->toRowEchelonForm()'
 );
 ?>
 

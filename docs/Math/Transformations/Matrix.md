@@ -19,4 +19,28 @@ vs NumPy
  | 3 4 |
 */
 $size = $M->rows.'x'.$M->cols; // 2x2
+
+$is_equal = $M->isEqual(new Matrix([[1, 2], [3, 4]])); // true
+$is_near = $M->isNear(new Matrix([[(1+1e-13), 2], [3, 4]])); // true
+$is_square = $M->isSquare(); // true
+$D = $M->determinant();
+$V = $M->applyTo(new Vector([7, -2]));
+$M2 = $M->composeWith(new Matrix([[1, 0], [-2, 1]]));
+$M3 = $M->multiplyScalar(new Scalar(5));
+$M4 = $M->divideScalar(new Scalar(2));
+$M5 = $M->multiply($M2);
+$M6 = $M->exp();
+$M7 = $M->pow(3);
+$M8 = $M->transpose();
+$M9 = $M->minor();
+$M10 = $M->cofactorMatrix();
+$M11 = $M->adjugate();
+$M12 = $M->reverseTransformation();
+$n = $M->trace();
+$M13 = $M->entrywiseSum($M3);
+$M14 = $M->toRowEchelonForm();
+$is_ref = $M14->isREF();
+$M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0));
+$M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0));
+$M16 = Matrix::fromTemplate('2x2', 'identity');
 ```

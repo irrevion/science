@@ -26,11 +26,13 @@ class Utils {
 				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: 'Result is not valid')." = ".(is_array($res)? (self::printR($res)): $res)." ( ".(is_object($res)? $res::class: gettype($res))." ) \n";
 			}
 		} catch (\Throwable $err) {
+			$e = ['message' => $err->getMessage(), 'file' => $err->getFile(), 'line' => $err->getLine()];
+			$e_str = "{$e['message']} ({$e['file']}:{$e['line']})";
 			if (is_callable($check)) {
 				$status = $check(null, $err);
-				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
+				print ($status? 'PASS': 'FAIL').": ".($descr? $descr: '')." -> Error thrown: {$e_str} \n";
 			} else {
-				print "FAIL: ".($descr? $descr: '')." -> Error thrown: ".$err->getMessage()." \n";
+				print "FAIL: ".($descr? $descr: '')." -> Error thrown: {$e_str} \n";
 			}
 			print print_r($err->getTrace(), 1)."\n";
 		}

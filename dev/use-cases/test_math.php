@@ -7,7 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Math\Math;
 use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Helpers\Utils;
+use irrevion\science\Helpers\{Utils, R};
 use irrevion\science\Math\Entities\{Scalar, Imaginary};
 ?>
 
@@ -247,5 +247,17 @@ print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
 $y = 1.07559768600001e-17;
 $check_x = Math::compare($x, '=', $y);
 print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1,1,3], [1,2,4], [2,3,5]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[1, 0, 0], [1, 1, 0], [2, 1, -2]]");
+	},
+	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRowEchelonForm()'
+);
 ?>
 </pre>
