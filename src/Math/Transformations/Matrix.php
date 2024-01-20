@@ -443,10 +443,27 @@ class Matrix implements Transformation, \ArrayAccess {
 		// 3. Below the first nonzero entry of a row, all entries are zero.
 
 		// A matrix is in reduced row echelon form if it is in row echelon form, and in addition:
-		// Each pivot is equal to 1.
-		// Each pivot is the only nonzero entry in its column.
+		// 4. Each pivot is equal to 1.
+		// 5. Each pivot is the only nonzero entry in its column.
 
 		if (!$this->isREF()) return false;
+
+		$r = $this->unwrap();
+		$rows = $r->rows();
+
+		// check if all pivots are 1
+		$pivotIsUnary = function($row) {
+			$pivot_pos = $row->find(fn($val) => Math::compare($val, '!=', 0));
+			if (is_null($pivot_pos)) return true;
+			if (!Math::compare($row[$pivot_pos], '=', 1)) return false;
+			return true;
+		};
+		if (!$rows->every($pivotIsUnary)) return false;
+
+		// check if values above and below pivot equals 0
+		$zerosAbove = fn($pivot_col) => Math::compare($r->sum($pivot_col), '=', 1);
+		$pivots = $r->mapRows(fn($row) => $row->find(fn($val) => Math::compare($val, '!=', 0)))->filter(fn($v) => !is_null($v));
+		if (!$pivots->every($zerosAbove)) return false;
 
 		return true;
 	}

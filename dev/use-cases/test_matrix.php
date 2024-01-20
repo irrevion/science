@@ -611,6 +611,9 @@ Utils::test(
 		return (new Matrix([[2,3,6], [4,5,7]]))->toRowEchelonForm();
 	},
 	check: function($res, $err) {
+		print "res: $res\n";
+		$is_ref = $res->isREF();
+		print "is".($is_ref? '': ' not')." REF\n";
 		return ("$res"=="[[1, 0, 0], [2, 1, 0]]");
 	},
 	descr: 'M([[2,3,6], [4,5,7]])->toRowEchelonForm()'
@@ -684,8 +687,8 @@ Utils::test(
 		}
 		print "result is $res \n";
 		print "emathhelp.net: [[1, 0], [0, 1]]\n";
-		// $is_ref = $res->isREF();
-		// print "is".($is_ref? '': ' not')." REF\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
 	},
 	descr: 'M([[1,2], [3,4]])->toRREF()'
@@ -698,6 +701,9 @@ Utils::test(
 		return (new Matrix([[3, 2], [9, 4]]))->toRREF();
 	},
 	check: function($res, $err) {
+		print "res: $res\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
 	},
 	descr: 'M([[3, 9], [2, 4]])->toRREF()'
@@ -712,6 +718,8 @@ Utils::test(
 	check: function($res, $err) {
 		print "wolframalpha.com: [[1, 0], [0, 1], [-1, 5]]]\n";
 		print "res: $res\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 2x3: [[1, 0], [0, 1], [-1, 5]] ]");
 	},
 	descr: 'M([[3,2], [1,1], [2,3]])->toRREF()'
@@ -725,6 +733,8 @@ Utils::test(
 	},
 	check: function($res, $err) {
 		print "res: $res\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 2x3: [[1, 0], [0, 1], [0, 1.5]] ]");
 	},
 	descr: 'M([[0,2], [2,4] [3,6]])->toRREF()'
@@ -738,6 +748,8 @@ Utils::test(
 	},
 	check: function($res, $err) {
 		print "res: $res\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 3x3: [[1, 0, 0], [0, 1, 0], [0, 0, 1]] ]");
 	},
 	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRREF()'
@@ -751,6 +763,10 @@ Utils::test(
 	},
 	check: function($res, $err) {
 		print "res: $res\n";
+		$is_ref = $res->isREF();
+		print "is".($is_ref? '': ' not')." REF\n";
+		$is_rref = $res->isRREF();
+		print "is".($is_rref? '': ' not')." RREF\n";
 		return ("$res"=="[ Matrix 3x2: [[1, 0, 0], [0, 1, 0]] ]");
 	},
 	descr: 'M([[2,3,6], [4,5,7]])->toRREF()'

@@ -2,6 +2,7 @@
 namespace irrevion\science\Helpers;
 
 use irrevion\science\Helpers\Utils;
+use irrevion\science\Helpers\R;
 use irrevion\science\Math\Math;
 
 class M extends \SplFixedArray {
@@ -97,6 +98,7 @@ class M extends \SplFixedArray {
 			if (is_null($pivot)) return false;
 			if ($rows->isLast($i)) return false;
 			$next_pivot = $rows[$i+1]->find($isPivot);
+			if (is_null($next_pivot)) return false;
 			return ($next_pivot<=$pivot);
 		};
 		if ($rows->any($nextPivotOnLeft)) return false;
@@ -124,7 +126,7 @@ class M extends \SplFixedArray {
 		return $this;
 	}
 
-	public function mapColumns(callable $fn) {
+	public function mapColumns(callable $fn): M {
 		foreach ($this as $i=>$v) {
 			//$this->offsetSet($i, $fn($v, $i));
 			$this[$i] = $fn($v, $i);
@@ -139,7 +141,16 @@ class M extends \SplFixedArray {
 		return $this;
 	}
 
-	public function reduce(callable $fn, mixed $init_val=0) {
+	public function mapRows(callable $fn): R {
+		$M_rows = $this->rows();
+		$R_res = new R(0);
+		foreach ($M_rows as $i=>$v) {
+			$R_res = $R_res->push($fn($v, $i));
+		}
+		return $R_res;
+	}
+
+	public function reduce(callable $fn, mixed $init_val=0): mixed {
 		$res = $init_val;
 		foreach ($this as $i=>$v) {
 			$res = $fn($res, $v, $i);
@@ -158,6 +169,11 @@ class M extends \SplFixedArray {
 	public function scaleRow(int $i, float|int $k): M {
 		// return $this->row($i)->map(fn($v) => $v*$k);
 		return $this->mapRow($i, fn($v) => $v*$k);
+	}
+
+	public function sum(int $col_index): int|float {
+		if (!isset($this[$col_index])) return null;
+		return $this[$col_index]->reduce(fn($sum, $v) => $sum+=$v);
 	}
 
 	public function swapRows(int $i1, int $i2): M {
