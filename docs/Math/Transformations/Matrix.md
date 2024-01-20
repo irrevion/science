@@ -38,8 +38,9 @@ $M11 = $M->adjugate();
 $M12 = $M->reverseTransformation();
 $n = $M->trace();
 $M13 = $M->entrywiseSum($M3);
-$M14 = $M->toRowEchelonForm();
-$is_ref = $M14->isREF();
+$M14 = $M->toREF(); // transform matrix to row echelon form using Gaussian elimination
+$is_ref = $M14->isREF(); // check of matrix is in echelon form
+$M17 = $M->toRREF(); // transform matrix to reduced row echelon form using Gauss-Jordan elimination
 $M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0));
 $M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0));
 $M16 = Matrix::fromTemplate('2x2', 'identity');

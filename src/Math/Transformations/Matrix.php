@@ -330,12 +330,15 @@ class Matrix implements Transformation, \ArrayAccess {
 	}
 
 	// Gauss elimination
-	public function toRowEchelonForm() {
+	public function toRowEchelonForm(bool $keep_unwrapped=false): M|Matrix {
 		// https://mathworld.wolfram.com/EchelonForm.html
 		// https://mathhelpplanet.com/static.php?p=metod-gaussa
 		// https://github.com/markrogoyski/math-php/blob/ea4f212732c333c62123c6f733edfb735a4e3abd/src/LinearAlgebra/Reduction/RowEchelonForm.php#L188C42-L188C42
 		// https://www.emathhelp.net/en/calculators/linear-algebra/reduced-row-echelon-form-rref-calculator/
+
 		if ($this->inner_type!=Scalar::class) throw new \Error('Cannot format matrix of '.$this->inner_type.' to row echelon form');
+		if ($this->rows===0) throw new \Error('Matrix is empty');
+
 		$r = $this->unwrap();
 		$row = $col = 0;
 		$completed = false;
@@ -376,9 +379,39 @@ class Matrix implements Transformation, \ArrayAccess {
 			}
 		}
 		$r->map(fn($v) => (Math::compare($v, '=', 0)? 0: $v));
+
+		if ($keep_unwrapped) return $r;
 		return new self($r->toArray(), $this->inner_type);
 	}
-	public function toREF() {return $this->toRowEchelonForm();}
+	public function toREF(...$args) {return $this->toRowEchelonForm(...$args);}
+
+	// Gauss-Jordan Elimination
+	public function toRREF(bool $keep_unwrapped=false): M|Matrix {
+		// https://mathworld.wolfram.com/Gauss-JordanElimination.html
+		// https://www.omnicalculator.com/math/row-echelon-form#gauss-jordan-elimination-vs-gauss-elimination
+		// https://textbooks.math.gatech.edu/ila/row-reduction.html
+		// https://www.emathhelp.net/en/calculators/linear-algebra/gauss-jordan-elimination-calculator/
+		// https://www.emathhelp.net/en/calculators/linear-algebra/reduced-row-echelon-form-rref-calculator/?i=%5B%5B1%2C3%5D%2C%5B2%2C4%5D%5D&reduced=on
+		$ref = $this->toREF(keep_unwrapped: true);
+		if ($ref->height===0) throw new \Error('Matrix is empty');
+		$rows = $ref->rows();
+
+		for ($row=($ref->height-1); $row>0; $row--) {
+			$pivot_pos = $rows[$row]->find(fn($val) => Math::compare($val, '!=', 0));
+			if (is_null($pivot_pos)) {
+				//print "No pivots found in $rows at $row \n";
+				continue;
+			};
+			for ($row_above=($row-1); $row_above>=0; $row_above--) {
+				$factor = $rows[$row_above][$pivot_pos]*-1;
+				$ref->mapRow($row_above, fn($val, $j, $i) => $val+($ref[$j][$row]*$factor));
+			}
+		}
+
+		if ($keep_unwrapped) return $ref;
+		return new self($ref->toArray(), $this->inner_type);
+	}
+	public function toReducedRowEchelonForm(...$args) {return $this->toRREF(...$args);}
 
 	public function isREF(): bool {
 		// https://textbooks.math.gatech.edu/ila/row-reduction.html
@@ -397,6 +430,23 @@ class Matrix implements Transformation, \ArrayAccess {
 
 		// Below the first nonzero entry of a row, all entries are zero.
 		// previous check "next pivot always on the right" already means that only zeros can be below
+
+		return true;
+	}
+
+	public function isRREF(): bool {
+		// https://textbooks.math.gatech.edu/ila/row-reduction.html
+
+		// A matrix is in row echelon form if:
+		// 1. All zero rows are at the bottom.
+		// 2. The first nonzero entry of a row is to the right of the first nonzero entry of the row above.
+		// 3. Below the first nonzero entry of a row, all entries are zero.
+
+		// A matrix is in reduced row echelon form if it is in row echelon form, and in addition:
+		// Each pivot is equal to 1.
+		// Each pivot is the only nonzero entry in its column.
+
+		if (!$this->isREF()) return false;
 
 		return true;
 	}

@@ -53,15 +53,6 @@ class R extends \SplFixedArray {
 	}
 
 	public function filter(callable $fn): R {
-		/*
-		$passed = [];
-		foreach ($this as $i=>$v) {
-			$pass = !!$fn($v, $i);
-			if ($pass) $passed[] = $v;
-		}
-		return (new self(count($passed)))->map(fn($v, $i) => $passed[$i]);
-		*/
-
 		$r = new self(0);
 		foreach ($this as $i=>$v) {
 			$pass = !!$fn($v, $i);
@@ -80,6 +71,19 @@ class R extends \SplFixedArray {
 	}
 
 	public function first() {return $this[0];}
+
+	#[\ReturnTypeWillChange]
+	#[\Override]
+	public static function fromArray(array $arr, bool $damnBarbaraLiskov=true): R {
+		// remember, Barbara, inheritance is not enough for evolution
+		// there is no evolution without mutations
+		// you cannot treat fungus and cheetah same way because they have same ancestor
+		$r = new self(0);
+		foreach ($arr as $i=>$v) {
+			$r = $r->push($v);
+		}
+		return $r;
+	}
 
 	public function includes($val, int $start_from=0) {
 		$i = $this->find(fn($v, $i) => $v===$val, $start_from);
@@ -114,6 +118,12 @@ class R extends \SplFixedArray {
 		return $max_i;
 	}
 
+	public function isEqual(R $r): bool {
+		if ($this->length!=$r->length) return false;
+		if ($this->any(fn($v, $i) => (!isset($r[$i]) || ($r[$i]!=$v)))) return false;
+		return true;
+	}
+
 	public function isFirst(int $i): bool {
 		return ($i===0);
 	}
@@ -142,7 +152,7 @@ class R extends \SplFixedArray {
 		return $max;
 	}
 
-	public function merge(R $r2): R {
+	public function merge(iterable $r2): R {
 		$r = new self(0);
 		foreach ($this as $i=>$v) {
 			$r = $r->push($v);
@@ -206,15 +216,16 @@ class R extends \SplFixedArray {
 		return $r;
 	}
 
-	public function shift(): R {
+	public function shift(int $n=1): R {
 		$r = new self(0);
-		for ($i=1; $i<$this->length; $i++) {
+		if (($n<1) || ($n>=$this->length)) return $r;
+		for ($i=$n; $i<$this->length; $i++) {
 			$r = $r->push($this[$i]);
 		}
 		return $r;
 	}
 
-	public function splice(int $from=0, ?int $del_count=null, ?R $ins=null): R {
+	public function splice(int $from=0, ?int $del_count=null, ?iterable $ins=null): R {
 		if ($from<0) $from = ($this->length + $from);
 		if (($from>=$this->length) || ($del_count<=0)) return (is_null($ins)? clone $this: $this->merge($ins));
 		$r = new self(0);

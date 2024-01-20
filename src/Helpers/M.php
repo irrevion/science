@@ -21,6 +21,10 @@ class M extends \SplFixedArray {
 		return Utils::printR($this);
 	}
 
+	public function addRow(int $target, int $donor): M {
+		return $this->mapRow($target, fn($val, $col) => $val+$this[$col][$donor]);
+	}
+
 	public function any(callable $fn): bool {
 		// check if at least one element satisfies condition
 		foreach ($this as $i=>$v) {
@@ -143,12 +147,17 @@ class M extends \SplFixedArray {
 		return $res;
 	}
 
-	public function row($i) {
+	public function row(int $i): R {
 		return (new R($this->count()))->map(fn($val, $col) => $this[$col][$i]);
 	}
 
 	public function rows() {
 		return (new self($this->height, $this->length))->mapColumns(fn($val, $col) => $this->row($col));
+	}
+
+	public function scaleRow(int $i, float|int $k): M {
+		// return $this->row($i)->map(fn($v) => $v*$k);
+		return $this->mapRow($i, fn($v) => $v*$k);
 	}
 
 	public function swapRows(int $i1, int $i2): M {

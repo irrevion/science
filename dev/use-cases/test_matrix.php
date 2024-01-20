@@ -668,4 +668,144 @@ Utils::test(
 	descr: 'M(10x10)->toRowEchelonForm()'
 );
 ?>
+
+
+Reduced Row Echelon Form (Gauss-Jordan elimination) tests
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1,2], [3,4]]))->toRREF();
+	},
+	check: function($res, $err) {
+		if (is_null($res)) {
+			print "No response\n";
+			return;
+		}
+		print "result is $res \n";
+		print "emathhelp.net: [[1, 0], [0, 1]]\n";
+		// $is_ref = $res->isREF();
+		// print "is".($is_ref? '': ' not')." REF\n";
+		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
+	},
+	descr: 'M([[1,2], [3,4]])->toRREF()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3, 2], [9, 4]]))->toRREF();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
+	},
+	descr: 'M([[3, 9], [2, 4]])->toRREF()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[3,2], [1,1], [2,3]]))->toRREF();
+	},
+	check: function($res, $err) {
+		print "wolframalpha.com: [[1, 0], [0, 1], [-1, 5]]]\n";
+		print "res: $res\n";
+		return ("$res"=="[ Matrix 2x3: [[1, 0], [0, 1], [-1, 5]] ]");
+	},
+	descr: 'M([[3,2], [1,1], [2,3]])->toRREF()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0,2], [2,4], [3,6]]))->toRREF();
+	},
+	check: function($res, $err) {
+		print "res: $res\n";
+		return ("$res"=="[ Matrix 2x3: [[1, 0], [0, 1], [0, 1.5]] ]");
+	},
+	descr: 'M([[0,2], [2,4] [3,6]])->toRREF()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[1,1,3], [1,2,4], [2,3,5]]))->toRREF();
+	},
+	check: function($res, $err) {
+		print "res: $res\n";
+		return ("$res"=="[ Matrix 3x3: [[1, 0, 0], [0, 1, 0], [0, 0, 1]] ]");
+	},
+	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRREF()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[2,3,6], [4,5,7]]))->toRREF();
+	},
+	check: function($res, $err) {
+		print "res: $res\n";
+		return ("$res"=="[ Matrix 3x2: [[1, 0, 0], [0, 1, 0]] ]");
+	},
+	descr: 'M([[2,3,6], [4,5,7]])->toRREF()'
+);
+?>
+
+<?php /*
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0,0,0,0], [1,1,2,4], [1,1,2,4], [1,2,1,4], [1,3,2,6], [1,2,1,4]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		print "correct answer [[0,0,0,0], [1,0,0,0], [1,0,0,0], [1,1,0,0], [1,2,2,0], [1,1,0,0]]\n";
+		//return ("$res"=="[[0, 1, 1, 1, 1, 1], [0, 0, 0, 1, 2, 1], [0, 0, 0, 0, 2, 0], [0, 0, 0, 0, 0, 0]]"); // sympy
+		return ("$res"=="[[0, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 1, 0, 0], [1, 2, 2, 0], [1, 1, 0, 0]]"); // sympy reshaped
+		return ("$res"=="[[0, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 1, 0, 0], [1, 2, 1, 0], [1, 1, 0, 0]]"); // actual result
+	},
+	descr: 'M([[0,0,0,0], [1,1,2,4], [1,1,2,4], [1,2,1,4], [1,3,2,6], [1,2,1,4]])->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[0, 17.5, 2], [1.5, -3, 52], [-92, 2.05, 3.11]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[]");
+	},
+	descr: 'M([[0, 17.5, 2], [1.5, -3, 52], [-92, 2.05, 3.11]]))->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]))->toRowEchelonForm();
+	},
+	check: function($res, $err) {
+		return ("$res"=="[[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]");
+	},
+	descr: 'M([[69, 4, 7], [0, 17, 3], [-1, 2.05, 511]]))->toRowEchelonForm()'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		return (new Matrix([[9,8,7,6,5,4,3,2,1,0], [9,8,7,6,5,11,3,2,1,0], [9,13,7,6,5,4,3,2,1,0], [9,8,7,6,5,4,3,2,17,0], [9,8,7,6,5,4,3,2,1,21], [55,8,7,6,5,4,3,2,1,0], [9,8,7,6,5,4,3,34,1,0], [9,8,0.5,6,5,4,3,2,1,0], [9,8,7,6,5,16,3,2,1,0], [9,8,7,36,5,4,3,2,1,0]]))->toRowEchelonForm();
+	},
+	check: '?',
+	check: function($res, $err) {
+		return ("$res"=="[]");
+	},
+	descr: 'M(10x10)->toRowEchelonForm()'
+); */
+?>
 </pre>

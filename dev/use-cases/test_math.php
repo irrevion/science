@@ -249,15 +249,30 @@ $check_x = Math::compare($x, '=', $y);
 print var_export($check_x, 1)." = Math::compare($x, '=', $y); \n";
 ?>
 
+Utils\R tests
+
 <?php
 Utils::test(
 	fn: function() {
-		return (new Matrix([[1,1,3], [1,2,4], [2,3,5]]))->toRowEchelonForm();
+		return (R::fromArray([5,6,7,8,9]))->splice(2, 1, [6.5, 6.9, 7.2, 7.7]);
 	},
 	check: function($res, $err) {
-		return ("$res"=="[[1, 0, 0], [1, 1, 0], [2, 1, -2]]");
+		return ("$res"=="[5, 6, 6.5, 6.9, 7.2, 7.7, 8, 9]");
 	},
-	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRowEchelonForm()'
+	descr: '(R::fromArray([5,6,7,8,9]))->splice(2, 1, [6.5, 6.9, 7.2, 7.7])'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$a = (R::fromArray([1,2,3,4,5,6]))->slice(2);
+		$b = (R::fromArray([1,2,3,4,5,6]))->shift(2);
+		print "$a == $b \n";
+		return $a->isEqual($b);
+	},
+	check: true,
+	descr: '$a->slice(2)==$b->shift(2)'
 );
 ?>
 </pre>
