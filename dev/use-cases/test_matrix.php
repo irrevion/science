@@ -704,6 +704,8 @@ Utils::test(
 		print "res: $res\n";
 		$is_rref = $res->isRREF();
 		print "is".($is_rref? '': ' not')." RREF\n";
+		$rank = $res->rank();
+		print "rank is $rank \n";
 		return ("$res"=="[ Matrix 2x2: [[1, 0], [0, 1]] ]");
 	},
 	descr: 'M([[3, 9], [2, 4]])->toRREF()'
@@ -750,6 +752,8 @@ Utils::test(
 		print "res: $res\n";
 		$is_rref = $res->isRREF();
 		print "is".($is_rref? '': ' not')." RREF\n";
+		$rank = $res->rank();
+		print "rank is $rank \n";
 		return ("$res"=="[ Matrix 3x3: [[1, 0, 0], [0, 1, 0], [0, 0, 1]] ]");
 	},
 	descr: 'M([[1,1,3], [1,2,4], [2,3,5]])->toRREF()'
@@ -767,6 +771,8 @@ Utils::test(
 		print "is".($is_ref? '': ' not')." REF\n";
 		$is_rref = $res->isRREF();
 		print "is".($is_rref? '': ' not')." RREF\n";
+		$rank = $res->rank();
+		print "rank is $rank \n";
 		return ("$res"=="[ Matrix 3x2: [[1, 0, 0], [0, 1, 0]] ]");
 	},
 	descr: 'M([[2,3,6], [4,5,7]])->toRREF()'

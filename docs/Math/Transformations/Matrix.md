@@ -35,13 +35,14 @@ $M8 = $M->transpose();
 $M9 = $M->minor();
 $M10 = $M->cofactorMatrix();
 $M11 = $M->adjugate();
-$M12 = $M->reverseTransformation();
-$n = $M->trace();
+$M12 = $M->reverseTransformation(); // M**-1 (matrix inverce)
+$n = $M->trace(); // the trace of a matrix is the sum of the diagonal elements of the matrix
 $M13 = $M->entrywiseSum($M3); // addition of matrices
 $M14 = $M->toREF(); // transform matrix to row echelon form using Gaussian elimination
 $is_ref = $M14->isREF(); // check of matrix is in echelon form
 $M17 = $M->toRREF(); // transform matrix to reduced row echelon form using Gauss-Jordan elimination
 $is_rref = $M14->isRREF(); // check of matrix is in reduced row echelon form
+$rank = $M->rank(); // the rank of a matrix is the number of nonzero rows in the reduced matrix
 $M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0)); // apply callback to matrix values
 $M16 = Matrix::fromTemplate('2x2', 'identity'); // create new matrix using one of predefined templates
 ```

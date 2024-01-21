@@ -468,6 +468,12 @@ class Matrix implements Transformation, \ArrayAccess {
 		return true;
 	}
 
+	public function rank() {
+		// https://www.emathhelp.net/en/calculators/linear-algebra/rank-of-matrix-calculator/?i=%5B%5B1%2C2%2C3%5D%2C%5B2%2C5%2C7%5D%2C%5B4%2C9%2C13%5D%5D
+		// The rank of a matrix is the number of nonzero rows in the reduced matrix
+		return $this->toRREF(true)->rows()->filter(fn($v) => Math::compare($v->sum(), '!=', 0))->length;
+	}
+
 	public function map(callable $f, string $t=self::T_SCALAR): self {
 		$M = $this->structure;
 		$Mr = [];

@@ -239,6 +239,10 @@ class R extends \SplFixedArray {
 		return $r;
 	}
 
+	public function sum(): int|float {
+		return $this->reduce(fn($sum, $v) => $sum+=$v);
+	}
+
 	public function swap(int $index1, int $index2): R {
 		[$this[$index2], $this[$index1]] = [$this[$index1], $this[$index2]];
 		return $this;

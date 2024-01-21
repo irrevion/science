@@ -171,7 +171,7 @@ class M extends \SplFixedArray {
 		return $this->mapRow($i, fn($v) => $v*$k);
 	}
 
-	public function sum(int $col_index): int|float {
+	public function sum(int $col_index): null|int|float {
 		if (!isset($this[$col_index])) return null;
 		return $this[$col_index]->reduce(fn($sum, $v) => $sum+=$v);
 	}
