@@ -11,11 +11,11 @@ $S_pc = new Quantity(12, IAU::parsec);
 $S_ly = $S_pc->convert(IAU::light_year);
 ```
 
-All supported measure units (available at irrevion\science\Physics\Unit\Categories::list) are listed below:
+All supported measure units (available at `irrevion\science\Physics\Unit\Categories::list`) are listed below:
 ```php
 const list = [
 	'angle' => [
-		'arcminute' => 'Entities\ArcMinute',
+		'arcminute' => 'Entities\ArcMinute', // NonStandard::arcminute
 		'arcsecond' => 'Entities\ArcSecond',
 		'degree' => 'Entities\Degree',
 		'gon' => 'Entities\Gradian',
@@ -41,6 +41,7 @@ const list = [
 		'square_arcsecond' => 'Entities\SquareArcSecond'
 	],
 	'brightness' => [
+		'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
 		'candela_per_square_metre' => 'Entities\Nit',
 		'nit' => 'Entities\Nit',
 		'stilb' => 'Entities\Stilb',
@@ -102,9 +103,9 @@ const list = [
 		'candela' => 'Entities\Candela',
 	],
 	'mass' => [
-		'AMU' => 'Entities\Dalton',
-		'atomic_mass_unit' => 'Entities\Dalton',
-		'dalton' => 'Entities\Dalton',
+		'AMU' => 'Entities\Dalton', // NonStandard::AMU
+		'atomic_mass_unit' => 'Entities\Dalton', // NonStandard::AMU
+		'dalton' => 'Entities\Dalton', // NonStandard::dalton
 		'electron_mass' => 'Entities\ElectronMass',
 		'kilogram' => 'Entities\Kilogram',
 		'kg' => 'Entities\Kilogram',
@@ -140,4 +141,6 @@ const list = [
 	],
 ];
 ```
-Some units can have aliases for better usability. Some units can be represented in more than one units system.
+> [!NOTE]
+> Some units can have aliases for better usability.
+> Some units can be represented in more than one units system.

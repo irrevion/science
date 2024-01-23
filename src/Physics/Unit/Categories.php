@@ -4,7 +4,7 @@ namespace irrevion\science\Physics\Unit;
 class Categories {
 	const list = [
 		'angle' => [
-			'arcminute' => 'Entities\ArcMinute',
+			'arcminute' => 'Entities\ArcMinute',  // NonStandard::arcminute
 			'arcsecond' => 'Entities\ArcSecond',
 			'degree' => 'Entities\Degree',
 			'gon' => 'Entities\Gradian',
@@ -30,11 +30,11 @@ class Categories {
 			'square_arcsecond' => 'Entities\SquareArcSecond'
 		],
 		'brightness' => [
-			// apostilb
+			'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
 			// bril
-			'candela_per_square_metre' => 'Entities\Nit',
+			'candela_per_square_metre' => 'Entities\Nit', // SI::candela_per_square_metre
 			// foot_lambert
-			'nit' => 'Entities\Nit',
+			'nit' => 'Entities\Nit', // SI::nit
 			// lambert
 			// skot
 			'stilb' => 'Entities\Stilb',

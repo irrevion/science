@@ -259,4 +259,10 @@ $x = new Quantity(6.02225e24, Natural::particle);
 $y = $x->convert(SI::mole);
 print "$x is $y \n";
 ?>
+
+<?php
+$x = new Quantity(400, SI::nit);
+$y = $x->convert(NonStandard::apostilb);
+print "$x is $y \n";
+?>
 </pre>

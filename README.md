@@ -114,9 +114,10 @@ So, as you can see, the following operations are supported:
 ## Versions history
 
 ~dev-main
-- Matrix inversion implemented (as well as methods for finding cofactor matrix, adjugate, minors)
+- Matrix inversion implemented (as well as methods for finding cofactor matrix, adjugate, minors, row echelon form, reduced REF, rank)
 - Complex power, exponentiation, natural logarythm implemented
 - Quaternions added
+- Physics: Added units Dalton, Apostilb
 
 v0.0.4
 - Vector checking methods added (orthogonal, collinear, coplarar)
