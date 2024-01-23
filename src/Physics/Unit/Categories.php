@@ -81,21 +81,21 @@ class Categories {
 			// calorie
 			// coal_ton
 			'electron_volt' => 'Entities\ElectronVolt',
-			'eV' => 'Entities\ElectronVolt',
+			'eV' => 'Entities\ElectronVolt', // Natural::eV
 			// erg
 			// exajoule
 			// foot_poundal
 			// gigajoule
-			'hartree' => 'Entities\HartreeEnergy',
+			'hartree' => 'Entities\HartreeEnergy', // Natural::hartree
 			'joule' => 'Entities\Joule',
-			'J' => 'Entities\Joule',
+			'J' => 'Entities\Joule', // SI::J
 			// kilocalorie
 			// kcal
 			// kilojoule
 			// kilowatt_hour
 			// kWh
 			// mbtu
-			// plank
+			'planck_energy' => 'Entities\PlanckEnergy', // Planck::energy, Natural::planck_energy
 			// quad
 			// rydberg
 			// terawatt_year

@@ -113,7 +113,10 @@ So, as you can see, the following operations are supported:
 
 ## Versions history
 
-~dev-main
+<!-- ~dev-main
+- in progress -->
+
+v0.0.5
 - Matrix inversion implemented (as well as methods for finding cofactor matrix, adjugate, minors, row echelon form, reduced REF, rank)
 - Complex power, exponentiation, natural logarythm implemented
 - Quaternions added

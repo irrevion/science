@@ -197,6 +197,9 @@ print "$x is $y \n";
 $x = new Quantity(314, Natural::hartree);
 $y = $x->convert(Natural::eV);
 print "$x is $y \n";
+$x = new Quantity(2e4, SI::J);
+$y = $x->convert(Planck::energy);
+print "$x is $y \n";
 ?>
 
 <?php

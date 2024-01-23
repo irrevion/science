@@ -16,12 +16,12 @@ All supported measure units (available at `irrevion\science\Physics\Unit\Categor
 const list = [
 	'angle' => [
 		'arcminute' => 'Entities\ArcMinute', // NonStandard::arcminute
-		'arcsecond' => 'Entities\ArcSecond',
-		'degree' => 'Entities\Degree',
-		'gon' => 'Entities\Gradian',
-		'grad' => 'Entities\Gradian',
-		'mas' => 'Entities\MilliArcSecond',
-		'microarcsecond' => 'Entities\MicroArcSecond',
+		'arcsecond' => 'Entities\ArcSecond', // NonStandard::arcsecond
+		'degree' => 'Entities\Degree', // NonStandard::degree
+		'gon' => 'Entities\Gradian', // NonStandard::grad
+		'grad' => 'Entities\Gradian', // NonStandard::grad
+		'mas' => 'Entities\MilliArcSecond', // NonStandard::milliarcsecond
+		'microarcsecond' => 'Entities\MicroArcSecond', // NonStandard::microarcsecond
 		'mil' => 'Entities\MilliRadian',
 		'milliarcsecond' => 'Entities\MilliArcSecond',
 		'milliradian' => 'Entities\MilliRadian',
@@ -72,10 +72,11 @@ const list = [
 	],
 	'energy' => [
 		'electron_volt' => 'Entities\ElectronVolt',
-		'eV' => 'Entities\ElectronVolt',
-		'hartree' => 'Entities\HartreeEnergy',
+		'eV' => 'Entities\ElectronVolt', // Natural::eV
+		'hartree' => 'Entities\HartreeEnergy', // Natural::hartree
 		'joule' => 'Entities\Joule',
-		'J' => 'Entities\Joule',
+		'J' => 'Entities\Joule', // SI::J
+		'planck_energy' => 'Entities\PlanckEnergy', // Planck::energy, Natural::planck_energy
 		'watt_second' => 'Entities\Joule',
 	],
 	'force' => [

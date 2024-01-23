@@ -11,6 +11,7 @@ enum Natural: string implements SystemInterface {
 	case hartree = 'energy.hartree';
 	case hartree_force = 'force.hartree_force';
 	case particle = 'substance_amount.particle';
+	case planck_energy = 'energy.planck_energy';
 	case planck_length = 'length.planck_length';
 
 	public function i($const='') {
