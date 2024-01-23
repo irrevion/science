@@ -152,9 +152,10 @@ class Categories {
 			'candela' => 'Entities\Candela',
 		],
 		'mass' => [
-			// atomic mass unit
+			'AMU' => 'Entities\Dalton',
+			'atomic_mass_unit' => 'Entities\Dalton',
 			// carat
-			// dalton
+			'dalton' => 'Entities\Dalton',
 			// earth
 			'electron_mass' => 'Entities\ElectronMass',
 			// gongjin

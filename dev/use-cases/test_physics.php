@@ -65,6 +65,12 @@ try {
 $x = new Quantity(5, Imperial::pound);
 $y = $x->convert(SI::kilogram);
 print "$x is $y \n";
+$x = new Quantity(2.3e-5, IAU::solar_mass);
+$y = $x->convert(NonStandard::electron_mass);
+print "$x is $y \n";
+$x = new Quantity(2e15, NonStandard::dalton);
+$y = $x->convert(NonStandard::electron_mass);
+print "$x is $y \n";
 ?>
 
 <?php
@@ -117,12 +123,6 @@ $u = $z->convert(NonStandard::rankine);
 print "$z is $u \n";
 $v = $u->convert(SI::kelvin);
 print "$u is $v \n";
-?>
-
-<?php
-$x = new Quantity(2e30, IAU::solar_mass);
-$y = $x->convert(NonStandard::electron_mass);
-print "$x is $y \n";
 ?>
 
 <?php

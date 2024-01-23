@@ -20,21 +20,21 @@ vs NumPy
 */
 $size = $M->rows.'x'.$M->cols; // 2x2
 
-$is_equal = $M->isEqual(new Matrix([[1, 2], [3, 4]])); // true
-$is_near = $M->isNear(new Matrix([[(1+1e-13), 2], [3, 4]])); // true
-$is_square = $M->isSquare(); // true
-$D = $M->determinant();
-$V = $M->applyTo(new Vector([7, -2]));
-$M2 = $M->composeWith(new Matrix([[1, 0], [-2, 1]]));
-$M3 = $M->multiplyScalar(new Scalar(5));
-$M4 = $M->divideScalar(new Scalar(2));
-$M5 = $M->multiply($M2);
-$M6 = $M->exp();
-$M7 = $M->pow(3);
-$M8 = $M->transpose();
-$M9 = $M->minor();
-$M10 = $M->cofactorMatrix();
-$M11 = $M->adjugate();
+$is_equal = $M->isEqual(new Matrix([[1, 2], [3, 4]])); // true if size and all elements are equal
+$is_near = $M->isNear(new Matrix([[(1+1e-13), 2], [3, 4]])); // true if size is equal and elements values are almost equal (how close depends on Math::EPSILON)
+$is_square = $M->isSquare(); // true if rows number and columns number are equal
+$D = $M->determinant(); // returns Scalar entity with determinant value, use $M->det() to obtain int|float value
+$V = $M->applyTo(new Vector([7, -2])); // transform vector using matrix i.e. "multiply"
+$M2 = $M->composeWith(new Matrix([[1, 0], [-2, 1]])); // compose two transformations into one i.e. matrix multiplication
+$M3 = $M->multiplyScalar(new Scalar(5)); // scale transformation
+$M4 = $M->divideScalar(new Scalar(2)); // elementwise division of a matrix
+$M5 = $M->multiply($M2); // combines multiplyScalar(), applyTo() and composeWith() regarding argument type
+$M6 = $M->exp(); // getting matrix exponent
+$M7 = $M->pow(3); // calculates matrix in power of given argument (only integers allowed for now)
+$M8 = $M->transpose(); // make rows be columns
+$M9 = $M->minor(0, 0); // get minor matrix for specified by column index and row index element
+$M10 = $M->cofactorMatrix(); // returns cofactor matrix
+$M11 = $M->adjugate(); // returns adjugate of thee given matrix https://en.wikipedia.org/wiki/Adjugate_matrix
 $M12 = $M->reverseTransformation(); // M**-1 (matrix inverce)
 $n = $M->trace(); // the trace of a matrix is the sum of the diagonal elements of the matrix
 $M13 = $M->entrywiseSum($M3); // addition of matrices

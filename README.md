@@ -140,5 +140,5 @@ v0.0.3
 	- Quaternion
 	- Vector
 	- [Matrix](docs/Math/Transformations/Matrix.md)
-- Physics
-	- Quantity
+- [Physics](docs/Physics/Physics.md)
+	- [Quantity](docs/Physics/Entities/Quantity.md)

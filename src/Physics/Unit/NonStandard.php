@@ -2,9 +2,11 @@
 namespace irrevion\science\Physics\Unit;
 
 enum NonStandard: string implements SystemInterface {
+	case AMU = 'mass.AMU';
 	case arcminute = 'angle.arcminute';
 	case arcsecond = 'angle.arcsecond';
 	case celsius = 'temperature.celsius';
+	case dalton = 'mass.dalton';
 	case degree = 'angle.degree';
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
