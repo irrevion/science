@@ -200,6 +200,9 @@ print "$x is $y \n";
 $x = new Quantity(2e4, SI::J);
 $y = $x->convert(Planck::energy);
 print "$x is $y \n";
+$x = new Quantity(13.6, Natural::eV);
+$y = $x->convert(NonStandard::Ry);
+print "$x is $y \n";
 ?>
 
 <?php

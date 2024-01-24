@@ -5,16 +5,16 @@ class Categories {
 	const list = [
 		'angle' => [
 			'arcminute' => 'Entities\ArcMinute',  // NonStandard::arcminute
-			'arcsecond' => 'Entities\ArcSecond',
-			'degree' => 'Entities\Degree',
-			'gon' => 'Entities\Gradian',
-			'grad' => 'Entities\Gradian',
-			'mas' => 'Entities\MilliArcSecond',
-			'microarcsecond' => 'Entities\MicroArcSecond',
-			'mil' => 'Entities\MilliRadian',
-			'milliarcsecond' => 'Entities\MilliArcSecond',
-			'milliradian' => 'Entities\MilliRadian',
-			'mrad' => 'Entities\MilliRadian',
+			'arcsecond' => 'Entities\ArcSecond', // NonStandard::arcsecond
+			'degree' => 'Entities\Degree', // NonStandard::degree
+			'gon' => 'Entities\Gradian', // NonStandard::grad
+			'grad' => 'Entities\Gradian', // NonStandard::grad
+			'mas' => 'Entities\MilliArcSecond', // NonStandard::milliarcsecond
+			'microarcsecond' => 'Entities\MicroArcSecond', // NonStandard::microarcsecond
+			'mil' => 'Entities\MilliRadian', // NonStandard::mrad
+			'milliarcsecond' => 'Entities\MilliArcSecond', // NonStandard::milliarcsecond
+			'milliradian' => 'Entities\MilliRadian', // NonStandard::mrad
+			'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
 			'nanoradian' => 'Entities\NanoRadian',
 			'nato_mils' => 'Entities\NatoMils',
 			'nrad' => 'Entities\NanoRadian',
@@ -97,7 +97,8 @@ class Categories {
 			// mbtu
 			'planck_energy' => 'Entities\PlanckEnergy', // Planck::energy, Natural::planck_energy
 			// quad
-			// rydberg
+			'Ry' => 'Entities\RydbergEnergy', // NonStandard::Ry
+			'rydberg' => 'Entities\RydbergEnergy', // NonStandard::rydberg_energy
 			// terawatt_year
 			// therm
 			'watt_second' => 'Entities\Joule',
@@ -123,6 +124,7 @@ class Categories {
 			// 'kHz' => 'Entities\KiloHertz',
 			// megahertz
 			// 'rpm' => 'Entities\RevolutionPerMinute',
+			// rydberg
 			// terahertz
 		],
 		'length' => [
@@ -144,6 +146,7 @@ class Categories {
 			// nautical_mile
 			'parsec' => 'Entities\Parsec',
 			'planck_length' => 'Entities\PlanckLength',
+			// rydberg wavelength
 			// sm
 			// yard
 			// zhang
