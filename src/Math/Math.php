@@ -2,7 +2,7 @@
 namespace irrevion\science\Math;
 
 use irrevion\science\Math\Branches\BaseMath;
-use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex, ComplexPolar, QuaternionComponent, Quaternion, Vector};
 
 class Math extends BaseMath {

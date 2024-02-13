@@ -6,7 +6,7 @@ ini_set('html_errors', true);
 require_once("../autoloader.php");
 
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Delegator;
 use irrevion\science\Helpers\{Utils, R};
 use irrevion\science\Math\Entities\{Scalar, Imaginary};
 ?>

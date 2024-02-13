@@ -1,9 +1,16 @@
 <?php
-namespace irrevion\science\Math\Operations;
+namespace irrevion\science\Helpers;
 
 class Delegator {
 	private const ENTITY = 'irrevion\science\Math\Entities\Entity';
 	private const ENTITY_SCALAR = 'irrevion\science\Math\Entities\Scalar';
+
+	public static $num_types = ['int', 'integer', 'float', 'double'];
+
+	public static function isNumber($x) {
+		$type = self::getType($x);
+		return in_array($type, self::$num_types);
+	}
 
 	public static function isEntity($x) {
 		if (is_object($x)) {

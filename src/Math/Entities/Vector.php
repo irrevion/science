@@ -2,7 +2,7 @@
 namespace irrevion\science\Math\Entities;
 
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Delegator;
 
 class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countable {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';

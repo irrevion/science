@@ -1,7 +1,7 @@
 <?php
 namespace irrevion\science\Math\Entities;
 
-use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
 
 class Fraction extends Scalar implements Entity {

@@ -5,10 +5,9 @@ ini_set('html_errors', true);
 
 require_once("../autoloader.php");
 
+use irrevion\science\Helpers\{Utils, Delegator};
 use irrevion\science\Math\Math;
-use irrevion\science\Helpers\Utils;
-use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, QuaternionComponent, Quaternion, Vector, Matrix};
+use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, QuaternionComponent, Quaternion, Vector};
 ?>
 
 <pre>

@@ -2,7 +2,7 @@
 namespace irrevion\science\Math\Entities;
 
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Operations\Delegator;
+use irrevion\science\Helpers\Delegator;
 
 class Scalar implements Entity {
 	public $value;
@@ -159,6 +159,7 @@ class Scalar implements Entity {
 	}
 
 	public function isEqual($y): bool {
+		if (Delegator::getType($y)!=$this::class) return false;
 		return ($this->toNumber()==$y->toNumber());
 	}
 

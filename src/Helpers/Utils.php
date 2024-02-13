@@ -162,6 +162,17 @@ class Utils {
 		return (is_null($arr)? 'NULL': "$arr");
 	}
 
+	public static function printErr($err, $return=true) {
+		$e = ['message' => $err->getMessage(), 'file' => $err->getFile(), 'line' => $err->getLine(), 'trace' => $err->getTrace()];
+		$e_str = "{$e['file']}:{$e['line']} ⨠ {$e['message']}\n";
+		$tr_str = print_r($e['trace'], 1);
+		if ($return) {
+			print $e_str;
+			print $tr_str."\n";
+		}
+		return $e;
+	}
+
 	public static function map($arr, $fn, ...$args) {
 		if (is_iterable($arr)) {
 			if (is_object($arr) && method_exists($arr, 'map')) {

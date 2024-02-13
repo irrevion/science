@@ -73,7 +73,6 @@ class R extends \SplFixedArray {
 	public function first() {return $this[0];}
 
 	#[\ReturnTypeWillChange]
-	#[\Override]
 	public static function fromArray(array $arr, bool $damnBarbaraLiskov=true): R {
 		// remember, Barbara, inheritance is not enough for evolution
 		// there is no evolution without mutations

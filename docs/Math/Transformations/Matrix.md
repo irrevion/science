@@ -42,7 +42,8 @@ $M14 = $M->toREF(); // transform matrix to row echelon form using Gaussian elimi
 $is_ref = $M14->isREF(); // check of matrix is in echelon form
 $M17 = $M->toRREF(); // transform matrix to reduced row echelon form using Gauss-Jordan elimination
 $is_rref = $M14->isRREF(); // check of matrix is in reduced row echelon form
-$rank = $M->rank(); // the rank of a matrix is the number of nonzero rows in the reduced matrix
+$rank = $M->rank(); // the rank of a matrix is the number of linearly independent (nonzero rows) in the reduced matrix
+$nullity = $M->nullity(); // number of zero rows in RREF form of matrix
 $M15 = $M4->map(fn($val, $col, $row) => (($col===$row)? $val: 0)); // apply callback to matrix values
 $M16 = Matrix::fromTemplate('2x2', 'identity'); // create new matrix using one of predefined templates
 ```

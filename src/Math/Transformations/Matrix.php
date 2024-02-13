@@ -2,9 +2,9 @@
 namespace irrevion\science\Math\Transformations;
 
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Operations\Delegator;
-use irrevion\science\Helpers\{Utils, R, M};
 use irrevion\science\Math\Entities\{Vector, Scalar};
+use irrevion\science\Helpers\{Utils, R, M, Delegator};
+
 
 class Matrix implements Transformation, \ArrayAccess {
 	private const T_SCALAR = 'irrevion\science\Math\Entities\Scalar';
@@ -76,6 +76,13 @@ class Matrix implements Transformation, \ArrayAccess {
 
 	public function isSquare(): bool {
 		return ($this->rows===$this->cols);
+	}
+
+	public function isDegenerate(): null|bool {
+		if ($this->isSquare()) {
+			return Math::compare($this->determinant(), '=', 0);
+		}
+		return null;
 	}
 
 	public function det() {
@@ -220,6 +227,19 @@ class Matrix implements Transformation, \ArrayAccess {
 		if (Math::isNegative($n) && !Math::isFloat($n)) return $this->reverseTransformation()->methodPowNaturalMultiply(Math::abs($n));
 		throw new \Error('Unsupported method');
 	}
+
+	/*
+	public function methodExpDiagonal() {
+		// For diagonalizable matrix A = P * D * P**-1 the matrix exponential is e**A = P * e**D * P**-1
+		// where P is invertible and D is diagonal matrices
+		
+		// [3Blue1Brown: How (and why) to raise e to the power of a matrix | DE6] https://www.youtube.com/watch?v=O85OWBJ2ayo
+
+		if (!$this->isSquare() / *|| $this->isDegenerate* / ) throw new \Error('Only square matrices are supported');
+
+		
+	}
+	*/
 
 	public function exp() {
 		// https://en.wikipedia.org/wiki/Matrix_exponential
@@ -468,10 +488,32 @@ class Matrix implements Transformation, \ArrayAccess {
 		return true;
 	}
 
-	public function rank() {
+	public function rank(string $by='ROWS'): int {
 		// https://www.emathhelp.net/en/calculators/linear-algebra/rank-of-matrix-calculator/?i=%5B%5B1%2C2%2C3%5D%2C%5B2%2C5%2C7%5D%2C%5B4%2C9%2C13%5D%5D
 		// The rank of a matrix is the number of nonzero rows in the reduced matrix
+
+		if ($by=='MIN_ORDER') {
+			//$order = min($this->rows, $this->cols);
+			$by = (($this->cols<$this->rows)? 'COLUMNS': 'ROWS');
+		}
+		if ($by=='COLUMNS') {
+			return $this->toRREF(true)->filter(fn($v) => Math::compare($v->sum(), '!=', 0))->length;
+		}
 		return $this->toRREF(true)->rows()->filter(fn($v) => Math::compare($v->sum(), '!=', 0))->length;
+	}
+
+	public function nullity(string $by='ROWS'): int {
+		// https://byjus.com/maths/rank-and-nullity/
+		// The nullity of a matrix is determined by the difference between the order and rank of the matrix. The rank of a matrix is the number of linearly independent row or column vectors of a matrix. If n is the order of the square matrix A, then the nullity of A is given by n – r. Thus, the rank of a matrix is the number of linearly independent or non-zero vectors of a matrix, whereas nullity is the number of zero vectors of a matrix.
+
+		if ($by=='MIN_ORDER') {
+			//$order = min($this->rows, $this->cols);
+			$by = (($this->cols<$this->rows)? 'COLUMNS': 'ROWS');
+		}
+		if ($by=='COLUMNS') {
+			return ( $this->cols - $this->rank(by: 'COLUMNS') );
+		}
+		return ( $this->rows - $this->rank() );
 	}
 
 	public function map(callable $f, string $t=self::T_SCALAR): self {
