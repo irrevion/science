@@ -114,7 +114,7 @@ So, as you can see, the following operations are supported:
 ## Versions history
 
 ~dev-main
-- Symbolic math implementation started (adding operation)
+- Symbolic math implementation started (with operations like adding, multiplication, power, etc)
 - Physics: Added Rydberg energy unit
 
 v0.0.5
@@ -135,15 +135,20 @@ v0.0.3
 ## Documentation
 
 - [Math](docs/Math/Math.md)
-	- NaN
-	- Scalar
-	- Fraction
-	- Imaginary
-	- [Complex](docs/Math/Entities/Complex.md)
-	- ComplexPolar
-	- QuaternionComponent
-	- Quaternion
-	- Vector
-	- [Matrix](docs/Math/Transformations/Matrix.md)
+	- Numbers, Entities & Matrices
+		- NaN
+		- Scalar
+		- Fraction
+		- Imaginary
+		- [Complex](docs/Math/Entities/Complex.md)
+		- ComplexPolar
+		- QuaternionComponent
+		- Quaternion
+		- Vector
+		- [Matrix](docs/Math/Transformations/Matrix.md)
+	- Symbolic Math
+		- Symbols
+		- Operations
+		- Expressions
 - [Physics](docs/Physics/Physics.md)
 	- [Quantity](docs/Physics/Entities/Quantity.md)

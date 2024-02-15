@@ -8,7 +8,7 @@ require_once("../autoloader.php");
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
 use irrevion\science\Helpers\{Utils};
-use irrevion\science\Math\Symbols\{Symbol, Symbols, Expression};
+use irrevion\science\Math\Symbols\{Symbol, Symbols, Expression, ExpressionStatement};
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, Quaternion};
 use irrevion\science\Math\Transformations\Matrix;
 ?>
@@ -127,6 +127,58 @@ Utils::test(
 		return Math::compare($calculated, '=', (new Complex(-31.89, 3)));
 	},
 	descr: 'Calc ( .0! + 3{i} + (2e-5(700 * -2e3) - 4.89) )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('5**5');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isEqual(new Scalar(3125));
+		// return Math::compare($calculated, '=', (new Scalar(3125)));
+	},
+	descr: 'Calc ( 5**5 )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('{e}**({π}{i})');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isEqual(new Scalar(-1));
+		// return Math::compare($calculated, '=', (new Scalar(-1)));
+	},
+	descr: 'Calc ( e**πi )'
 );
 
 ?>

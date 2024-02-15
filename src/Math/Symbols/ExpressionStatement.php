@@ -11,10 +11,14 @@ class ExpressionStatement {
 	public $current_index = 0;
 	public $length = 0;
 	public $expression_statement = '';
+	public $stack = [];
+	public $parser_state = null;
+	public $value = null;
 
-	public $functions = ['avg', 'cos', 'exp'];
-	public $operators = ['+', '-', '*', '/', '**', '^', '!', '%', '='];
-	public $map = [
+	public static $debug = false;
+	public static $functions = ['avg', 'cos', 'exp', 'ln'];
+	public static $operators = ['+', '-', '*', '/', '**', '^', '!', '%', '='];
+	public static $map = [
 		'func' => [
 			'add' => 'Add',
 			'subtract' => 'Subtract',
@@ -33,12 +37,6 @@ class ExpressionStatement {
 		]
 	];
 
-	public $stack = [
-		'parsed' => [],
-	];
-	public $parser_state = null;
-	public $value = null;
-
 
 	public function __construct($xpr) {
 		$xpr = trim($xpr);
@@ -56,7 +54,7 @@ class ExpressionStatement {
 	}
 
 	protected function printParsed($stack=null) {
-		if (is_null($stack)) $stack = $this->stack['parsed'];
+		if (is_null($stack)) $stack = $this->stack;
 		$str = '';
 		foreach ($stack as $v) {
 			$str.="{$v['type']}:{$v['value']} ";
@@ -65,7 +63,7 @@ class ExpressionStatement {
 	}
 
 	public function parse() {
-		//print "\n\n\n Parse started of {$this->expression_statement} \n";
+		if (self::$debug) print "\n\n\n Parse started of {$this->expression_statement} \n";
 		$this->parser_state = 'running';
 		while (!$this->completed()) {
 			//print 'Check '.$this->expression_statement[$this->current_index]." at {$this->current_index}\n";
@@ -73,12 +71,12 @@ class ExpressionStatement {
 			$this->next();
 			//print "Next to {$this->current_index}\n";
 		}
-		//print "Parsing completed\n";
+		if (self::$debug) print "Parsing completed\n";
 		if ($this->yielding()) $this->breakYield();
 		$this->parser_state = 'completed';
-		//$this->printParsed();
+		if (self::$debug) $this->printParsed();
 
-		$this->value = $this->craft($this->stack['parsed']);
+		$this->value = $this->craft($this->stack);
 
 		return $this;
 	}
@@ -88,7 +86,6 @@ class ExpressionStatement {
 	}
 
 	public function completed(): bool {
-		// print "(({$this->current_index}>={$this->length}) || ({$this->parser_state}=='completed')) = ".((($this->current_index>=$this->length) || ($this->parser_state=='completed'))? 'true': 'false')." \n";
 		return (($this->current_index>=$this->length) || ($this->parser_state=='completed'));
 	}
 
@@ -128,8 +125,9 @@ class ExpressionStatement {
 	}
 
 	public function yield($char_kind, $char) {
-		//$this->printParsed();
-		//print "yield $char_kind:'$char' \n";
+		if (self::$debug) $this->printParsed();
+		if (self::$debug) print "yield $char_kind:'$char' \n";
+
 		if ($char_kind=='space') {
 			if ($this->running()) {
 				// skip spaces
@@ -175,7 +173,7 @@ class ExpressionStatement {
 		} else if ($char_kind=='operator') {
 			if ($this->running()) {
 				if (in_array($char, ['+', '-'])) {
-					if (($char==='+') && (empty($this->stack['parsed']) || ($this->lastParsedEntry('type')=='operator'))) {
+					if (($char==='+') && (empty($this->stack) || ($this->lastParsedEntry('type')=='operator'))) {
 						// ignore + at starting position like in +36 / 12 case
 						// also ignore + after another operator like in 17**+3 or 6/+.01 case
 						// but DONT ignore + in case of 7.0!+3.0
@@ -185,7 +183,7 @@ class ExpressionStatement {
 						}
 						return;
 					}
-					if (($char==='-') && (empty($this->stack['parsed']) || ($this->lastParsedEntry()['type']=='operator'))) {
+					if (($char==='-') && (empty($this->stack) || ($this->lastParsedEntry()['type']=='operator'))) {
 						// 2*-3 case
 						$this->stackUp(['type' => 'operator', 'value' => 'Negative']);
 						return;
@@ -195,7 +193,7 @@ class ExpressionStatement {
 				return;
 			} else if ($this->yielding()) {
 				if ($this->parser_state==='yield_op') {
-					if (in_array($this->lastParsedEntry('value').$char, $this->operators)) {
+					if (in_array($this->lastParsedEntry('value').$char, self::$operators)) {
 						$this->keepYieldingOp($char);
 					} else {
 						$this->breakYield();
@@ -267,16 +265,16 @@ class ExpressionStatement {
 			throw new \Error('Invalid type '.$entry['type'].'; cannot add entry to stack');
 		}
 		if (is_null($entry['value']) || ($entry['value']==='')) throw new \Error('Value should be provided');
-		$this->stack['parsed'][] = $entry;
-		return count($this->stack['parsed']);
+		$this->stack[] = $entry;
+		return count($this->stack);
 	}
 
 	public function lastParsedEntry($key=null, $value=null) {
-		$last_index = count($this->stack['parsed'])-1;
-		$entry = ($this->stack['parsed'][$last_index] ?? null);
+		$last_index = count($this->stack)-1;
+		$entry = ($this->stack[$last_index] ?? null);
 
-		if (!empty($value) && isset($this->stack['parsed'][$last_index])) {
-			$this->stack['parsed'][$last_index]['value'] = $value;
+		if (!empty($value) && isset($this->stack[$last_index])) {
+			$this->stack[$last_index]['value'] = $value;
 		}
 
 		if (!empty($key) && !empty($entry) && isset($entry[$key])) {
@@ -326,8 +324,9 @@ class ExpressionStatement {
 		$entry = $this->lastParsedEntry();
 		if ($this->parser_state=='yield_op') {
 			if ($entry['type']!='operator') throw new \Error('Operator yielding has not been started; last parsed entry is '.$entry['type']);
-			$op = (isset($this->map['op'][$entry['value']])? $this->map['op'][$entry['value']]: null);
-			if (is_null($op)) {print $this->printParsed(); throw new \Error('Unknown operator '.$op);}
+			$op = (isset(self::$map['op'][$entry['value']])? self::$map['op'][$entry['value']]: null);
+			// if (is_null($op)) {print $this->printParsed(); throw new \Error('Unknown operator '.$op);}
+			if (is_null($op)) throw new \Error('Unknown operator '.$op);
 			$this->lastParsedEntry(value: $op); // set operation classname as operator value
 		} else if ($this->parser_state=='yield_num') {
 			if ($entry['type']!='number') throw new \Error('Number yielding has not been started');
@@ -359,6 +358,7 @@ class ExpressionStatement {
 
 		$stack = $this->fillMissedMultiplications($stack);
 		$stack = $this->craftUnaryOps($stack);
+		$stack = $this->craftPow($stack);
 		$stack = $this->craftMultiplications($stack);
 		$stack = $this->craftAdditions($stack);
 
@@ -404,7 +404,7 @@ class ExpressionStatement {
 			if ($entry['type']=='operator') {
 				if (in_array($entry['value'], ['Negative'])) { // onward operators
 					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after onward operator; '.$next['type'].' encountered');
-					$xpr =  new Expression(Operations::op($entry['value'])->over($next['value']));
+					$xpr = new Expression(Operations::op($entry['value'])->over($next['value']));
 					$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
 					array_splice($stack, $i, 2, [$entry_to_replace]);
 					return $this->craftUnaryOps($stack);
@@ -414,6 +414,30 @@ class ExpressionStatement {
 					$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
 					array_splice($stack, ($i-1), 2, [$entry_to_replace]);
 					return $this->craftUnaryOps($stack);
+				}
+			}
+		}
+
+		return $new_stack;
+	}
+
+	protected function craftPow($stack) {
+		$new_stack = [];
+
+		foreach ($stack as $i=>$entry) {
+			$prev = (isset($stack[$i-1])? $stack[$i-1]: null);
+			$next = (isset($stack[$i+1])? $stack[$i+1]: null);
+
+			$new_stack[] = $entry;
+
+			if ($entry['type']=='operator') {
+				if (in_array($entry['value'], ['Power'])) {
+					if (is_null($prev) || ($prev['type']=='operator')) throw new \Error('Expected symbol or expression before (**|^) operator; '.$prev['type'].' encountered');
+					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after (**|^) operator; '.$next['type'].' encountered');
+					$xpr = new Expression(Operations::op($entry['value'])->over($prev['value'])->with($next['value']));
+					$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
+					array_splice($stack, ($i-1), 3, [$entry_to_replace]);
+					return $this->craftPow($stack);
 				}
 			}
 		}
@@ -432,9 +456,9 @@ class ExpressionStatement {
 
 			if ($entry['type']=='operator') {
 				if (in_array($entry['value'], ['Multiply', 'Divide'])) {
-					if (is_null($prev) || ($prev['type']=='operator')) throw new \Error('Expected symbol or expression before */ operator; '.$prev['type'].' encountered');
-					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after */ operator; '.$next['type'].' encountered');
-					$xpr =  new Expression(Operations::op($entry['value'])->over($prev['value'])->with($next['value']));
+					if (is_null($prev) || ($prev['type']=='operator')) throw new \Error('Expected symbol or expression before (*|/) operator; '.$prev['type'].' encountered');
+					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after (*|/) operator; '.$next['type'].' encountered');
+					$xpr = new Expression(Operations::op($entry['value'])->over($prev['value'])->with($next['value']));
 					$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
 					array_splice($stack, ($i-1), 3, [$entry_to_replace]);
 					return $this->craftMultiplications($stack);
@@ -456,9 +480,9 @@ class ExpressionStatement {
 
 			if ($entry['type']=='operator') {
 				if (in_array($entry['value'], ['Add', 'Subtract'])) {
-					if (is_null($prev) || ($prev['type']=='operator')) throw new \Error('Expected symbol or expression before +- operator; '.$prev['type'].' encountered');
-					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after +- operator; '.$next['type'].' encountered');
-					$xpr =  new Expression(Operations::op($entry['value'])->over($prev['value'])->with($next['value']));
+					if (is_null($prev) || ($prev['type']=='operator')) throw new \Error('Expected symbol or expression before (+|-) operator; '.$prev['type'].' encountered');
+					if (is_null($next) || ($next['type']=='operator')) throw new \Error('Expected symbol or expression after (+|-) operator; '.$next['type'].' encountered');
+					$xpr = new Expression(Operations::op($entry['value'])->over($prev['value'])->with($next['value']));
 					$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
 					array_splice($stack, ($i-1), 3, [$entry_to_replace]);
 					return $this->craftAdditions($stack);
@@ -484,7 +508,8 @@ class ExpressionStatement {
 	}
 
 	public static function isOperator(string $char): bool {
-		return in_array($char, ['+', '-', '*', '/', '**', '^', '!']);
+		// return in_array($char, ['+', '-', '*', '/', '**', '^', '!']);
+		return in_array($char, self::$operators);
 	}
 
 	public static function isLetter(string $char): bool {
