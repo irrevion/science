@@ -77,4 +77,58 @@ Utils::test(
 );
 ?>
 
+
+
+<?php
+Utils::test(
+	fn: function() {
+		$xpr = new Expression('.0! + 3{g} + (2e-5(700 * -2e3) - 4.89)');
+		// 1 + 3*12 + (0.00002*(700 * -2000) - 4.89)
+		// 37 + (-28 - 4.89)
+		// 4.11
+		// parsed as ( ( 0! + ( 3 * {g} ) ) + ( ( 2.0E-5 * ( 700 * -2000 ) ) + 4.89 ) )
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->assign(['g' => 12])->evaluate();
+		print "calculated value: $calculated \n";
+		//return $calculated->isEqual(new Scalar(4.11));
+		return Math::compare($calculated, '=', 4.11);
+	},
+	descr: 'Calc ( .0! + 3{g} + (2e-5(700 * -2e3) - 4.89) )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		$xpr = new Expression('.0! + 3{i} + (2e-5(700 * -2e3) - 4.89)');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		//return $calculated->isEqual(new Complex(-31.89, 3));
+		return Math::compare($calculated, '=', (new Complex(-31.89, 3)));
+	},
+	descr: 'Calc ( .0! + 3{i} + (2e-5(700 * -2e3) - 4.89) )'
+);
+
+?>
+
 </pre>

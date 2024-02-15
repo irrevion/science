@@ -6,7 +6,7 @@ use irrevion\science\Math\Symbols\Operations\IOperation;
 use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
 
 
-class Add extends Operation {
+class Multiply extends Operation {
 
 	public $symbols = [];
 	public $params = [];
@@ -14,11 +14,11 @@ class Add extends Operation {
 	public $with = [];
 
 	public function __construct() {
-		// a+b --> (new Add())->over(a)->with(b)->assign([a => 4, b => 3.2])->perform() --> 7.2
+		// a * b --> (new Multiply())->over(a)->with(b)->assign([a => 4, b => 3.2])->perform() --> 12.8
 	}
 
 	public function __toString(): string {
-		return "( {$this->over['a']} + {$this->with['b']} )";
+		return "( {$this->over['a']} * {$this->with['b']} )";
 	}
 
 	public function over($a) {
@@ -38,10 +38,10 @@ class Add extends Operation {
 	public function evaluate() {
 		$a = $this->val($this->over['a']->name);
 		$b = $this->val($this->with['b']->name);
-		if (!method_exists($a, 'add')) {
-			throw new \Error('Operand object ‹‹'.Delegator::getType($a).'›› does not support ‹‹add()›› method');
+		if (!method_exists($a, 'multiply')) {
+			throw new \Error('Operand object ‹‹'.Delegator::getType($a).'›› does not support ‹‹multiply()›› method');
 		}
-		$result = $a->add($b);
+		$result = $a->multiply($b);
 		if (is_null($result)) {
 			throw new \Error('Invalid operation result: cannot be null; NaN used to be returned instead of null');
 		}

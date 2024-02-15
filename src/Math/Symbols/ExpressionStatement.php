@@ -13,20 +13,28 @@ class ExpressionStatement {
 	public $expression_statement = '';
 
 	public $functions = ['avg', 'cos', 'exp'];
-	public $operators = ['+', '-', '*', '/', '**', '^', '%', '='];
+	public $operators = ['+', '-', '*', '/', '**', '^', '!', '%', '='];
 	public $map = [
 		'func' => [
 			'add' => 'Add',
+			'subtract' => 'Subtract',
+			'multiply' => 'Multiply',
+			'divide' => 'Divide',
+			'pow' => 'Power',
 		],
 		'op' => [
 			'+' => 'Add',
+			'-' => 'Subtract',
+			'*' => 'Multiply',
+			'/' => 'Divide',
+			'!' => 'Factorial',
+			'**' => 'Power',
+			'^' => 'Power',
 		]
 	];
 
 	public $stack = [
 		'parsed' => [],
-		//'yielding' => '',
-		//'ops_tree' => []
 	];
 	public $parser_state = null;
 	public $value = null;
@@ -57,7 +65,7 @@ class ExpressionStatement {
 	}
 
 	public function parse() {
-		// print 'Parse started of '.$this->expression_statement."\n";
+		//print "\n\n\n Parse started of {$this->expression_statement} \n";
 		$this->parser_state = 'running';
 		while (!$this->completed()) {
 			//print 'Check '.$this->expression_statement[$this->current_index]." at {$this->current_index}\n";
@@ -120,6 +128,8 @@ class ExpressionStatement {
 	}
 
 	public function yield($char_kind, $char) {
+		//$this->printParsed();
+		//print "yield $char_kind:'$char' \n";
 		if ($char_kind=='space') {
 			if ($this->running()) {
 				// skip spaces
@@ -151,14 +161,28 @@ class ExpressionStatement {
 				$this->keepYieldingNum($char);
 				return;
 			} else if ($this->yielding()) {
-				throw new \Error('Decimal point in not a number context');
+				if (in_array($this->parser_state, ['yield_num'])) {
+					if (strlen($this->lastParsedEntry('value'))===0) $this->startYieldNum('0');
+					$this->keepYieldingNum($char);
+					return;
+				} else if (in_array($this->parser_state, ['yield_op', 'yield_var', 'yield_func'])) {
+					$this->breakYield();
+					$this->startYieldNum('0');
+					$this->keepYieldingNum($char);
+					return;
+				}
 			}
 		} else if ($char_kind=='operator') {
 			if ($this->running()) {
 				if (in_array($char, ['+', '-'])) {
-					if (($char==='+') && (empty($this->stack['parsed']) || ($this->lastParsedEntry()['type']=='operator'))) {
+					if (($char==='+') && (empty($this->stack['parsed']) || ($this->lastParsedEntry('type')=='operator'))) {
 						// ignore + at starting position like in +36 / 12 case
-						// alse ignore + after another operator like in 17**+3 or 6/+.01 case
+						// also ignore + after another operator like in 17**+3 or 6/+.01 case
+						// but DONT ignore + in case of 7.0!+3.0
+						//print "(".$this->lastParsedEntry('value')."==='!') \n";
+						if (in_array($this->lastParsedEntry('value'), ['!', 'Factorial'])) {
+							$this->startYieldOp($char);
+						}
 						return;
 					}
 					if (($char==='-') && (empty($this->stack['parsed']) || ($this->lastParsedEntry()['type']=='operator'))) {
@@ -166,30 +190,35 @@ class ExpressionStatement {
 						$this->stackUp(['type' => 'operator', 'value' => 'Negative']);
 						return;
 					}
-					$this->startYieldOp($char);
-					return;
-				} else if ($this->yielding()) {
-					if (in_array($this->parser_state, ['yield_op'])) {
+				}
+				$this->startYieldOp($char);
+				return;
+			} else if ($this->yielding()) {
+				if ($this->parser_state==='yield_op') {
+					if (in_array($this->lastParsedEntry('value').$char, $this->operators)) {
 						$this->keepYieldingOp($char);
+					} else {
+						$this->breakYield();
+						$this->startYieldOp($char);
+					}
+					return;
+				} else if (in_array($this->parser_state, ['yield_num'])) {
+					// in 2.71e-32 case (but not in 2.71e3-32 case) keep yielding num
+					// if (in_array($char, ['+', '-']) && (substr($this->stack['yielding']['value'], -1)==='e')) {
+					if (in_array($char, ['+', '-']) && (substr($this->lastParsedEntry('value'), -1)==='e')) {
+						$this->keepYieldingNum($char);
 						return;
-					} else if (in_array($this->parser_state, ['yield_num'])) {
-						// in 2.71e-32 case (but not in 2.71e3-32 case) keep yielding num
-						// if (in_array($char, ['+', '-']) && (substr($this->stack['yielding']['value'], -1)==='e')) {
-						if (in_array($char, ['+', '-']) && (substr($this->lastParsedEntry('value'), -1)==='e')) {
-							$this->keepYieldingNum($char);
-							return;
-						} else {
-							$this->breakYield();
-							$this->startYieldOp($char);
-							return;
-						}
-					} else if (in_array($this->parser_state, ['yield_func'])) {
+					} else {
 						$this->breakYield();
 						$this->startYieldOp($char);
 						return;
-					} else if (in_array($this->parser_state, ['yield_var'])) {
-						throw new \Error('Operator in variable context is illegal');
 					}
+				} else if (in_array($this->parser_state, ['yield_func'])) {
+					$this->breakYield();
+					$this->startYieldOp($char);
+					return;
+				} else if (in_array($this->parser_state, ['yield_var'])) {
+					throw new \Error('Operator in variable context is illegal');
 				}
 			}
 		} else if (in_array($char_kind, ['letter', 'underline'])) {
@@ -223,7 +252,7 @@ class ExpressionStatement {
 		} else if ($char_kind=='open_parentesis') {
 			if ($this->yielding()) $this->breakYield();
 			$from = $this->current_index+1;
-			$to = strpos($this->expression_statement, ')', $from);
+			$to = strrpos($this->expression_statement, ')', $from);
 			if ($to===false) throw new \Error('Closing parentesis not found');
 			$len = $to-$from;
 			// $sub_xpr = substr($this->expression_statement, $from, $to);
@@ -237,12 +266,12 @@ class ExpressionStatement {
 		if (empty($entry['type']) || !in_array($entry['type'], ['number', 'variable', 'operator', 'function', 'sub_expression'])) {
 			throw new \Error('Invalid type '.$entry['type'].'; cannot add entry to stack');
 		}
-		if (empty($entry['value'])) throw new \Error('Value should be provided');
+		if (is_null($entry['value']) || ($entry['value']==='')) throw new \Error('Value should be provided');
 		$this->stack['parsed'][] = $entry;
 		return count($this->stack['parsed']);
 	}
 
-	public function lastParsedEntry(?string $key=null, mixed $value=null): array|null {
+	public function lastParsedEntry($key=null, $value=null) {
 		$last_index = count($this->stack['parsed'])-1;
 		$entry = ($this->stack['parsed'][$last_index] ?? null);
 
@@ -257,6 +286,19 @@ class ExpressionStatement {
 		return $entry;
 	}
 
+	public function startYieldNum(string $char) {
+		if ($this->yielding()) $this->breakYield();
+		$this->parser_state = 'yield_num';
+		$this->stackUp(['type' => 'number', 'value' => $char]);
+	}
+
+	public function keepYieldingNum(string $char) {
+		$entry = $this->lastParsedEntry();
+		if ($entry['type']!='number') throw new \Error('Number yielding has not been started');
+		if ($this->parser_state!='yield_num') throw new \Error('Number yielding failed due to invalid parser state');
+		$this->lastParsedEntry(value: ($entry['value'].=$char));
+	}
+
 	public function startYieldOp(string $char) {
 		if ($this->yielding()) $this->breakYield();
 		$this->parser_state = 'yield_op';
@@ -264,8 +306,20 @@ class ExpressionStatement {
 	}
 
 	public function keepYieldingOp(string $char) {
-		if ($this->lastParsedEntry('type')!='operator') throw new \Error('Operator yielding has not been started');
+		$entry = $this->lastParsedEntry();
+		if ($entry['type']!='operator') throw new \Error('Operator yielding has not been started');
 		if ($this->parser_state!='yield_op') throw new \Error('Operator yielding failed due to invalid parser state');
+		$this->lastParsedEntry(value: ($entry['value'].=$char));
+	}
+
+	public function keepYielding(string $char) {
+		switch ($this->parser_state) { // 'yield_num', 'yield_op', 'yield_var', 'yield_func'
+			case 'yield_num': $this->keepYieldingNum($char); break;
+			case 'yield_op': $this->keepYieldingOp($char); break;
+			case 'yield_var': throw new \Error('Not implemented'); break;
+			case 'yield_func': throw new \Error('Not implemented'); break;
+			default: throw new \Error('Invalid parser state; yielding failed');
+		}
 	}
 	
 	public function breakYield() {
@@ -273,7 +327,7 @@ class ExpressionStatement {
 		if ($this->parser_state=='yield_op') {
 			if ($entry['type']!='operator') throw new \Error('Operator yielding has not been started; last parsed entry is '.$entry['type']);
 			$op = (isset($this->map['op'][$entry['value']])? $this->map['op'][$entry['value']]: null);
-			if (is_null($op)) throw new \Error('Unknown operator '.$op);
+			if (is_null($op)) {print $this->printParsed(); throw new \Error('Unknown operator '.$op);}
 			$this->lastParsedEntry(value: $op); // set operation classname as operator value
 		} else if ($this->parser_state=='yield_num') {
 			if ($entry['type']!='number') throw new \Error('Number yielding has not been started');
@@ -286,12 +340,6 @@ class ExpressionStatement {
 			throw new \Error('Invalid parser state '.$this->parser_state);
 		}
 		$this->parser_state = 'running';
-	}
-
-	public function startYieldNum(string $char) {
-		if ($this->yielding()) $this->breakYield();
-		$this->parser_state = 'yield_num';
-		$this->stackUp(['type' => 'number', 'value' => $char]);
 	}
 
 	// compose operations tree
@@ -317,7 +365,14 @@ class ExpressionStatement {
 		if ((count($stack)===1) && ($stack[0]['type']=='sub_expression') && ($stack[0]['value']::class==Expression::class)) {
 			return $stack[0]['value'];
 		}
-		throw new \Error('Not able to craft valid expression, sorry');
+		/*
+		print "{$stack[0]['value']}\n";
+		if ($stack[1]['value']) {
+			print "{$stack[1]['value']}\n";
+		}
+		*/
+		//throw new \Error('Not able to craft valid expression, sorry ('.count($stack).' '.$stack[0]['type'].' '.$stack[0]['value']::class.')');
+		throw new \Error('Not able to craft valid expression');
 
 		return null;
 	}
@@ -429,7 +484,7 @@ class ExpressionStatement {
 	}
 
 	public static function isOperator(string $char): bool {
-		return in_array($char, ['+', '-', '*', '/', '^']);
+		return in_array($char, ['+', '-', '*', '/', '**', '^', '!']);
 	}
 
 	public static function isLetter(string $char): bool {
@@ -458,6 +513,10 @@ class ExpressionStatement {
 
 	public static function isCloseParentesis(string $char): bool {
 		return ($char===')');
+	}
+
+	public static function isEqualSign(string $char): bool {
+		return ($char==='=');
 	}
 }
 
