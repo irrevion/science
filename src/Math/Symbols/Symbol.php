@@ -77,6 +77,10 @@ class Symbol implements ISymbol {
 		return new Expression(Operations::op('Add')->over($this)->with($smth));
 	}
 	public function ＋(...$args) {return $this->add(...$args);}
+
+	public function multiply(mixed $smth): Expression {
+		return new Expression(Operations::op('Multiply')->over($this)->with($smth));
+	}
 }
 
 ?>

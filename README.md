@@ -147,7 +147,7 @@ v0.0.3
 		- Vector
 		- [Matrix](docs/Math/Transformations/Matrix.md)
 	- Symbolic Math
-		- Symbols
+		- [Symbols](docs/Math/Symbols/Symbols.md)
 		- Operations
 		- Expressions
 - [Physics](docs/Physics/Physics.md)

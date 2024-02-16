@@ -319,7 +319,7 @@ class ExpressionStatement {
 			default: throw new \Error('Invalid parser state; yielding failed');
 		}
 	}
-	
+
 	public function breakYield() {
 		$entry = $this->lastParsedEntry();
 		if ($this->parser_state=='yield_op') {

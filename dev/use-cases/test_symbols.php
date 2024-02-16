@@ -5,9 +5,8 @@ ini_set('html_errors', true);
 
 require_once("../autoloader.php");
 
-use irrevion\science\Helpers\Delegator;
+use irrevion\science\Helpers\{Utils, Delegator};
 use irrevion\science\Math\Math;
-use irrevion\science\Helpers\{Utils};
 use irrevion\science\Math\Symbols\{Symbol, Symbols};
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, Quaternion};
 use irrevion\science\Math\Transformations\Matrix;
@@ -119,6 +118,11 @@ Utils::test(
 	},
 	descr: '5/6 + 3/4'
 );
+?>
+
+<?php
+$h = Symbols::symbol('ℏ')->multiply('τ')->evaluate();
+print $h.":".Delegator::getType($h);
 ?>
 
 </pre>
