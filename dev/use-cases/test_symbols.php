@@ -121,8 +121,20 @@ Utils::test(
 ?>
 
 <?php
-$h = Symbols::symbol('ℏ')->multiply('τ')->evaluate();
-print $h.":".Delegator::getType($h);
+//$sym = Symbols::symbol('dozen')->subtract('seven')->assign(['dozen' => 12, 'seven' => 7])->evaluate();
+//print $sym.":".Delegator::getType($sym);
+
+$k = (new Symbol('k', \irrevion\science\Physics\Physics::BOLTZMANN))->asConst();
+$E = $k->multiply('T');
+$R = $E->divide('T')->multiply(\irrevion\science\Physics\Physics::AVOGADRO);
+
+print $k.":".Delegator::getType($k)."\n";
+print $E.":".Delegator::getType($E)."\n";
+print $R.":".Delegator::getType($R)."\n";
+
+$R = $R->assign(['T' => 300])->evaluate();
+print $R.":".Delegator::getType($R)."\n";
+print "universal gas constant is 8.31446261815324\n";
 ?>
 
 </pre>

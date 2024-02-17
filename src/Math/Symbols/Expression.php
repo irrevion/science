@@ -30,6 +30,14 @@ class Expression implements IExpression {
 		return "{$this->value}";
 	}
 
+	public function __call($method, $args) {
+		$sym_func = ['add', 'subtract', 'multiply', 'divide', 'power'];
+		if (in_array($method, $sym_func)) {
+			return Symbols::symbol($this->name)->$method(...$args);
+		}
+		throw new \Error("Method $method does not exists in ".$this::class);
+	}
+
 	public function assign(array $params): Expression {
 		$this->params = array_merge($this->params, $params);
 		$this->value->assign($this->params);

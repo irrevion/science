@@ -74,12 +74,38 @@ class Symbol implements ISymbol {
 
 	public function add(mixed $smth): Expression {
 		// $smth can be a number, an Entity, an Expression, a Symbol
-		return new Expression(Operations::op('Add')->over($this)->with($smth));
+		$me = ($this->is_expr? $this->value: $this);
+		// return new Expression(Operations::op('Add')->over($this)->with($smth));
+		return new Expression(Operations::op('Add')->over($me)->with($smth));
 	}
-	public function ＋(...$args) {return $this->add(...$args);}
 
 	public function multiply(mixed $smth): Expression {
-		return new Expression(Operations::op('Multiply')->over($this)->with($smth));
+		$me = ($this->is_expr? $this->value: $this);
+		// return new Expression(Operations::op('Multiply')->over($this)->with($smth));
+		return new Expression(Operations::op('Multiply')->over($me)->with($smth));
+	}
+
+	public function subtract(mixed $smth): Expression {
+		$me = ($this->is_expr? $this->value: $this);
+		return new Expression(Operations::op('Subtract')->over($me)->with($smth));
+	}
+
+	public function divide(mixed $smth): Expression {
+		$me = ($this->is_expr? $this->value: $this);
+		return new Expression(Operations::op('Divide')->over($me)->with($smth));
+	}
+
+	public function power(mixed $smth): Expression {
+		$me = ($this->is_expr? $this->value: $this);
+		return new Expression(Operations::op('Power')->over($me)->with($smth));
+	}
+
+	public function negative(): Expression {
+		return new Expression(Operations::op('Negative')->over($this->is_expr? $this->value: $this));
+	}
+
+	public function factorial(): Expression {
+		return new Expression(Operations::op('Factorial')->over($this->is_expr? $this->value: $this));
 	}
 }
 
