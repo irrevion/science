@@ -5,7 +5,9 @@ use irrevion\science\Math\Branches\BaseMath;
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex, ComplexPolar, QuaternionComponent, Quaternion, Vector};
 
+
 class Math extends BaseMath {
+
 	public static function abs($x) {
 		if (is_object($x)) {
 			if (Delegator::isEntity($x)) {
@@ -34,6 +36,22 @@ class Math extends BaseMath {
 			return new Scalar(parent::acos($x->toNumber()));
 		}
 		return parent::acos($x);
+	}
+
+	public static function avg(...$args) {
+		$wrap = false;
+		$float_args = [];
+		foreach ($args as $arg) {
+			if (Delegator::isEntity($arg)) {
+				$arg = $arg->toNumber();
+				$wrap = true;
+			}
+			$float_args[] = (float)$arg;
+		}
+
+		$res = parent::avg(...$float_args);
+
+		return ($wrap? Delegator::wrap($res): (float)$res);
 	}
 
 	public static function compare($x=0.0, $rel='==', $y=0.0) {

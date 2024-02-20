@@ -55,7 +55,10 @@ class Symbol implements ISymbol {
 		return ($this->name===$symbol->name);
 	}
 
-	public function assign(mixed $value): Symbol {
+	public function assign($value) {
+		if ($this->is_expr) {
+			return $this->value->assign($value);
+		}
 		// assign value, entity or expression to symbol
 		//$type = Delegator::getType($value);
 		if (Delegator::isNumber($value)) $value = Delegator::wrap($value); // convert number to Scalar
@@ -65,10 +68,13 @@ class Symbol implements ISymbol {
 	}
 
 	public function evaluate() {
+		if ($this->is_expr) {
+			return $this->value->evaluate();
+		}
 		return $this->value;
 	}
 
-	public function substitute(mixed $value): mixed {
+	public function substitute($value) {
 		return $this->assign($value)->evaluate();
 	}
 

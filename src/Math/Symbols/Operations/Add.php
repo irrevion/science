@@ -8,6 +8,7 @@ use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
 
 class Add extends Operation {
 
+	public $is_function = false;
 	public $symbols = [];
 	public $params = [];
 	public $over = [];
@@ -18,7 +19,14 @@ class Add extends Operation {
 	}
 
 	public function __toString(): string {
+		if ($this->is_function) return "add({$this->over['a']}, {$this->with['b']})";
 		return "( {$this->over['a']} + {$this->with['b']} )";
+	}
+
+	public function args(...$args) {
+		$this->is_function = true;
+		list($a, $b) = $args;
+		return $this->over($a)->with($b);
 	}
 
 	public function over($a) {

@@ -2,13 +2,14 @@
 namespace irrevion\science\Math\Symbols\Operations;
 
 use irrevion\science\Math\Math;
-use irrevion\science\Helpers\Delegator;
+use irrevion\science\Helpers\{Utils, Delegator};
 use irrevion\science\Math\Symbols\Operations\IOperation;
 use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
 
 
 class Power extends Operation {
 
+	public $is_function = false;
 	public $symbols = [];
 	public $params = [];
 	public $over = [];
@@ -19,7 +20,14 @@ class Power extends Operation {
 	}
 
 	public function __toString(): string {
+		if ($this->is_function) return "pow({$this->over['a']}, {$this->with['b']})";
 		return "( {$this->over['a']} ** {$this->with['b']} )";
+	}
+
+	public function args(...$args) {
+		$this->is_function = true;
+		list($a, $b) = $args;
+		return $this->over($a)->with($b);
 	}
 
 	public function over($a) {

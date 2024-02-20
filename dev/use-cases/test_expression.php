@@ -175,10 +175,66 @@ Utils::test(
 		}
 		$calculated = $res->evaluate();
 		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
-		return $calculated->isEqual(new Scalar(-1));
+		return $calculated->isNear(new Complex(-1));
+		//return $calculated->isEqual(new Scalar(-1));
 		// return Math::compare($calculated, '=', (new Scalar(-1)));
 	},
 	descr: 'Calc ( e**πi )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		ExpressionStatement::$debug = false;
+		//$parentesis = ExpressionStatement::parentesis('(3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))');
+		//print_r($parentesis);
+//-0.9, pow(5-6, 3), (abs({x}-1)*-1)
+		$xpr = new Expression('(3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->assign(['x' => -0.1])->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isEqual(new Scalar(-1));
+		// return Math::compare($calculated, '=', (new Scalar(-1)));
+	},
+	descr: 'Calc (3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('cos({π})+{i}sin({π})');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isNear(new Complex(-1));
+		// return Math::compare($calculated, '=', (new Scalar(-1)));
+	},
+	descr: 'Calc ( cos(π)+i sin(π) )'
 );
 
 ?>

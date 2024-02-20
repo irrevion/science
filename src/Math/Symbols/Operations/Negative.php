@@ -8,6 +8,7 @@ use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
 
 class Negative extends Operation {
 
+	public $is_function = false;
 	public $symbols = [];
 	public $params = [];
 	public $over = [];
@@ -18,7 +19,12 @@ class Negative extends Operation {
 	}
 
 	public function __toString(): string {
+		if ($this->is_function) return "negative({$this->over['a']})";
 		return "-{$this->over['a']}";
+	}
+
+	public function args(...$args) {
+		return $this->over($args[0]);
 	}
 
 	public function over($a) {
