@@ -139,5 +139,4 @@ class Symbols {
 }
 Symbols::default();
 
-// ln( 1e2 - 99 / ( 1 + e**-3{x}))
 ?>

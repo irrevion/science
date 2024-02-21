@@ -22,33 +22,38 @@ But there is another option to get [Symbol](src/Math/Symbols/Symbol.php):
 ```php
 $a = Symbols::symbol('a');
 ```
-When symbol already exists it returns its instance, otherwise it creates a new Symbol object. Here we are using static class [Symbols](src/Math/Symbols/Symbols.php) which provides some helper tools.
+When symbol already exists it returns its instance, otherwise it creates a new Symbol object. Here we are using static class [Symbols](https://github.com/irrevion/science/blob/main/src/Math/Symbols/Symbols.php) which provides some helper tools.
 
 Also, you can omit symbol name and some free name is going to be taken automatically:
 ```php
 $symbol = new Symbol(); // for example, takes unused name {Y} randomly
 ```
 
+It is also possible to define multiple symbols simultaneously:
+```php
+list($x, $y, $z) = Symbols::let('x', 'y', 'z');
+```
+
+## Value assignation
+
 Any value can be assigned to the Symbol. The most common use cases is Entity object, Expression object or plain numeric value (int|float).
 
 Examples:
 ```php
-$q = Symbols::symbol('x')->add(new Quaternion([2, 3.7, 0.12, 7.26]))->assign(['x' => 74.16])->evaluate();
+$q = Symbols::symbol('x')->assign(['x' => 74.16]);
 ```
 here we're adding quaternion object directly to {x}.
 
 ```php
-$k = new Symbol('k', \irrevion\science\Physics\Physics::BOLTZMANN)->asConst();
-$E = $k->multiply('T');
-$R = $E->divide('T')->multiply(\irrevion\science\Physics\Physics::AVOGADRO);
-
-print $k.":".Delegator::getType($k)."\n"; // outputs 1.380649E-23:irrevion\science\Math\Symbols\Symbol
-print $E.":".Delegator::getType($E)."\n"; // outputs ( 1.380649E-23 * {T} ):irrevion\science\Math\Symbols\Expression
-print $R.":".Delegator::getType($R)."\n"; // outputs ( ( ( 1.380649E-23 * {T} ) / {T} ) * 6.02214076E+23 ):irrevion\science\Math\Symbols\Expression
-
-$R = $R->assign(['T' => 300])->evaluate();
-print $R.":".Delegator::getType($R)."\n"; // outputs 8.3144626181532:irrevion\science\Math\Entities\Scalar, which is https://en.wikipedia.org/wiki/Gas_constant
+$k = new Symbol('k', \irrevion\science\Physics\Physics::BOLTZMANN);
 ```
+here we're assigning symbols value during construction of the object.
+
+```php
+$z = Symbols::wrap(new Complex(-3, 5.75));
+```
+here we're wrapping any value or object to symbol with preassigned value. Any Symbol or Expression passed to this method returns unchanged, thus it can be used to ensure all variables to be a Symbol. Note that Symbol created that way is treated as constant (prints to a string like value "[-3 + 5.75i]" instead of symbol name {Const_537}).
+
 
 ## Predefined symbols
 
@@ -72,3 +77,34 @@ $h = Symbols::symbol('ℏ')->multiply('τ')->evaluate();
 print $pi.":".Delegator::getType($pi); // outputs {π}:irrevion\science\Math\Symbols\Symbol
 print $h.":".Delegator::getType($h); // outputs 6.62607014594E-34:irrevion\science\Math\Entities\Scalar
 ```
+
+
+## Direct operations over symbols
+
+It is possible to operate with symbols directly, which results in Expression object to be created:
+```php
+$q = Symbols::symbol('x')->add(new Quaternion([2, 3.7, 0.12, 7.26]))->assign(['x' => 74.16])->evaluate();
+```
+
+Another example:
+```php
+$k = new Symbol('k', \irrevion\science\Physics\Physics::BOLTZMANN)->asConst();
+$E = $k->multiply('T');
+$R = $E->divide('T')->multiply(\irrevion\science\Physics\Physics::AVOGADRO);
+
+print $k.":".Delegator::getType($k)."\n"; // outputs 1.380649E-23:irrevion\science\Math\Symbols\Symbol
+print $E.":".Delegator::getType($E)."\n"; // outputs ( 1.380649E-23 * {T} ):irrevion\science\Math\Symbols\Expression
+print $R.":".Delegator::getType($R)."\n"; // outputs ( ( ( 1.380649E-23 * {T} ) / {T} ) * 6.02214076E+23 ):irrevion\science\Math\Symbols\Expression
+
+$R = $R->assign(['T' => 300])->evaluate();
+print $R.":".Delegator::getType($R)."\n"; // outputs 8.3144626181532:irrevion\science\Math\Entities\Scalar, which is https://en.wikipedia.org/wiki/Gas_constant
+```
+
+Symbols itself has limited utility, so in most cases you'll be finding yoursef using [Expressions](./Expressions.md).
+
+<!--
+## See also
+
+- [Operations](./Operations.md)
+- [Expressions](./Expressions.md)
+-->

@@ -26,6 +26,8 @@ class ExpressionStatement {
 			'avg' => 'Avg',
 			'cos' => 'Cos',
 			'divide' => 'Divide',
+			'factorial' => 'Factorial',
+			'ln' => 'Ln',
 			'multiply' => 'Multiply',
 			'pow' => 'Power',
 			'sin' => 'Sin',
@@ -72,10 +74,8 @@ class ExpressionStatement {
 		$this->parser_state = 'running';
 		$this->parentesis = self::parentesis($this->expression_statement);
 		while (!$this->completed()) {
-			//print 'Check '.$this->expression_statement[$this->current_index]." at {$this->current_index}\n";
 			$this->checkCurr();
 			$this->next();
-			//print "Next to {$this->current_index}\n";
 		}
 		if (self::$debug) $this->printParsed();
 		if (self::$debug) print "Parsing completed\n\n";
@@ -185,7 +185,6 @@ class ExpressionStatement {
 						// ignore + at starting position like in +36 / 12 case
 						// also ignore + after another operator like in 17**+3 or 6/+.01 case
 						// but DONT ignore + in case of 7.0!+3.0
-						//print "(".$this->lastParsedEntry('value')."==='!') \n";
 						if (in_array($this->lastParsedEntry('value'), ['!', 'Factorial'])) {
 							$this->startYieldOp($char);
 						}
@@ -215,7 +214,6 @@ class ExpressionStatement {
 					return;
 				} else if (in_array($this->parser_state, ['yield_num'])) {
 					// in 2.71e-32 case (but not in 2.71e3-32 case) keep yielding num
-					// if (in_array($char, ['+', '-']) && (substr($this->stack['yielding']['value'], -1)==='e')) {
 					if (in_array($char, ['+', '-']) && (substr($this->lastParsedEntry('value'), -1)==='e')) {
 						$this->keepYieldingNum($char);
 						return;
@@ -379,7 +377,6 @@ class ExpressionStatement {
 	}
 
 	public function args(string $args) {
-		//print "Function arguments: $args \n";
 		$params = [];
 		$len = mb_strlen($args);
 		$i = 0;
@@ -389,17 +386,13 @@ class ExpressionStatement {
 			$param_end_pos = strpos($args, ',', $i);
 			if ($param_end_pos===false) { // only one param
 				$p = substr($args, $lookup_start_pos);
-				//var_export($p); print " at 385\n";
 				$params[] = Expressions::parse($p);
-				//print "param#".count($params)." found substr($args, $lookup_start_pos) = {$p} \n";
 				break;
 			} else { // more than one param
 				$context_end_pos = strpos($args, '(', $i);
 				if (($context_end_pos===false) || ($context_end_pos>$param_end_pos)) { // no rabbit holes here until param ends
 					$p = substr($args, $lookup_start_pos, ($param_end_pos-$lookup_start_pos));
-					//var_export($p); print " at 393; start $lookup_start_pos; length ".($param_end_pos-$lookup_start_pos)." ($param_end_pos-$lookup_start_pos) in $args\n";
 					$params[] = Expressions::parse($p);
-					//print "param#".count($params)." found substr(\"$args\", $lookup_start_pos, ($param_end_pos-$lookup_start_pos)) = {$p} \n";
 					$i = $param_end_pos+1;
 					$lookup_start_pos = $i;
 					continue;
@@ -409,7 +402,6 @@ class ExpressionStatement {
 					$jump_start_pos = $offset+$context_end_pos;
 					$jump_end_pos = $this->parentesis[$jump_start_pos]['closes_at'];
 					$i = $jump_end_pos-$offset+1;
-					//$lookup_start_pos = $i;
 					continue;
 				}
 			}
@@ -610,7 +602,6 @@ class ExpressionStatement {
 	}
 
 	public static function isOperator(string $char): bool {
-		// return in_array($char, ['+', '-', '*', '/', '**', '^', '!']);
 		return in_array($char, self::$operators);
 	}
 
@@ -666,13 +657,6 @@ class ExpressionStatement {
 
 		$n = count($open);
 		if ($n!=count($close)) throw new \Error('Invalid parentesis encountered');
-//(3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))
-//print "Expression $expr \n";
-//print "open parentesis positions:\n";
-//print_r($open);
-//print "close parentesis positions:\n";
-//print_r($close);
-//die();
 
 		$stack = [];
 		$i = 0;
@@ -685,10 +669,8 @@ class ExpressionStatement {
 			if (!is_null($open_pos) && ($close_pos>$open_pos)) { // we've found open pos
 				$stack[] = array_shift($open);
 				$level = count($stack);
-				//print "open at ".end($stack)."; level $level \n";
 			} else { // we've found closing pos
 				$close_pos = array_shift($close);
-				//print "close at $close_pos; level $level \n";
 				$entry = array_pop($stack);
 				$level = count($stack);
 				$parentesis[$entry] = [

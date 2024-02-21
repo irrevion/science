@@ -5,6 +5,7 @@ Complex numbers available at Math\Entities\Complex namespace:
 use irrevion\science\Math\Entities\Complex;
 ```
 
+
 ## Quick overview
 
 ```php
@@ -46,6 +47,7 @@ $is_equal = $x->isEqual($x); // true
 $is_near = $x->isNear(new Complex(2.0000000000001, 7)); // true
 ```
 
+
 ## Constructor
 
 You can create instance of Complex number in a different ways.  
@@ -81,6 +83,7 @@ $c6 = (new Scalar(5))->add(new Imaginary(-3));
 $c7 = Math::pow(new Scalar(-42.42), new Fraction('1/3'));
 $c8 = new Quaternion([5, -3, 0, 0])->toComplex();
 ```
+
 
 ## Addition / Subtraction
 
@@ -135,6 +138,7 @@ $is_zero = $z->isEqual(new Complex(0)); // false
 $is_zero = $z->isNear(new Complex(0)); // true
 ```
 
+
 ## Multiplication / Division
 
 Complex number multiplication, division, obtaining reciprocal and conjugate methods are pretty straitforward:
@@ -144,3 +148,32 @@ $quotient = $x->divide($y); // result is [0.54494382022472 + -0.028089887640449i
 $reciprocal = $x->reciprocal(); // result is [0.037735849056604 + -0.13207547169811i]
 $conjugate = $x->conjugate(); // result is [2 + -7i]
 ```
+
+
+## Other methods
+
+Natural logarythm:
+```php
+print (new Complex(2, 3))->ln() // outputs [1.2824746787308 + 0.98279372324733i]
+// the reference result obtained in Python is (1.2824746787307684+0.982793723247329j)
+```
+Exponent:
+```php
+print (new Complex(32.5, -13.2))->exp(); // outputs [1.0491634980031E+14 + -77080814660213i]
+// the reference result obtained in Python is (104916349800311-77080814660213.08j)
+```
+
+Despite ln() and exp() are reverse operations, result of combining them can be different from initial value ( x!=ln(exp(x)) ). It occurs when imaginary part is out of π:-π range. Imaginary number in exponentiation operation can be interpreted as rotation of vector on the complex plane and imaginary numbers out of π:-π range just repeats those revolutions.
+That means `ln(exp(5 + 6.27i)) = [5 + -0.013185307179587i]` because 6.27 radian counterclockwise is 0.01318 radian clockwise.
+```php
+print (new Complex(32.5, -13.2))->exp()->ln(); // outputs [32.5 + -0.63362938564083i]
+print (new Complex(5 + -3.14i))->exp()->ln(); // outputs [5 + -3.14i]
+```
+
+<!--
+## See also
+
+- [Imaginary](./Imaginary.md)
+- [Quaternion Component](./QuaternionComponent.md)
+- [Quaternion](./Quaternion.md)
+-->

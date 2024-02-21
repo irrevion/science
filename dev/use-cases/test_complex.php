@@ -310,6 +310,30 @@ print "ref py: (32.5-0.6336293856408264j) \n\n";
 
 Utils::test(
 	fn: function() {
+		return (new Complex(5, 6.27))->exp()->ln();
+	},
+	check: '[5 + 6.27i]',
+	descr: 'ln(exp(5 + 6.27i))'
+);
+
+?>
+
+<?php
+
+Utils::test(
+	fn: function() {
+		return (new Complex(5, -3.14))->exp()->ln();
+	},
+	check: '[5 + -3.14i]',
+	descr: 'ln(exp(5 + -3.14i))'
+);
+
+?>
+
+<?php
+
+Utils::test(
+	fn: function() {
 		return (new Complex(32.5, -13.2))->exp();
 	},
 	// check: '[104916349800311-77080814660213.08i]',

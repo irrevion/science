@@ -190,9 +190,6 @@ Utils::test(
 Utils::test(
 	fn: function() {
 		ExpressionStatement::$debug = false;
-		//$parentesis = ExpressionStatement::parentesis('(3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))');
-		//print_r($parentesis);
-//-0.9, pow(5-6, 3), (abs({x}-1)*-1)
 		$xpr = new Expression('(3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))');
 		return $xpr;
 	},
@@ -200,13 +197,10 @@ Utils::test(
 		if (!is_null($err)) {
 			Utils::printErr($err);
 			return false;
-			//var_dump($err);
-			//die();
 		}
 		$calculated = $res->assign(['x' => -0.1])->evaluate();
 		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
 		return $calculated->isEqual(new Scalar(-1));
-		// return Math::compare($calculated, '=', (new Scalar(-1)));
 	},
 	descr: 'Calc (3-2)avg(-0.9, pow(5-6, 3), (abs({x}-1)*-1))'
 );
@@ -235,6 +229,32 @@ Utils::test(
 		// return Math::compare($calculated, '=', (new Scalar(-1)));
 	},
 	descr: 'Calc ( cos(π)+i sin(π) )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('ln( (1e2 - 99) / ( 1 + {e}**(-3{x})))');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+			//var_dump($err);
+			//die();
+		}
+		$calculated = $res->assign(['x' => -0.6666])->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isNear(new Scalar(-2.1267518537274));
+		// return Math::compare($calculated, '=', (new Scalar(-1)));
+	},
+	descr: 'Calc ( ln( (1e2 - 99) / ( 1 + {e}**-3{x})) )'
 );
 
 ?>
