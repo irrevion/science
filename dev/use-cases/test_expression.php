@@ -259,4 +259,51 @@ Utils::test(
 
 ?>
 
+
+
+<?php
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('exp(4.2)');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isNear(new Scalar(66.686331040925));
+	},
+	descr: 'Calc ( exp(4.2) )'
+);
+
+?>
+
+
+
+<?php
+// print (new Complex(2, -4.6))->exp(); // is [-0.82870131315995 + 7.3424385708504i]
+Utils::test(
+	fn: function() {
+		// ExpressionStatement::$debug = true;
+		$xpr = new Expression('exp(2 - 4.6{i})');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		$calculated = $res->evaluate();
+		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
+		return $calculated->isNear(new Complex(-0.82870131315995, 7.3424385708504));
+	},
+	descr: 'Calc ( exp(2 - 4.6i) )'
+);
+
+?>
+
 </pre>

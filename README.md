@@ -132,6 +132,7 @@ v0.0.3
 - Matrix determinant implemented
 - Physics: New units added (Ohm, Farad, Watt, etc)
 
+
 ## Documentation
 
 - [Math](docs/Math/Math.md)
@@ -152,3 +153,10 @@ v0.0.3
 		- Expressions
 - [Physics](docs/Physics/Physics.md)
 	- [Quantity](docs/Physics/Entities/Quantity.md)
+
+
+<!--
+## Support
+
+To support this project you can star this repository, report an issue or contribute your improvements in form of pull request. As an additional form to express your gratitude or appreciation of author efforts if you found this library useful, small donation could be considered to 🐕DOGE [DN7T465V4sxR7hLt7erpfzJdWj4JrsFuFv](https://link.trustwallet.com/send?coin=3&address=DN7T465V4sxR7hLt7erpfzJdWj4JrsFuFv).
+-->

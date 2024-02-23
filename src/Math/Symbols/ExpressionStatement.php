@@ -26,6 +26,7 @@ class ExpressionStatement {
 			'avg' => 'Avg',
 			'cos' => 'Cos',
 			'divide' => 'Divide',
+			'exp' => 'Exp',
 			'factorial' => 'Factorial',
 			'ln' => 'Ln',
 			'multiply' => 'Multiply',

@@ -40,14 +40,14 @@ Any value can be assigned to the Symbol. The most common use cases is Entity obj
 
 Examples:
 ```php
-$q = Symbols::symbol('x')->assign(['x' => 74.16]);
-```
-here we're adding quaternion object directly to {x}.
-
-```php
 $k = new Symbol('k', \irrevion\science\Physics\Physics::BOLTZMANN);
 ```
 here we're assigning symbols value during construction of the object.
+
+```php
+$q = Symbols::symbol('x')->assign(['x' => 74.16]);
+```
+here we're assigning value to {x} after creation of instance.
 
 ```php
 $z = Symbols::wrap(new Complex(-3, 5.75));

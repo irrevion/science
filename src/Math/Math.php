@@ -72,6 +72,9 @@ class Math extends BaseMath {
 		// where n is scalar number
 		// for exponentiation of e to imaginary or complex power use Complex::exp()
 		if (Delegator::isEntity($n)) {
+			if (method_exists($n, 'exp')) {
+				return $n->exp();
+			}
 			return new Scalar(parent::exp($n->toNumber()));
 		}
 		return parent::exp($n);
@@ -133,6 +136,9 @@ class Math extends BaseMath {
 
 	public static function ln($n) {
 		if (Delegator::isEntity($n)) {
+			if (method_exists($n, 'ln')) {
+				return $n->ln();
+			}
 			return new Scalar(parent::ln($n->toNumber()));
 		}
 		return parent::ln($n);

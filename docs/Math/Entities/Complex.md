@@ -163,12 +163,21 @@ print (new Complex(32.5, -13.2))->exp(); // outputs [1.0491634980031E+14 + -7708
 // the reference result obtained in Python is (104916349800311-77080814660213.08j)
 ```
 
-Despite ln() and exp() are reverse operations, result of combining them can be different from initial value ( x!=ln(exp(x)) ). It occurs when imaginary part is out of π:-π range. Imaginary number in exponentiation operation can be interpreted as rotation of vector on the complex plane and imaginary numbers out of π:-π range just repeats those revolutions.
-That means `ln(exp(5 + 6.27i)) = [5 + -0.013185307179587i]` because 6.27 radian counterclockwise is 0.01318 radian clockwise.
+Despite $`ln(x)`$ and $`exp(x)`$ are reverse operations, result of combining them can be different from initial value $` x ≠ ln(exp(x)) `$. It occurs when imaginary part is out of π:-π range. Imaginary number in exponentiation operation can be interpreted as rotation of vector on the complex plane and imaginary numbers out of [π:-π] range just repeats those revolutions.
+That means $`ln(exp(5 + 6.27i)) = [5 - 0.013185307179587i]`$ because 6.27 radian counter-clockwise is 0.01318 radian clockwise.
 ```php
 print (new Complex(32.5, -13.2))->exp()->ln(); // outputs [32.5 + -0.63362938564083i]
-print (new Complex(5 + -3.14i))->exp()->ln(); // outputs [5 + -3.14i]
+print (new Complex(5, -3.14))->exp()->ln(); // outputs [5 + -3.14i]
 ```
+
+There is separate methods for getting one root, all roots (as array), real power and complex power:
+```php
+$square_root = $x->root(2); // result is [2.1540786765205 + 1.6248245888834i]
+$roots = $x->roots(2); // result is [[2.1540786765205 + 1.6248245888834i], [-2.1540786765205 + -1.6248245888834i]] type of array of elements as Complex numbers
+$pow = $x->pow(2); // result is [-45 + 28i]
+$ipow = $x->powI($y); // result is [-3.1150080947398E-6 + -1.9211645035452E-5i]
+```
+they are possible to be combined into one method in the future.
 
 <!--
 ## See also
