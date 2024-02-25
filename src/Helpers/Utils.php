@@ -7,8 +7,11 @@ class Utils {
 		return sprintf('%.0f', $bigint);
 	}
 
-	public static function variableHasValue($var) {
-		return !(empty($var) && ($var!=='0') && ($var!==false));
+	public static function camelCase(string $s): string {
+		$arr = explode('_', $s);
+		array_walk($arr, function(&$el) {$el = ucfirst($el);});
+		$s = join('', $arr);
+		return $s;
 	}
 
 	public static function test($fn, $data=[], $check=null, $descr='', $strict=false) {
@@ -186,5 +189,9 @@ class Utils {
 			}
 		}
 		return null;
+	}
+
+	public static function variableHasValue($var) {
+		return !(empty($var) && ($var!=='0') && ($var!==false));
 	}
 }

@@ -170,14 +170,14 @@ print (new Complex(32.5, -13.2))->exp()->ln(); // outputs [32.5 + -0.63362938564
 print (new Complex(5, -3.14))->exp()->ln(); // outputs [5 + -3.14i]
 ```
 
-There is separate methods for getting one root, all roots (as array), real power and complex power:
+There are separate methods for getting one root, all roots (as array), real power and complex power:
 ```php
 $square_root = $x->root(2); // result is [2.1540786765205 + 1.6248245888834i]
 $roots = $x->roots(2); // result is [[2.1540786765205 + 1.6248245888834i], [-2.1540786765205 + -1.6248245888834i]] type of array of elements as Complex numbers
 $pow = $x->pow(2); // result is [-45 + 28i]
 $ipow = $x->powI($y); // result is [-3.1150080947398E-6 + -1.9211645035452E-5i]
 ```
-they are possible to be combined into one method in the future.
+it is possible for them to be combined into one method in the future.
 
 <!--
 ## See also

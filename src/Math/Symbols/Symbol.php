@@ -55,6 +55,14 @@ class Symbol implements ISymbol {
 		return ($this->name===$symbol->name);
 	}
 
+	public function isConst(): bool {
+		return $this->is_const;
+	}
+
+	public function isExpr(): bool {
+		return $this->is_expr;
+	}
+
 	public function assign($value) {
 		if ($this->is_expr) {
 			return $this->value->assign($value);

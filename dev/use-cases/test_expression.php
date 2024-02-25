@@ -198,6 +198,7 @@ Utils::test(
 			Utils::printErr($err);
 			return false;
 		}
+		//print "simplified: ".$res->simplify()." \n";
 		$calculated = $res->assign(['x' => -0.1])->evaluate();
 		print "calculated value: $calculated (".Delegator::getType($calculated).") \n";
 		return $calculated->isEqual(new Scalar(-1));
@@ -302,6 +303,28 @@ Utils::test(
 		return $calculated->isNear(new Complex(-0.82870131315995, 7.3424385708504));
 	},
 	descr: 'Calc ( exp(2 - 4.6i) )'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		//ExpressionStatement::$debug = true;
+		$xpr = new Expression('(((((-3*1)))))');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		// print_r($res);
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		return $res->simplify()->isEqual(new Expression('-3'));
+	},
+	descr: '-3'
 );
 
 ?>

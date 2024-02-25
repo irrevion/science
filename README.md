@@ -114,7 +114,7 @@ So, as you can see, the following operations are supported:
 ## Versions history
 
 ~dev-main
-- Symbolic math implementation started (with operations like adding, multiplication, power, etc)
+- Symbolic math implementation started
 - Physics: Added Rydberg energy unit
 
 v0.0.5
@@ -150,7 +150,7 @@ v0.0.3
 	- Symbolic Math
 		- [Symbols](docs/Math/Symbols/Symbols.md)
 		- Operations
-		- Expressions
+		- [Expressions](docs/Math/Symbols/Expressions.md)
 - [Physics](docs/Physics/Physics.md)
 	- [Quantity](docs/Physics/Entities/Quantity.md)
 

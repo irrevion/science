@@ -38,6 +38,17 @@ class Expression implements IExpression {
 		throw new \Error("Method $method does not exists in ".$this::class);
 	}
 
+	public function symbol() {
+		return Symbols::symbol($this->name);
+	}
+
+	public function simplify(?array $apply_rules=null, ?array $exclude_rules=null): Expression {
+		// return $this;
+		$simplified = ExpressionSimplifier::apply($this, $apply_rules, $exclude_rules);
+		// print_r($simplified);
+		return $simplified;
+	}
+
 	public function assign(array $params): Expression {
 		$this->params = array_merge($this->params, $params);
 		$this->value->assign($this->params);
@@ -49,6 +60,18 @@ class Expression implements IExpression {
 		if (is_null($this->result)) throw new \Error('Invalid expression result');
 		return $this->result;
 		//return $this;
+	}
+
+	public function isEqual(Expression $expr): bool {
+		return ("$this"==="$expr");
+	}
+
+	public function isConst(): bool {
+		return false;
+	}
+
+	public function isExpr(): bool {
+		return true;
 	}
 }
 

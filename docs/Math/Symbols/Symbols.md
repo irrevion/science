@@ -102,9 +102,8 @@ print $R.":".Delegator::getType($R)."\n"; // outputs 8.3144626181532:irrevion\sc
 
 Symbols itself has limited utility, so in most cases you'll be finding yoursef using [Expressions](./Expressions.md).
 
-<!--
+
 ## See also
 
-- [Operations](./Operations.md)
+<!-- - [Operations](./Operations.md)-->
 - [Expressions](./Expressions.md)
--->
