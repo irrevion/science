@@ -329,4 +329,27 @@ Utils::test(
 
 ?>
 
+
+
+<?php
+Utils::test(
+	fn: function() {
+		//ExpressionStatement::$debug = true;
+		$xpr = new Expression('({f}+{g})({k}+2{g})');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		// print_r($res);
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		return $res->simplify()->isEqual(new Expression('-3'));
+	},
+	descr: '({f}+{g})({k}+2{g})'
+	//descr: '({f}+{g})({k}+{n})'
+);
+
+?>
+
 </pre>

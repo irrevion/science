@@ -1,4 +1,4 @@
-# Symbols
+# Symbolic Math / Symbols
 
 Symbols is a core concept in symbolic calculations module. It is very close to the variable concept, except symbols are more abstract and may not have value to be used. They allows to construct expressions and then assign values to substitute and calculate them.
 

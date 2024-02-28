@@ -2,6 +2,7 @@
 namespace irrevion\science\Math\Symbols;
 
 use irrevion\science\Helpers\{Utils};
+use irrevion\science\Math\Branches\SymbolicMath;
 use irrevion\science\Math\Entities\{Scalar, NaN};
 use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
 use irrevion\science\Math\Symbols\Operations;
@@ -11,10 +12,10 @@ class ExpressionSimplifier {
 
 	public static $rules = [
 		'add_zero', // x+0=x
-		//'expand', // x(a+b)=xa+xb; (a+b)(c+d)=ac+ad+bc+bd; (a+b)(a-2c+d)=a^2-2ac+ad+ba-2bc+bd
+		'expand', // x(a+b)=xa+xb; (a+b)(c+d)=ac+ad+bc+bd; (a+b)(a-2c+d)=a^2-2ac+ad+ba-2bc+bd
 		'multiply_by_one', // x*1=x
 		//'noop', // (x)=x
-		//'precalc_const', // 3+2=5
+		//'precalc_const', // 3+2=5; 3*2=6
 	];
 
 	public static function apply(Expression $expr, ?array $allow_rules=null, ?array $exclude_rules=null): Expression {
@@ -56,7 +57,7 @@ class ExpressionSimplifier {
 	}
 
 	public static function checkOpMultiply(Expression $expr, array $allow_rules): Expression {
-		$rules_filter = ['multiply_by_one'];
+		$rules_filter = ['expand', 'multiply_by_one'];
 		$rules = array_intersect($allow_rules, $rules_filter);
 
 		foreach ($rules as $rule) {
@@ -79,7 +80,7 @@ class ExpressionSimplifier {
 		return $expr;
 	}
 
-	public static function ruleMultiplyByOne(Expression $expr) {
+	public static function ruleMultiplyByOne(Expression $expr): Expression {
 		$a = $expr->value->over['a'];
 		$b = $expr->value->with['b'];
 		if ($a->isConst() && $a->value->isEqual(new Scalar(1))) {
@@ -106,6 +107,12 @@ class ExpressionSimplifier {
 			}
 			return $expr;
 		}
+		return $expr;
+	}
+
+	public static function ruleExpand(Expression $expr): Expression {
+		$res_expr =  SymbolicMath::multiply($expr->value->over['a'], $expr->value->with['b']);
+		$expr->value = $res_expr->value;
 		return $expr;
 	}
 }
