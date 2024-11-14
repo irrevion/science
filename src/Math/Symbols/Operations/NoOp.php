@@ -33,4 +33,5 @@ class NoOp extends Operation {
 		return $a;
 	}
 }
+
 ?>

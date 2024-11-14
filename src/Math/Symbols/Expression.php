@@ -42,6 +42,10 @@ class Expression implements IExpression {
 		return Symbols::symbol($this->name);
 	}
 
+	public function op() {
+		return $this->value;
+	}
+
 	public function simplify(?array $apply_rules=null, ?array $exclude_rules=null): Expression {
 		// return $this;
 		$simplified = ExpressionSimplifier::apply($this, $apply_rules, $exclude_rules);

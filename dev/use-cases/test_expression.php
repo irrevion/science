@@ -347,7 +347,51 @@ Utils::test(
 		return $res->simplify()->isEqual(new Expression('-3'));
 	},
 	descr: '({f}+{g})({k}+2{g})'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		//ExpressionStatement::$debug = true;
+		$xpr = new Expression('2({f}+{g})({k}+2{g})');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		// print_r($res);
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		return $res->simplify()->isEqual(new Expression('-3'));
+	},
+	descr: '2({f}+{g})({k}+2{g})'
 	//descr: '({f}+{g})({k}+{n})'
+);
+
+?>
+
+
+
+<?php
+Utils::test(
+	fn: function() {
+		//ExpressionStatement::$debug = true;
+		$xpr = new Expression('(2*3*{a}**-1*{a}**2)(7*{v}*{a}**3*5)');
+		return $xpr;
+	},
+	check: function($res, $err) {
+		// print_r($res);
+		if (!is_null($err)) {
+			Utils::printErr($err);
+			return false;
+		}
+		return $res->simplify()->isEqual(new Expression('-3'));
+	},
+	descr: '(2*3*{a}**-1*{a}**2)(7*{v}*{a}**3*5)'
 );
 
 ?>

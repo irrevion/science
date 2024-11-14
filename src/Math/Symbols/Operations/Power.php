@@ -53,5 +53,15 @@ class Power extends Operation {
 		}
 		return $result;
 	}
+
+	public function base(null|Symbol|Expression $base=null) {
+		if (!is_null($base)) $this->over['a'] = $base;
+		return $this->over['a'];
+	}
+
+	public function exponent(null|Symbol|Expression $exponent=null) {
+		if (!is_null($exponent)) $this->with['b'] = $exponent;
+		return $this->with['b'];
+	}
 }
 ?>

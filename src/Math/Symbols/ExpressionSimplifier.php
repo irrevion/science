@@ -86,7 +86,7 @@ class ExpressionSimplifier {
 		if ($a->isConst() && $a->value->isEqual(new Scalar(1))) {
 			if ($b->isExpr()) {
 				if ($b->value::class===Operations\NoOp::class) {
-					$expr->value = $b->value->over('a');
+					$expr->value = $b->value->over('a'); die('x1');
 				} else {
 					$expr->value = $b->value;
 				}
@@ -98,7 +98,7 @@ class ExpressionSimplifier {
 		if ($b->isConst() && $b->value->isEqual(new Scalar(1))) {
 			if ($a->isExpr()) {
 				if ($a->value::class===Operations\NoOp::class) {
-					$expr->value = $a->value->over('a');
+					$expr->value = $a->value->over('a'); die('x2');
 				} else {
 					$expr->value = $a->value;
 				}
