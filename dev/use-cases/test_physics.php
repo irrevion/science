@@ -32,6 +32,13 @@ print "$x is $y \n";
 ?>
 
 <?php
+$x = new Quantity(0.07, IAU::parsec);
+//$y = $x->convert(NonStandard::km);
+$y = $x->convert('length.km');
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(12, IAU::parsec);
 $y = $x->convert(IAU::light_year);
 print "$x is $y \n";

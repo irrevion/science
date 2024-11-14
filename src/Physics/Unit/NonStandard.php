@@ -13,6 +13,7 @@ enum NonStandard: string implements SystemInterface {
 	case electronvolt = 'energy.electronvolt';
 	case grad = 'angle.grad';
 	case gon = 'angle.gon';
+	case km = 'length.km';
 	case mas = 'angle.mas';
 	case microarcsecond = 'angle.microarcsecond';
 	case mil = 'angle.mil';

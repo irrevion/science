@@ -11,6 +11,7 @@ enum SI: string implements SystemInterface {
 	case kilogram = 'mass.kilogram';
 	case kg = 'mass.kg';
 	case metre = 'length.metre';
+	case m = 'length.m';
 	case mole = 'substance_amount.mole';
 	case second = 'time.second';
 

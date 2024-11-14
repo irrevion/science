@@ -140,11 +140,13 @@ class Categories {
 			// chi
 			// foot
 			// inch
-			// 'kilometer'
-			// 'km'
+			'kilometer' => 'Entities\Kilometre',
+			'kilometre' => 'Entities\Kilometre',
+			'km' => 'Entities\Kilometre',
 			'light_year' => 'Entities\LightYear',
 			'ly' => 'Entities\LightYear',
 			'metre' => 'Entities\Metre',
+			'm' => 'Entities\Metre',
 			// mikron
 			// mile
 			// nautical_mile
