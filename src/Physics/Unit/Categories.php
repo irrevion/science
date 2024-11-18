@@ -132,8 +132,9 @@ class Categories {
 			// terahertz
 		],
 		'length' => [
-			// Angstrom
+			'angstrom' => 'Entities\Angstrom',
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
+			// attometre
 			'au' => 'Entities\AstronomicalUnit',
 			// bohr_radius
 			// centimetre
@@ -149,8 +150,11 @@ class Categories {
 			'm' => 'Entities\Metre',
 			// mikron
 			// mile
+			// millimetre
+			// nanometre
 			// nautical_mile
 			'parsec' => 'Entities\Parsec',
+			//'picometre' => 'Entities\Picometre',
 			'planck_length' => 'Entities\PlanckLength',
 			// rydberg wavelength
 			// sm
