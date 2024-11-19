@@ -7,6 +7,7 @@ enum NonStandard: string implements SystemInterface {
 	case apostilb = 'brightness.apostilb';
 	case arcminute = 'angle.arcminute';
 	case arcsecond = 'angle.arcsecond';
+	case attometre = 'length.attometre';
 	case celsius = 'temperature.celsius';
 	case dalton = 'mass.dalton';
 	case degree = 'angle.degree';

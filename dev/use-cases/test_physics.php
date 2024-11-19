@@ -61,6 +61,12 @@ print "$x is $y \n";
 ?>
 
 <?php
+$x = new Quantity(6.1871424991727e16, Planck::length);
+$y = $x->convert('length.attometre');
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(250e6, IAU::light_year);
 $y = $x->convert(IAU::parsec);
 print "$x is $y \n";

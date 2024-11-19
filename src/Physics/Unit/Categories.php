@@ -134,7 +134,7 @@ class Categories {
 		'length' => [
 			'angstrom' => 'Entities\Angstrom',
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
-			// attometre
+			'attometre' => 'Entities\Attometre',
 			'au' => 'Entities\AstronomicalUnit',
 			// bohr_radius
 			// centimetre
