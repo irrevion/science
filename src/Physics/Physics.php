@@ -21,6 +21,10 @@ class Physics extends Math {
 	// https://en.wikipedia.org/wiki/Bohr_magneton
 	// In the Bohr model of the atom, for an electron that is in the orbit of lowest energy, its orbital angular momentum has magnitude equal to the reduced Planck constant, denoted ħ. The Bohr magneton is the magnitude of the magnetic dipole moment of an electron orbiting an atom with this angular momentum.
 
+	const BOHR_RADIUS = 5.29177210544e-11; // meters
+	// https://en.wikipedia.org/wiki/Bohr_radius
+	// The Bohr radius a₀ is a physical constant, approximately equal to the most probable distance between the nucleus and the electron in a hydrogen atom in its ground state. It is named after Niels Bohr, due to its role in the Bohr model of an atom. Its value is 5.29177210544(82)×10−11 m.
+
 	const BOLTZMANN = 1.380649e-23; // J*K^-1
 	const k = self::BOLTZMANN;
 	// https://en.wikipedia.org/wiki/Boltzmann_constant
@@ -32,8 +36,8 @@ class Physics extends Math {
 	// The speed of light in vacuum, commonly denoted c, is a universal physical constant that is exactly equal to 299,792,458 metres per second (approximately 300,000 kilometres per second; 186,000 miles per second; 671 million miles per hour).
 
 	const ELECTRIC_PERMITTIVITY = 8.8541878128e-12; // F / m
-	const EPSILON_ZERO = ELECTRIC_PERMITTIVITY;
-	const ε₀ = EPSILON_ZERO;
+	const EPSILON_ZERO = self::ELECTRIC_PERMITTIVITY;
+	const ε₀ = self::EPSILON_ZERO;
 	// https://en.wikipedia.org/wiki/Vacuum_permittivity
 	// Vacuum permittivity, commonly denoted ε₀ (pronounced "epsilon nought" or "epsilon zero"), is the value of the absolute dielectric permittivity of classical vacuum. It may also be referred to as the permittivity of free space, the electric constant, or the distributed capacitance of the vacuum.
 
@@ -61,8 +65,8 @@ class Physics extends Math {
 	// Plank constant over 2π
 
 	const MAGNETIC_PERMEABILITY = 1.25663706212e-6; // N/A^2
-	const μ₀ = MAGNETIC_PERMEABILITY;
-	const MU_ZERO = MAGNETIC_PERMEABILITY;
+	const μ₀ = self::MAGNETIC_PERMEABILITY;
+	const MU_ZERO = self::MAGNETIC_PERMEABILITY;
 	// https://en.wikipedia.org/wiki/Vacuum_permeability
 	// The vacuum magnetic permeability (variously vacuum permeability, permeability of free space, permeability of vacuum), also known as the magnetic constant, is the magnetic permeability in a classical vacuum. It is a physical constant, conventionally written as μ₀ (pronounced "mu nought" or "mu zero"). Its purpose is to quantify the strength of the magnetic field emitted by an electric current. Expressed in terms of SI base units, it has the unit kg⋅m⋅s−2·A−2. It can be also expressed in terms of SI derived units, N·A−2. 
 

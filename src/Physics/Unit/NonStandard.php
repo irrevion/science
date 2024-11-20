@@ -8,6 +8,7 @@ enum NonStandard: string implements SystemInterface {
 	case arcminute = 'angle.arcminute';
 	case arcsecond = 'angle.arcsecond';
 	case attometre = 'length.attometre';
+	case bohr_radius = 'length.bohr_radius';
 	case celsius = 'temperature.celsius';
 	case dalton = 'mass.dalton';
 	case degree = 'angle.degree';
@@ -16,6 +17,7 @@ enum NonStandard: string implements SystemInterface {
 	case grad = 'angle.grad';
 	case gon = 'angle.gon';
 	case km = 'length.km';
+	case kilometre = 'length.kilometre';
 	case mas = 'angle.mas';
 	case microarcsecond = 'angle.microarcsecond';
 	case mil = 'angle.mil';

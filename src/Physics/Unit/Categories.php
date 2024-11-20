@@ -136,7 +136,7 @@ class Categories {
 			'astronomical_unit' => 'Entities\AstronomicalUnit',
 			'attometre' => 'Entities\Attometre',
 			'au' => 'Entities\AstronomicalUnit',
-			// bohr_radius
+			'bohr_radius' => 'Entities\BohrRadius',
 			// centimetre
 			// chi
 			// foot

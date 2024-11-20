@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Physics\Physics;
 use irrevion\science\Physics\Entities\Quantity;
+use irrevion\science\Physics\Entities\Particles\Electron;
 use irrevion\science\Physics\Unit\Categories;
 use irrevion\science\Physics\Unit\{SI, Planck, IAU, CGS, Natural, NonStandard, Imperial, USC};
 ?>
@@ -64,6 +65,15 @@ print "$x is $y \n";
 $x = new Quantity(6.1871424991727e16, Planck::length);
 $y = $x->convert('length.attometre');
 print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(3250, 'length.angstrom');
+$y = $x->convert(Natural::bohr_radius);
+print "$x is $y \n";
+$r = ( 4 * Physics::PI * Physics::EPSILON_ZERO * (Physics::PLANCK_REDUCED**2) ) / ( (Physics::ELEMENTARY_CHARGE**2) * Electron::MASS );
+$r2 = Physics::PLANCK_REDUCED / ( Electron::MASS * Physics::c * Physics::ALPHA );
+print "Bohr radius is ".Physics::BOHR_RADIUS." vs calculated $r or $r2 \n";
 ?>
 
 <?php

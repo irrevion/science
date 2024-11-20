@@ -3,6 +3,7 @@ namespace irrevion\science\Physics\Unit;
 
 // Hartree units
 enum Natural: string implements SystemInterface {
+	case bohr_radius = 'length.bohr_radius';
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
 	case elementary_charge = 'electric_charge.elementary_charge';
