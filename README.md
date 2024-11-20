@@ -1,7 +1,7 @@
 # science
 PHP library for extended mathematical operations. Its mostly focused on operations with Complex numbers, Quaternions and Linear Algebra.
 
-## Killer-features and advantages
+## Key features and advantages
 - Improved `Math::pow($base, $exponent)` function, able to raise any real or complex number to any real or complex exponent
 - Support for [Complex](docs/Math/Entities/Complex.md) numbers and Quaternions ( just like Python with [NumPy](https://numpy.org/) + [PyQuaternion](http://kieranwynn.github.io/pyquaternion/) + [SymPy](https://www.sympy.org/) )
 - Physics units conversion (more units to be added...) using `(new Quantity(0.7, IAU::parsec))->convert(SI::metre)`
@@ -115,7 +115,7 @@ So, as you can see, the following operations are supported:
 
 ~dev-main
 - Symbolic math implementation started
-- Physics: Added Rydberg energy unit
+- Physics: Added Rydberg energy, kilometre, attometre, angstrom and Bohr radius units
 
 v0.0.5
 - Matrix inversion implemented (as well as methods for finding cofactor matrix, adjugate, minors, row echelon form, reduced REF, rank)
