@@ -40,6 +40,13 @@ print "$x is $y \n";
 ?>
 
 <?php
+$x = new Quantity(0.00002, 'length.km');
+// $y = $x->convert(CGS::centimetre);
+$y = $x->convert('length.sm');
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(12, IAU::parsec);
 $y = $x->convert(IAU::light_year);
 print "$x is $y \n";

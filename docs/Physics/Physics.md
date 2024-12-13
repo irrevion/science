@@ -4,7 +4,7 @@ Physics is a static class available under namespace
 ```php
 use irrevion\science\Physics\Physics;
 ```
-and providing basic methods and constants. It should not contain any specialized methods to obtain practical results. All other branches of Physics will extend this class and implement specialized methods.
+and providing basic methods and constants. It should not contain any specialized methods to obtain practical results. All other branches of Physics ( Relativity, Astronomy, Astrophysics, QCD, QED, QFT, Ballistics, Newtonian, Hydrodynamics, Aerodynamics, Acoustics, etc. ) will extend this class and implement specialized methods.
 
 ## Constants
 

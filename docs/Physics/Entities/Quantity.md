@@ -99,6 +99,7 @@ const list = [
 		'attometre' => 'Entities\Attometre',
 		'au' => 'Entities\AstronomicalUnit',
 		'bohr_radius' => 'Entities\BohrRadius',
+		'centimetre' => 'Entities\Centimetre',
 		'kilometer' => 'Entities\Kilometre',
 		'kilometre' => 'Entities\Kilometre',
 		'km' => 'Entities\Kilometre',
