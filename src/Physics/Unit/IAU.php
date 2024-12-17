@@ -8,6 +8,7 @@ enum IAU: string implements SystemInterface {
 	case ly = 'length.ly';
 	case parsec = 'length.parsec';
 	case solar_mass = 'mass.solar_mass';
+	case stellar_day = 'time.stellar_day';
 	case year = 'time.year';
 
 	public function i($const='') {

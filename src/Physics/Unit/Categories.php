@@ -229,15 +229,19 @@ class Categories {
 		'time' => [
 			// century
 			// day
-			'hour' => 'Entities\Hour',
+			'day' => 'Entities\Day', // 86400 s
+			'hour' => 'Entities\Hour', // 3600 s
 			// millenia
 			// minute
 			// month
 			'planck_time' => 'Entities\PlanckTime',
 			// quarta
 			'second' => 'Entities\Second',
+			'sidereal_day' => 'Entities\SiderealDay', // 86164.0905 s
+			'solar_day' => 'Entities\SolarDay', // 86400.002 s
+			'stellar_day' => 'Entities\StellarDay', // 86164.098903691 s
 			// tertia
-			'year' => 'Entities\Year',
+			'year' => 'Entities\Year', // 31557600 s (365.25 * 24 * 3600)
 			// week
 		],
 	];

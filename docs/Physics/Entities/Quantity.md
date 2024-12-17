@@ -146,9 +146,14 @@ const list = [
 		'rankine' => 'Entities\Rankine',
 	],
 	'time' => [
+		'day' => 'Entities\Day', // 86400 s
+		'hour' => 'Entities\Hour', // 3600 s
 		'planck_time' => 'Entities\PlanckTime',
 		'second' => 'Entities\Second',
-		'year' => 'Entities\Year',
+		'sidereal_day' => 'Entities\SiderealDay', // 86164.0905 s
+		'solar_day' => 'Entities\SolarDay', // 86400.002 s
+		'stellar_day' => 'Entities\StellarDay', // 86164.098903691 s
+		'year' => 'Entities\Year', // 31557600 s (365.25 * 24 * 3600)
 	],
 ];
 ```

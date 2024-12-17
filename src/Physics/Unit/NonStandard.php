@@ -11,6 +11,7 @@ enum NonStandard: string implements SystemInterface {
 	case bohr_radius = 'length.bohr_radius';
 	case celsius = 'temperature.celsius';
 	case dalton = 'mass.dalton';
+	case day = 'time.day';
 	case degree = 'angle.degree';
 	case electron_mass = 'mass.electron_mass';
 	case electronvolt = 'energy.electronvolt';
@@ -32,10 +33,13 @@ enum NonStandard: string implements SystemInterface {
 	case Ry = 'energy.Ry';
 	case rydberg_energy = 'energy.rydberg';
 	case rydberg_wavelength = 'length.rydberg_wavelength';
+	case sidereal_day = 'time.sidereal_day';
+	case solar_day = 'time.solar_day';
+	case spat = 'angular_square.spat';
 	case square_arcminute = 'angular_square.square_arcminute';
 	case square_arcsecond = 'angular_square.square_arcsecond';
 	case square_degree = 'angular_square.square_degree';
-	case spat = 'angular_square.spat';
+	case stellar_day = 'time.stellar_day';
 	case turn = 'angle.turn';
 	case ussr_mrad = 'angle.ussr_mrad';
 	case year = 'time.year';

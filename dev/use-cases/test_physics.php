@@ -124,6 +124,18 @@ print "$x is $y \n";
 $x = new Quantity(0.007, NonStandard::year);
 $y = $x->convert(NonStandard::hour);
 print "$x is $y \n";
+
+$z = $y->convert(NonStandard::day);
+print "$y is $z \n";
+
+$u = $z->convert(NonStandard::sidereal_day);
+print "$z is $u \n";
+
+$v = $u->convert(NonStandard::solar_day);
+print "$u is $v \n";
+
+$w = $v->convert(IAU::stellar_day);
+print "$v is $w \n";
 ?>
 
 <?php
