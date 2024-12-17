@@ -137,7 +137,7 @@ v0.0.3
 
 - [Math](docs/Math/Math.md)
 	- Numbers, Entities & Matrices
-		- NaN
+		- [NaN](docs/Math/Entities/NaN.md)
 		- Scalar
 		- Fraction
 		- Imaginary
