@@ -112,9 +112,17 @@ $y = $x->convert(NonStandard::electron_mass);
 print "$x is $y \n";
 ?>
 
+## TIME
+
 <?php
 $x = new Quantity(3, NonStandard::year);
 $y = $x->convert(SI::second);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(0.007, NonStandard::year);
+$y = $x->convert(NonStandard::hour);
 print "$x is $y \n";
 ?>
 

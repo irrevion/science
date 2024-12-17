@@ -138,7 +138,6 @@ class Categories {
 			'au' => 'Entities\AstronomicalUnit',
 			'bohr_radius' => 'Entities\BohrRadius',
 			'centimetre' => 'Entities\Centimetre',
-			// chi
 			// foot
 			// inch
 			'kilometer' => 'Entities\Kilometre',
@@ -159,7 +158,6 @@ class Categories {
 			'rydberg_wavelength' => 'Entities\RydbergWavelength',
 			'sm' => 'Entities\Centimetre',
 			// yard
-			// zhang
 		],
 		'luminous_intensity' => [
 			'candela' => 'Entities\Candela',
@@ -171,12 +169,9 @@ class Categories {
 			'dalton' => 'Entities\Dalton',
 			// earth
 			'electron_mass' => 'Entities\ElectronMass',
-			// gongjin
 			// gram
-			// jin
 			'kilogram' => 'Entities\Kilogram',
 			'kg' => 'Entities\Kilogram',
-			// liang
 			// moon
 			// ounce
 			// planck mass
@@ -234,7 +229,7 @@ class Categories {
 		'time' => [
 			// century
 			// day
-			// hour
+			'hour' => 'Entities\Hour',
 			// millenia
 			// minute
 			// month
