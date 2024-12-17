@@ -30,6 +30,7 @@ enum NonStandard: string implements SystemInterface {
 	case rankine = 'temperature.rankine';
 	case Ry = 'energy.Ry';
 	case rydberg_energy = 'energy.rydberg';
+	case rydberg_wavelength = 'length.rydberg_wavelength';
 	case square_arcminute = 'angular_square.square_arcminute';
 	case square_arcsecond = 'angular_square.square_arcsecond';
 	case square_degree = 'angular_square.square_degree';

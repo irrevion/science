@@ -137,7 +137,7 @@ class Categories {
 			'attometre' => 'Entities\Attometre',
 			'au' => 'Entities\AstronomicalUnit',
 			'bohr_radius' => 'Entities\BohrRadius',
-			// centimetre
+			'centimetre' => 'Entities\Centimetre',
 			// chi
 			// foot
 			// inch
@@ -156,8 +156,8 @@ class Categories {
 			'parsec' => 'Entities\Parsec',
 			//'picometre' => 'Entities\Picometre',
 			'planck_length' => 'Entities\PlanckLength',
-			// rydberg wavelength
-			// sm
+			'rydberg_wavelength' => 'Entities\RydbergWavelength',
+			'sm' => 'Entities\Centimetre',
 			// yard
 			// zhang
 		],

@@ -99,6 +99,7 @@ const list = [
 		'attometre' => 'Entities\Attometre',
 		'au' => 'Entities\AstronomicalUnit',
 		'bohr_radius' => 'Entities\BohrRadius',
+		'centimetre' => 'Entities\Centimetre',
 		'kilometer' => 'Entities\Kilometre',
 		'kilometre' => 'Entities\Kilometre',
 		'km' => 'Entities\Kilometre',
@@ -107,6 +108,7 @@ const list = [
 		'metre' => 'Entities\Metre',
 		'parsec' => 'Entities\Parsec',
 		'planck_length' => 'Entities\PlanckLength',
+		'rydberg_wavelength' => 'Entities\RydbergWavelength',
 	],
 	'luminous_intensity' => [
 		'candela' => 'Entities\Candela',
