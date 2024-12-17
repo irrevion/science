@@ -156,7 +156,7 @@ class Categories {
 			'parsec' => 'Entities\Parsec',
 			//'picometre' => 'Entities\Picometre',
 			'planck_length' => 'Entities\PlanckLength',
-			// rydberg wavelength
+			'rydberg_wavelength' => 'Entities\RydbergWavelength',
 			'sm' => 'Entities\Centimetre',
 			// yard
 			// zhang

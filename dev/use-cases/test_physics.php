@@ -81,6 +81,9 @@ print "$x is $y \n";
 //$r = ( 4 * Physics::PI * Physics::EPSILON_ZERO * (Physics::PLANCK_REDUCED**2) ) / ( (Physics::ELEMENTARY_CHARGE**2) * Electron::MASS );
 //$r2 = Physics::PLANCK_REDUCED / ( Electron::MASS * Physics::c * Physics::ALPHA );
 //print "Bohr radius is ".Physics::BOHR_RADIUS." vs calculated $r or $r2 \n";
+
+$z = $x->convert('length.rydberg_wavelength');
+print "$y is $z \n";
 ?>
 
 <?php

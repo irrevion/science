@@ -108,6 +108,7 @@ const list = [
 		'metre' => 'Entities\Metre',
 		'parsec' => 'Entities\Parsec',
 		'planck_length' => 'Entities\PlanckLength',
+		'rydberg_wavelength' => 'Entities\RydbergWavelength',
 	],
 	'luminous_intensity' => [
 		'candela' => 'Entities\Candela',

@@ -68,7 +68,11 @@ class Physics extends Math {
 	const μ₀ = self::MAGNETIC_PERMEABILITY;
 	const MU_ZERO = self::MAGNETIC_PERMEABILITY;
 	// https://en.wikipedia.org/wiki/Vacuum_permeability
-	// The vacuum magnetic permeability (variously vacuum permeability, permeability of free space, permeability of vacuum), also known as the magnetic constant, is the magnetic permeability in a classical vacuum. It is a physical constant, conventionally written as μ₀ (pronounced "mu nought" or "mu zero"). Its purpose is to quantify the strength of the magnetic field emitted by an electric current. Expressed in terms of SI base units, it has the unit kg⋅m⋅s−2·A−2. It can be also expressed in terms of SI derived units, N·A−2. 
+	// The vacuum magnetic permeability (variously vacuum permeability, permeability of free space, permeability of vacuum), also known as the magnetic constant, is the magnetic permeability in a classical vacuum. It is a physical constant, conventionally written as μ₀ (pronounced "mu nought" or "mu zero"). Its purpose is to quantify the strength of the magnetic field emitted by an electric current. Expressed in terms of SI base units, it has the unit kg⋅m⋅s−2·A−2. It can be also expressed in terms of SI derived units, N·A−2.
+	
+	const RYDBERG = 10973731.568157; // m^-1
+	// https://en.wikipedia.org/wiki/Rydberg_constant
+	// Rydberg constant is expressed for either hydrogen as Rh, or at the limit of infinite nuclear mass as R∞. In either case, the constant is used to express the limiting value of the highest wavenumber (inverse wavelength) of any photon that can be emitted from a hydrogen atom, or, alternatively, the wavenumber of the lowest-energy photon capable of ionizing a hydrogen atom from its ground state.
 
 
 	public static function unit($unit) { // cast unit as array
