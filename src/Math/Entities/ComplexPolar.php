@@ -333,5 +333,9 @@ class ComplexPolar extends Complex implements Entity {
 		}
 		return ($this->r->isNear($y->r) && $this->phi->isNear($y->phi));
 	}
+
+	public function isNaN(): bool {
+		return true;
+	}
 }
 ?>

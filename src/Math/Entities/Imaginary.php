@@ -152,5 +152,9 @@ class Imaginary extends Scalar implements Entity {
 		if (Delegator::getType($y)!=self::class) return false;
 		return Math::compare($this->value, '==', $y->value);
 	}
+
+	public function isNaN(): bool {
+		return true;
+	}
 }
 ?>

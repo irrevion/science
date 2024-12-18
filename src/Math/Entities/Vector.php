@@ -162,6 +162,10 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return true;
 	}
 
+	public function isNaN(): bool {
+		return true;
+	}
+
 	public function pad(int $length): Vector {
 		return new self($this->value, $this->inner_type, $length);
 	}

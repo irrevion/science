@@ -252,5 +252,9 @@ class Fraction extends Scalar implements Entity {
 	public function empty(): bool {
 		return ($this->numerator->value==0);
 	}
+
+	public function isNaN(): bool {
+		return Math::isNaN($this);
+	}
 }
 ?>

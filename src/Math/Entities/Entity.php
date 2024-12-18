@@ -7,6 +7,7 @@ interface Entity {
 	public function subtract($value);
 	public function multiply($value);
 	public function divide($value);
+	public function isNaN();
 }
 
 ?>

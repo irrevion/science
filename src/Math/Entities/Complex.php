@@ -279,5 +279,9 @@ class Complex extends Imaginary implements Entity {
 		// return (Math::compare($this->value['real'], '==', $y->value['real']) && Math::compare($this->value['imaginary'], '==', $y->value['imaginary']));
 		return ($this->value['real']->isNear($y->value['real']) && $this->value['imaginary']->isNear($y->value['imaginary']));
 	}
+
+	public function isNaN(): bool {
+		return true;
+	}
 }
 ?>

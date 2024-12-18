@@ -167,6 +167,10 @@ class QuaternionComponent extends Imaginary implements Entity {
 		if ($this->symbol!=$y->symbol) return false;
 		return Math::compare($this->value, '==', $y->value);
 	}
+
+	public function isNaN(): bool {
+		return true;
+	}
 }
 
 ?>

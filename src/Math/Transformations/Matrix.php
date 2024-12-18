@@ -74,6 +74,10 @@ class Matrix implements Transformation, \ArrayAccess {
 		return true;
 	}
 
+	public function isNaN(): bool {
+		return true;
+	}
+
 	public function isSquare(): bool {
 		return ($this->rows===$this->cols);
 	}

@@ -153,6 +153,10 @@ v0.0.3
 		- [Expressions](docs/Math/Symbols/Expressions.md)
 - [Physics](docs/Physics/Physics.md)
 	- [Quantity](docs/Physics/Entities/Quantity.md)
+- Helpers
+	- Utils - misc func toolbox
+	- R - array-like object constructor
+	- M - 2-dimensional R
 
 
 <!--

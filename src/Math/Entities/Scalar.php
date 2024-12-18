@@ -166,5 +166,9 @@ class Scalar implements Entity {
 	public function isNear($y): bool {
 		return Math::compare($this, '==', $y);
 	}
+
+	public function isNaN(): bool {
+		return Math::isNaN($this->value);
+	}
 }
 ?>

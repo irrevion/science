@@ -10,7 +10,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
-use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, Vector};
+use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex, Vector};
 
 $mem = memory_get_usage();
 print "$mem memory used \n";
@@ -248,26 +248,41 @@ print "5! is {$x} \n";
 $x = Math::factorial(10);
 print "10! is {$x} \n";
 $x = Math::factorial(7.993);
-print "8! is {$x} \n";
+print "7.993! is {$x} \n";
 $x = Math::factorial(8.12);
-print "8! is {$x} \n";
+print "8.12! is {$x} \n";
 $x = Math::factorial(77);
 print "77! is {$x} \n";
 print "\n ".memory_get_usage()." memory used \n\n";
 $x = Math::factorial(777);
 var_dump($x);
+print "777! is {$x} \n";
+print "Math::isNaN() returns ".var_export(Math::isNaN($x), true)." \n";
 
 $x = Math::factorial(new Scalar(5));
 print "5! is {$x} \n";
 $x = Math::factorial(new Scalar(10));
 print "10! is {$x} \n";
 $x = Math::factorial(new Scalar(7.993));
-print "8.! is {$x} \n";
+print "7.993! is {$x} \n";
 $x = Math::factorial(new Scalar(8.12));
-print "8.! is {$x} \n";
+print "8.12! is {$x} \n";
+print "Math::isNaN() returns ".var_export(Math::isNaN($x), true)." \n";
+var_dump($x);
 $x = Math::factorial(new Scalar(77));
 print "77! is {$x} \n";
 print "\n ".memory_get_usage()." memory used \n\n";
+
+$x = new NaN;
+print "\$x->isNaN($x) returns ".var_export($x->isNaN($x), true)." \n";
+$x = new Scalar(INF);
+print "\$x->isNaN($x) returns ".var_export($x->isNaN($x), true)." \n";
+$x = new Scalar(-0.000000);
+print "\$x->isNaN($x) returns ".var_export($x->isNaN($x), true)." \n";
+$x = new Fraction('3/5');
+print "\$x->isNaN($x) returns ".var_export($x->isNaN($x), true)." \n";
+$x = new Fraction(sqrt(-1));
+print "\$x->isNaN($x) returns ".var_export($x->isNaN($x), true)." \n";
 
 ?>
 </pre>

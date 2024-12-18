@@ -100,7 +100,13 @@ class Math extends BaseMath {
 	}
 
 	public static function isNaN($n) {
-		if (Delegator::isEntity($n)) $n = $n->toNumber();
+		if (Delegator::isEntity($n)) {
+			if (self::isReal($n)) {
+				$n = $n->toNumber();
+			} else {
+				return true;
+			}
+		}
 		return parent::isNaN($n);
 	}
 

@@ -323,6 +323,10 @@ class Quaternion extends Complex {
 		if (Delegator::getType($y)!=$this::class) return false;
 		return ($this->value['scalar']->isNear($y->value['scalar']) && $this->value['vector']->isNear($y->value['vector']));
 	}
+
+	public function isNaN(): bool {
+		return true;
+	}
 }
 
 ?>
