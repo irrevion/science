@@ -20,7 +20,7 @@ class Categories {
 			'milliradian' => 'Entities\MilliRadian', // NonStandard::mrad
 			'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
 			'nanoradian' => 'Entities\NanoRadian', // NonStandard::nanoradian
-			'nato_mils' => 'Entities\NatoMils',
+			'nato_mils' => 'Entities\NatoMils', // NonStandard::nato_mils
 			'nrad' => 'Entities\NanoRadian',
 			'radian' => 'Entities\Radian', // SI::radian
 			'turn' => 'Entities\Turn',
@@ -140,6 +140,7 @@ class Categories {
 			'centimetre' => 'Entities\Centimetre',
 			// foot
 			// inch
+			'gigaparsec' => 'Entities\Gigaparsec', // NonStandard::gigaparsec
 			'kilometer' => 'Entities\Kilometre',
 			'kilometre' => 'Entities\Kilometre',
 			'km' => 'Entities\Kilometre',
@@ -152,7 +153,7 @@ class Categories {
 			// millimetre
 			// nanometre
 			// nautical_mile
-			'parsec' => 'Entities\Parsec',
+			'parsec' => 'Entities\Parsec', // IAU::parsec
 			//'picometre' => 'Entities\Picometre',
 			'planck_length' => 'Entities\PlanckLength',
 			'rydberg_wavelength' => 'Entities\RydbergWavelength',

@@ -63,6 +63,12 @@ print "$x is $y \n";
 ?>
 
 <?php
+$x = new Quantity(3, NonStandard::gigaparsec);
+$y = $x->convert(IAU::light_year);
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(2, 'length.angstrom');
 $y = $x->convert(Planck::length);
 print "$x is $y \n";

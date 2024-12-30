@@ -119,13 +119,14 @@ const list = [
 		'au' => 'Entities\AstronomicalUnit',
 		'bohr_radius' => 'Entities\BohrRadius',
 		'centimetre' => 'Entities\Centimetre',
+		'gigaparsec' => 'Entities\Gigaparsec', // NonStandard::gigaparsec
 		'kilometer' => 'Entities\Kilometre',
 		'kilometre' => 'Entities\Kilometre',
 		'km' => 'Entities\Kilometre',
 		'light_year' => 'Entities\LightYear',
 		'ly' => 'Entities\LightYear',
 		'metre' => 'Entities\Metre',
-		'parsec' => 'Entities\Parsec',
+		'parsec' => 'Entities\Parsec', // IAU::parsec
 		'planck_length' => 'Entities\PlanckLength',
 		'rydberg_wavelength' => 'Entities\RydbergWavelength',
 	],

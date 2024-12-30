@@ -155,7 +155,7 @@ v0.0.3
 	- [Quantity](docs/Physics/Entities/Quantity.md)
 - Helpers
 	- Utils - misc func toolbox
-	- R - array-like object constructor
+	- [R - array-like object constructor](docs/Helpers/R.md)
 	- M - 2-dimensional R
 
 
