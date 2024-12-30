@@ -19,10 +19,10 @@ class Categories {
 			'milliarcsecond' => 'Entities\MilliArcSecond', // NonStandard::milliarcsecond
 			'milliradian' => 'Entities\MilliRadian', // NonStandard::mrad
 			'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
-			'nanoradian' => 'Entities\NanoRadian',
+			'nanoradian' => 'Entities\NanoRadian', // NonStandard::nanoradian
 			'nato_mils' => 'Entities\NatoMils',
 			'nrad' => 'Entities\NanoRadian',
-			'radian' => 'Entities\Radian',
+			'radian' => 'Entities\Radian', // SI::radian
 			'turn' => 'Entities\Turn',
 			'ussr_mrad' => 'Entities\UssrMrad'
 		],
@@ -232,7 +232,7 @@ class Categories {
 			'day' => 'Entities\Day', // 86400 s
 			'hour' => 'Entities\Hour', // 3600 s
 			// millenia
-			// minute
+			'minute' => 'Entities\Minute', // NonStandard::minute
 			// month
 			'planck_time' => 'Entities\PlanckTime',
 			// quarta
@@ -251,7 +251,6 @@ class Categories {
 		if (isset(self::list[$cat][$unit])) {
 			$classname = __NAMESPACE__.'\\'.self::list[$cat][$unit];
 			$reflection = new \ReflectionClass($classname);
-			// $interface = __NAMESPACE__.'\\Entities\\'.self::camelCase($cat);
 			$interface = __NAMESPACE__.'\\Entities\\'.Utils::camelCase($cat);
 			if (!$reflection->implementsInterface($interface)) {
 				throw new \Error("$classname must be implementing $interface to fit category");
@@ -260,13 +259,6 @@ class Categories {
 		}
 		throw new \Error('Invalid path '.$path);
 	}
-
-	/*public static function camelCase($s) {
-		$arr = explode('_', $s);
-		array_walk($arr, function(&$el) {$el = ucfirst($el);});
-		$s = join('', $arr);
-		return $s;
-	}*/
 
 	public static function find($u, $c=null) {
 		if (empty($c)) {

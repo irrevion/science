@@ -11,6 +11,25 @@ $S_pc = new Quantity(12, IAU::parsec);
 $S_ly = $S_pc->convert(IAU::light_year);
 ```
 
+Obviously, there is protection against converting quantities from different categories, such as time into mass, for example:
+```php
+$h = new Quantity(3600, SI::second);
+try {
+	$m = $h->convert(SI::kg);
+	print "$h is $m \n";
+} catch(\Error $e) {
+	print "\n ⚠ $e \n";
+}
+```
+outputs:
+```
+⚠ Error: length does not match time in D:\dev\xampp\htdocs\science\src\Physics\Physics.php:108
+Stack trace:
+#0 D:\dev\xampp\htdocs\science\src\Physics\Entities\Quantity.php(26): irrevion\science\Physics\Physics::convert(Object(irrevion\science\Physics\Entities\Quantity), Array)
+#1 D:\dev\xampp\htdocs\science\dev\use-cases\test_physics.php(96): irrevion\science\Physics\Entities\Quantity->convert(Object(irrevion\science\Physics\Unit\SI))
+#2 {main}
+```
+
 All supported measure units (available at `irrevion\science\Physics\Unit\Categories::list`) are listed below:
 ```php
 const list = [
@@ -26,10 +45,10 @@ const list = [
 		'milliarcsecond' => 'Entities\MilliArcSecond', // NonStandard::milliarcsecond
 		'milliradian' => 'Entities\MilliRadian', // NonStandard::mrad
 		'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
-		'nanoradian' => 'Entities\NanoRadian',
+		'nanoradian' => 'Entities\NanoRadian', // NonStandard::nanoradian
 		'nato_mils' => 'Entities\NatoMils',
 		'nrad' => 'Entities\NanoRadian',
-		'radian' => 'Entities\Radian',
+		'radian' => 'Entities\Radian', // SI::radian
 		'turn' => 'Entities\Turn',
 		'ussr_mrad' => 'Entities\UssrMrad'
 	],
@@ -148,6 +167,7 @@ const list = [
 	'time' => [
 		'day' => 'Entities\Day', // 86400 s
 		'hour' => 'Entities\Hour', // 3600 s
+		'minute' => 'Entities\Minute', // NonStandard::minute
 		'planck_time' => 'Entities\PlanckTime',
 		'second' => 'Entities\Second',
 		'sidereal_day' => 'Entities\SiderealDay', // 86164.0905 s

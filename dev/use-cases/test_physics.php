@@ -121,6 +121,12 @@ print "$x is $y \n";
 ?>
 
 <?php
+$x = new Quantity(1/12, NonStandard::hour);
+$y = $x->convert(NonStandard::minute);
+print "$x is $y \n";
+?>
+
+<?php
 $x = new Quantity(0.007, NonStandard::year);
 $y = $x->convert(NonStandard::hour);
 print "$x is $y \n";
