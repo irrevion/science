@@ -84,7 +84,7 @@ class R extends \SplFixedArray {
 		return $r;
 	}
 
-	public function includes($val, int $start_from=0) {
+	public function includes($val, int $start_from=0):bool {
 		$i = $this->find(fn($v, $i) => $v===$val, $start_from);
 		return !is_null($i);
 	}

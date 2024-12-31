@@ -342,4 +342,12 @@ $x = new Quantity(400, SI::nit);
 $y = $x->convert(NonStandard::apostilb);
 print "$x is $y \n";
 ?>
+
+## PRESSURE
+
+<?php
+$x = new Quantity(1000, SI::pascal);
+$y = $x->convert(NonStandard::mm_hg);
+print "$x is $y \n";
+?>
 </pre>

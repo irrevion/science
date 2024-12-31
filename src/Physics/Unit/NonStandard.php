@@ -26,6 +26,7 @@ enum NonStandard: string implements SystemInterface {
 	case mil = 'angle.mil';
 	case milliarcsecond = 'angle.milliarcsecond';
 	case minute = 'time.minute';
+	case mm_hg = 'pressure.mm_hg';
 	case mrad = 'angle.mrad';
 	case nanoradian = 'angle.nanoradian';
 	case nato_mils = 'angle.nato_mils';

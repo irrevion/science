@@ -46,8 +46,8 @@ const list = [
 		'milliradian' => 'Entities\MilliRadian', // NonStandard::mrad
 		'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
 		'nanoradian' => 'Entities\NanoRadian', // NonStandard::nanoradian
-		'nato_mils' => 'Entities\NatoMils',
-		'nrad' => 'Entities\NanoRadian',
+		'nato_mils' => 'Entities\NatoMils', // NonStandard::nato_mils
+		'nrad' => 'Entities\NanoRadian', // NonStandard::nrad
 		'radian' => 'Entities\Radian', // SI::radian
 		'turn' => 'Entities\Turn',
 		'ussr_mrad' => 'Entities\UssrMrad'
@@ -151,6 +151,7 @@ const list = [
 	],
 	'pressure' => [
 		'barye' => 'Entities\Barye',
+		'mm_hg' => 'Entities\MmHg', // NonStandard::mm_hg
 		'pascal' => 'Entities\Pascal',
 		'Pa' => 'Entities\Pascal',
 	],

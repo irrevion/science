@@ -21,7 +21,7 @@ class Categories {
 			'mrad' => 'Entities\MilliRadian', // NonStandard::mrad
 			'nanoradian' => 'Entities\NanoRadian', // NonStandard::nanoradian
 			'nato_mils' => 'Entities\NatoMils', // NonStandard::nato_mils
-			'nrad' => 'Entities\NanoRadian',
+			'nrad' => 'Entities\NanoRadian', // NonStandard::nrad
 			'radian' => 'Entities\Radian', // SI::radian
 			'turn' => 'Entities\Turn',
 			'ussr_mrad' => 'Entities\UssrMrad'
@@ -202,8 +202,9 @@ class Categories {
 			// EPa
 			// GPa
 			// kPa
+			// lbf_per_squuare_inch
 			// millibar
-			// mmHg
+			'mm_hg' => 'Entities\MmHg', // NonStandard::mm_hg
 			// MPa
 			'pascal' => 'Entities\Pascal',
 			'Pa' => 'Entities\Pascal',
