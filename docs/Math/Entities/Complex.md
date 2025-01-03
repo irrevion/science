@@ -182,9 +182,9 @@ it is possible for them to be combined into one method in the future.
 
 ## See also
 
-- [NaN](docs/Math/Entities/NaN.md)
-- [Scalar](docs/Math/Entities/Scalar.md)
-- [Fraction](docs/Math/Entities/Fraction.md)
+- [NaN](./NaN.md)
+- [Scalar](./Scalar.md)
+- [Fraction](./Fraction.md)
 
 <!-- 
 - [Imaginary](./Imaginary.md)
