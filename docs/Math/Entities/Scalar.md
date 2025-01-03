@@ -63,7 +63,7 @@ class Scalar implements Entity {
 	public function reciprocal() {}
 }
 ```
-Didn't found pow() method? Use [Math::pow()](../../Math.md) like this:
+Didn't found pow() method? Use [Math::pow()](../Math.md) like this:
 ```php
 $x = new Scalar(125);
 $y = new Fraction('2/3');
