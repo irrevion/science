@@ -317,9 +317,17 @@ $y = $x->convert(SI::C);
 print "$x is $y \n";
 ?>
 
+## CAPACITANCE
+
 <?php
 $x = new Quantity(3e-13, CGS::abfarad);
 $y = $x->convert(SI::farad);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(1200, CGS::abfarad);
+$y = $x->convert(CGS::statfarad);
 print "$x is $y \n";
 ?>
 
@@ -337,9 +345,17 @@ $y = $x->convert(SI::mole);
 print "$x is $y \n";
 ?>
 
+## BRIGTNESS / LUMINANCE
+
 <?php
 $x = new Quantity(400, SI::nit);
 $y = $x->convert(NonStandard::apostilb);
+print "$x is $y \n";
+?>
+
+<?php
+$x = new Quantity(0.004597799, SI::nit);
+$y = $x->convert(NonStandard::bril);
 print "$x is $y \n";
 ?>
 

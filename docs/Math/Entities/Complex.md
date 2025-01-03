@@ -179,9 +179,14 @@ $ipow = $x->powI($y); // result is [-3.1150080947398E-6 + -1.9211645035452E-5i]
 ```
 it is possible for them to be combined into one method in the future.
 
-<!--
+
 ## See also
 
+- [NaN](docs/Math/Entities/NaN.md)
+- [Scalar](docs/Math/Entities/Scalar.md)
+- [Fraction](docs/Math/Entities/Fraction.md)
+
+<!-- 
 - [Imaginary](./Imaginary.md)
 - [Quaternion Component](./QuaternionComponent.md)
 - [Quaternion](./Quaternion.md)

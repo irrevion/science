@@ -138,8 +138,8 @@ v0.0.3
 - [Math](docs/Math/Math.md)
 	- Numbers, Entities & Matrices
 		- [NaN](docs/Math/Entities/NaN.md)
-		- Scalar
-		- Fraction
+		- [Scalar](docs/Math/Entities/Scalar.md)
+		- [Fraction](docs/Math/Entities/Fraction.md)
 		- Imaginary
 		- [Complex](docs/Math/Entities/Complex.md)
 		- ComplexPolar
@@ -157,10 +157,3 @@ v0.0.3
 	- Utils - misc func toolbox
 	- [R - array-like object constructor](docs/Helpers/R.md)
 	- M - 2-dimensional R
-
-
-<!--
-## Support
-
-To support this project you can star this repository, report an issue or contribute your improvements in form of pull request. As an additional form to express your gratitude or appreciation of author efforts if you found this library useful, small donation could be considered to 🐕DOGE [DN7T465V4sxR7hLt7erpfzJdWj4JrsFuFv](https://link.trustwallet.com/send?coin=3&address=DN7T465V4sxR7hLt7erpfzJdWj4JrsFuFv).
--->
