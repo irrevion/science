@@ -28,6 +28,21 @@ print "\n $mem memory used \n\n";
 ?>
 
 <?php
+//$n = new Scalar(-1.67e-117);
+//$n = new Scalar("-1.67e-117");
+//$n = new Scalar(new Scalar("-1.67e-117"));
+$ar = new Fraction('16/9');
+//$n = new Scalar($ar->toNumber());
+//$n = new Scalar("$ar");
+//$n = Delegator::wrap($ar);
+$neutral = new Scalar(1);
+//$n = $neutral->multiply($ar);
+$n = $ar->multiply($neutral);
+print "{$n} instance of ".$n::class."\n";
+unset($n);
+?>
+
+<?php
 $x = new Scalar(9);
 $x = $x->invert();
 print("Inverted x is {$x}\n");

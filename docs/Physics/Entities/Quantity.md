@@ -49,7 +49,7 @@ const list = [
 		'nato_mils' => 'Entities\NatoMils', // NonStandard::nato_mils
 		'nrad' => 'Entities\NanoRadian', // NonStandard::nrad
 		'radian' => 'Entities\Radian', // SI::radian
-		'turn' => 'Entities\Turn',
+		'turn' => 'Entities\Turn', // NonStandard::turn
 		'ussr_mrad' => 'Entities\UssrMrad'
 	],
 	'angular_square' => [
@@ -61,6 +61,7 @@ const list = [
 	],
 	'brightness' => [
 		'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
+		'bril' => 'Entities\Bril', // NonStandard::bril
 		'candela_per_square_metre' => 'Entities\Nit',
 		'nit' => 'Entities\Nit',
 		'stilb' => 'Entities\Stilb',
@@ -68,6 +69,7 @@ const list = [
 	'capacitance' => [
 		'abfarad' => 'Entities\AbFarad',
 		'farad' => 'Entities\Farad',
+		'statfarad' => 'Entities\StatFarad', // CGS::statfarad
 	],
 	'electric_charge' => [
 		'coulomb' => 'Entities\Coulomb',

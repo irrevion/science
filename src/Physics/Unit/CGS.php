@@ -11,6 +11,7 @@ enum CGS: string implements SystemInterface {
 	case ergs_per_second = 'power.ergs_per_second';
 	case mole = 'substance_amount.mole';
 	case statampere = 'electric_current.statampere';
+	case statfarad = 'capacitance.statfarad';
 	case statohm = 'electrical_resistance.statohm';
 	case statvolt = 'electric_tension.statvolt';
 	case stilb = 'brightness.stilb';

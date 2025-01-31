@@ -23,11 +23,11 @@ class Categories {
 			'nato_mils' => 'Entities\NatoMils', // NonStandard::nato_mils
 			'nrad' => 'Entities\NanoRadian', // NonStandard::nrad
 			'radian' => 'Entities\Radian', // SI::radian
-			'turn' => 'Entities\Turn',
-			'ussr_mrad' => 'Entities\UssrMrad'
+			'turn' => 'Entities\Turn', // NonStandard::turn
+			'ussr_mrad' => 'Entities\UssrMrad', // NonStandard::ussr_mrad
 		],
 		'angular_square' => [
-			'steradian' => 'Entities\Steradian',
+			'steradian' => 'Entities\Steradian', // SI::steradian
 			'spat' => 'Entities\Spat',
 			'square_degree' => 'Entities\SquareDegree',
 			'square_arcminute' => 'Entities\SquareArcMinute',
@@ -35,20 +35,22 @@ class Categories {
 		],
 		'brightness' => [
 			'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
-			// bril
+			'bril' => 'Entities\Bril', // NonStandard::bril
 			'candela_per_square_metre' => 'Entities\Nit', // SI::candela_per_square_metre
 			// foot_lambert
+			// mpsas, magnitudes per square arcsecond
 			'nit' => 'Entities\Nit', // SI::nit
 			// lambert
 			// skot
 			'stilb' => 'Entities\Stilb',
+			// sun, 1.6×10^9 cd/m^2
 		],
 		'capacitance' => [
-			'abfarad' => 'Entities\AbFarad',
-			'farad' => 'Entities\Farad',
+			'abfarad' => 'Entities\AbFarad', // CGS::abfarad
+			'farad' => 'Entities\Farad', // SI::farad
 			//'μF' => 'Entities\MicroFarad',
 			//'pF' => 'Entities\PicoFarad',
-			//'statfarad' => 'Entities\StatFarad',
+			'statfarad' => 'Entities\StatFarad', // CGS::statfarad
 		],
 		'electric_charge' => [
 			//'abcoulomb' => 'Entities\AbCoulomb',
