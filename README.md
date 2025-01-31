@@ -140,7 +140,7 @@ v0.0.3
 		- [NaN](docs/Math/Entities/NaN.md)
 		- [Scalar](docs/Math/Entities/Scalar.md)
 		- [Fraction](docs/Math/Entities/Fraction.md)
-		- Imaginary
+		- [Imaginary](docs/Math/Entities/Imaginary.md)
 		- [Complex](docs/Math/Entities/Complex.md)
 		- ComplexPolar
 		- QuaternionComponent
