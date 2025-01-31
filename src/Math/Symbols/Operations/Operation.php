@@ -7,7 +7,7 @@ use irrevion\science\Math\Symbols\{Symbol, Expression};
 
 abstract class Operation implements IOperation {
 
-	abstract public array $symbols;
+	public $symbols;
 
 	abstract public function __toString(): string;
 
