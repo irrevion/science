@@ -2,6 +2,8 @@
 namespace irrevion\science\Helpers;
 
 use irrevion\science\Helpers\Utils;
+use irrevion\science\Math\Math;
+
 
 class R extends \SplFixedArray {
 

@@ -5,7 +5,9 @@ use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Symbols\{Symbol, Expression};
 
 
-abstract class Operation  implements IOperation {
+abstract class Operation implements IOperation {
+
+	abstract public array $symbols;
 
 	abstract public function __toString(): string;
 

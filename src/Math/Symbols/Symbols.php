@@ -74,7 +74,7 @@ class Symbols {
 		$all = str_split(implode('', self::$alphabet));
 		do {
 			shuffle($all);
-			$name = $all[0].$all[1].$all[3].(shuffle(self::$modifiers)[0]);
+			$name = $all[0].$all[1].$all[3].(shuffle(self::$modificators)[0]);
 		} while (isset(self::$registry[$name]));
 		return $name;
 	}
