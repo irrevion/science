@@ -263,22 +263,28 @@ class Complex extends Imaginary implements Entity {
 		$t = Delegator::getType($y);
 		if ($t==self::T_POLAR) {
 			$y = $y->toRectangular();
+		} else if ($t==self::T_IMAGINARY) {
+			return ($this->real->equals(0) && $this->imaginary->equals($y));
 		} else if ($t!=self::class) {
 			return false;
 		}
 		return ($this->value['real']->isEqual($y->value['real']) && $this->value['imaginary']->isEqual($y->value['imaginary']));
 	}
+	public function equals(...$args) {return $this->isEqual(...$args);}
 
 	public function isNear($y): bool {
 		$t = Delegator::getType($y);
 		if ($t==self::T_POLAR) {
 			$y = $y->toRectangular();
+		} else if ($t==self::T_IMAGINARY) {
+			return ($this->real->almost(0) && $this->imaginary->almost($y));
 		} else if ($t!=self::class) {
 			return false;
 		}
 		// return (Math::compare($this->value['real'], '==', $y->value['real']) && Math::compare($this->value['imaginary'], '==', $y->value['imaginary']));
 		return ($this->value['real']->isNear($y->value['real']) && $this->value['imaginary']->isNear($y->value['imaginary']));
 	}
+	public function almost(...$args) {return $this->isNear(...$args);}
 
 	public function isNaN(): bool {
 		return true;

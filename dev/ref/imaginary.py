@@ -1,5 +1,17 @@
 import math
 
+print('5j*-3j')
+print(5j * -3j)
+
+print('5j / -3j')
+print(5j / -3j)
+
+print('1 / 5j')
+print(1 / 5j)
+
+print('5j**(-1)')
+print(5j**(-1))
+
 print('5j**3j')
 print(5j**3j)
 

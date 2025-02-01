@@ -14,12 +14,12 @@ Since imaginary unit is a part of Complex number this class is not very useful b
 use irrevion\science\Math\Entities\Imaginary;
 
 $x = new Imaginary(5);
-print "Imaginary to string is {$x} (".($x::class).") \n";// Output: Imaginary to string is 5i (irrevion\science\Math\Entities\Imaginary)
+print "Imaginary to string is {$x} (".($x::class).") \n"; // Output: Imaginary to string is 5i (irrevion\science\Math\Entities\Imaginary)
 
 $y = new Imaginary(-3);
 $sum = $x->add($y); // result is [2i]
 $diff = $x->subtract($y); // result is [8i]
-$prod = $x->multiply($y); // result is [-15]
+$prod = $x->multiply($y); // result is 15
 $quotient = $x->divide($y); // result is [-1.6666666666667i]
 $reciprocal = $x->reciprocal(); // result is [0.2i]
 $conjugate = $x->conjugate(); // result is [-5i]

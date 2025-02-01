@@ -162,10 +162,12 @@ class Scalar implements Entity {
 		if (Delegator::getType($y)!=$this::class) return false;
 		return ($this->toNumber()==$y->toNumber());
 	}
+	public function equals(...$args) {return $this->isEqual(...$args);}
 
 	public function isNear($y): bool {
 		return Math::compare($this, '==', $y);
 	}
+	public function almost(...$args) {return $this->isNear(...$args);}
 
 	public function isNaN(): bool {
 		return Math::isNaN($this->value);

@@ -182,12 +182,6 @@ it is possible for them to be combined into one method in the future.
 
 ## See also
 
-- [NaN](./NaN.md)
+- [Imaginary](./Imaginary.md)
 - [Scalar](./Scalar.md)
 - [Fraction](./Fraction.md)
-
-<!-- 
-- [Imaginary](./Imaginary.md)
-- [Quaternion Component](./QuaternionComponent.md)
-- [Quaternion](./Quaternion.md)
--->

@@ -19,21 +19,132 @@ unset($x);
 ?>
 
 <?php
-$x = new Imaginary(5);
-$y = new Imaginary(3);
-$z = $x->add($y);
-print "{$x} + {$y} is {$z} (".($z::class).") \n";
-print "\n ".memory_get_usage()." memory used \n\n";
-unset($x, $y, $z);
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(3);
+		$z = $x->add($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Imaginary(8))->equals($res);
+	},
+	descr: '5i add 3i'
+);
 ?>
 
 <?php
-$x = new Imaginary(5);
-$y = new Imaginary(3);
-$z = $x->multiply($y);
-print "{$x} * {$y} is {$z} (".($z::class).") \n";
-print "\n ".memory_get_usage()." memory used \n\n";
-unset($x, $y, $z);
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(-3);
+		$z = $x->add($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Imaginary(2))->equals($res);
+	},
+	descr: '5i add -3i'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(-3);
+		$z = $x->subtract($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Imaginary(8))->equals($res);
+	},
+	descr: '5i subtract -3i'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(3);
+		$z = $x->multiply($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Scalar(-15))->equals($res);
+	},
+	descr: '5i multiply 3i'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(-3);
+		$z = $x->multiply($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Scalar(15))->equals($res);
+	},
+	descr: '5i multiply -3i'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$y = new Imaginary(-3);
+		$z = $x->divide($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return (new Scalar(-1.6666666666667))->almost($res);
+	},
+	descr: '5i divide -3i'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->reciprocal($x);
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Complex(0, 5))->reciprocal();
+		print "Reciprocal should be $ref \n";
+		$ref = (new Complex(0, 5))->pow(-1);
+		print "Reciprocal (2) should be $ref \n";
+		$ref = (new Scalar(1))->divide(new Imaginary(5));
+		print "Reciprocal (3) should be $ref : ".$ref::class." \n";
+		return $ref->equals($res);
+	},
+	descr: 'reciprocal of 5i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->pow(-1);
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Complex(0, 5))->pow(-1);
+		print "power -1 should be $ref \n";
+		//$ref = Math::pow((new Imaginary(5)), -1);
+		//print "#2. power -1 should be $ref \n";
+		print "power -1 in fact is $res : ".$res::class." \n";
+		return $ref->almost($res);
+	},
+	descr: 'reciprocal as -1 power of 5i number'
+);
 ?>
 
 <?php

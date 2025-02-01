@@ -118,6 +118,10 @@ class Imaginary extends Scalar implements Entity {
 		throw new \TypeError("Built-in types casting not allowed for imaginary numbers due to ambiguity. Explicitly convert either to Scalar or to Imaginary.");
 	}
 
+	public function reciprocal() {
+		return (new Scalar(1))->divide(new Imaginary($this->value));
+	}
+
 	public function pow($n) {
 		if (!Delegator::isEntity($n)) {$n = Delegator::wrap($n*1.0);}
 		if (Delegator::getType($n)!=self::T_SCALAR) {return Delegator::delegate('pow', $this, $n);}
@@ -147,11 +151,13 @@ class Imaginary extends Scalar implements Entity {
 		if (Delegator::getType($y)!=self::class) return false;
 		return ($this->value==$y->value);
 	}
+	public function equals(...$args) {return $this->isEqual(...$args);}
 
 	public function isNear($y): bool {
 		if (Delegator::getType($y)!=self::class) return false;
 		return Math::compare($this->value, '==', $y->value);
 	}
+	public function almost(...$args) {return $this->isNear(...$args);}
 
 	public function isNaN(): bool {
 		return true;
