@@ -317,6 +317,14 @@ $y = $x->convert(SI::C);
 print "$x is $y \n";
 ?>
 
+## ENERGY
+
+<?php
+$x = new Quantity(1200, SI::joule);
+$y = $x->convert(NonStandard::calorie);
+print "$x is $y \n";
+?>
+
 ## CAPACITANCE
 
 <?php
@@ -356,6 +364,14 @@ print "$x is $y \n";
 <?php
 $x = new Quantity(0.004597799, SI::nit);
 $y = $x->convert(NonStandard::bril);
+print "$x is $y \n";
+?>
+
+## LUMINOUS INTENSITY
+
+<?php
+$x = new Quantity(10, SI::candela);
+$y = $x->convert(NonStandard::violle);
 print "$x is $y \n";
 ?>
 

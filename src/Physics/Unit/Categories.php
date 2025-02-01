@@ -28,7 +28,7 @@ class Categories {
 		],
 		'angular_square' => [
 			'steradian' => 'Entities\Steradian', // SI::steradian
-			'spat' => 'Entities\Spat',
+			'spat' => 'Entities\Spat', // NonStandard::spat
 			'square_degree' => 'Entities\SquareDegree',
 			'square_arcminute' => 'Entities\SquareArcMinute',
 			'square_arcsecond' => 'Entities\SquareArcSecond'
@@ -42,7 +42,7 @@ class Categories {
 			'nit' => 'Entities\Nit', // SI::nit
 			// lambert
 			// skot
-			'stilb' => 'Entities\Stilb',
+			'stilb' => 'Entities\Stilb', // CGS::stilb
 			// sun, 1.6×10^9 cd/m^2
 		],
 		'capacitance' => [
@@ -84,7 +84,7 @@ class Categories {
 		],
 		'energy' => [
 			// btu
-			// calorie
+			'calorie' => 'Entities\Calorie', // NonStandard::calorie
 			// coal_ton
 			'electron_volt' => 'Entities\ElectronVolt',
 			'eV' => 'Entities\ElectronVolt', // Natural::eV
@@ -163,7 +163,10 @@ class Categories {
 			// yard
 		],
 		'luminous_intensity' => [
-			'candela' => 'Entities\Candela',
+			'candela' => 'Entities\Candela', // SI::candela
+			// candlepower
+			// hefnerkerze
+			'violle' => 'Entities\Violle', // NonStandard::violle
 		],
 		'mass' => [
 			'AMU' => 'Entities\Dalton',

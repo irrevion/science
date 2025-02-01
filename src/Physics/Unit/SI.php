@@ -6,6 +6,7 @@ namespace irrevion\science\Physics\Unit;
 enum SI: string implements SystemInterface {
 	// 7 base units
 	case ampere = 'electric_current.ampere';
+	case candela = 'luminous_intensity.candela';
 	case kelvin = 'temperature.kelvin';
 	case K = 'temperature.K';
 	case kilogram = 'mass.kilogram';

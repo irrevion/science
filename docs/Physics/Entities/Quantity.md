@@ -92,6 +92,7 @@ const list = [
 		'statohm' => 'Entities\StatOhm',
 	],
 	'energy' => [
+		'calorie' => 'Entities\Calorie', // NonStandard::calorie
 		'electron_volt' => 'Entities\ElectronVolt',
 		'eV' => 'Entities\ElectronVolt', // Natural::eV
 		'hartree' => 'Entities\HartreeEnergy', // Natural::hartree
@@ -133,7 +134,8 @@ const list = [
 		'rydberg_wavelength' => 'Entities\RydbergWavelength',
 	],
 	'luminous_intensity' => [
-		'candela' => 'Entities\Candela',
+		'candela' => 'Entities\Candela', // SI::candela
+		'violle' => 'Entities\Violle', // NonStandard::violle
 	],
 	'mass' => [
 		'AMU' => 'Entities\Dalton', // NonStandard::AMU

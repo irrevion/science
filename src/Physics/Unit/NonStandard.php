@@ -10,6 +10,7 @@ enum NonStandard: string implements SystemInterface {
 	case attometre = 'length.attometre';
 	case bohr_radius = 'length.bohr_radius';
 	case bril = 'brightness.bril';
+	case calorie = 'energy.calorie';
 	case celsius = 'temperature.celsius';
 	case dalton = 'mass.dalton';
 	case day = 'time.day';
@@ -46,6 +47,7 @@ enum NonStandard: string implements SystemInterface {
 	case stellar_day = 'time.stellar_day';
 	case turn = 'angle.turn';
 	case ussr_mrad = 'angle.ussr_mrad';
+	case violle = 'luminous_intensity.violle';
 	case year = 'time.year';
 
 	public function i($const='') {
