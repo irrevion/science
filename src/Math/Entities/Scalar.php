@@ -158,8 +158,12 @@ class Scalar implements Entity {
 		return ($this->value==0);
 	}
 
-	public function isEqual($y): bool {
-		if (Delegator::getType($y)!=$this::class) return false;
+	public function isEqual(mixed $y): bool {
+		if (is_numeric($y)) {
+			$y = new self($y);
+		} else if (Delegator::getType($y)!=$this::class) {
+			return false;
+		}
 		return ($this->toNumber()==$y->toNumber());
 	}
 	public function equals(...$args) {return $this->isEqual(...$args);}

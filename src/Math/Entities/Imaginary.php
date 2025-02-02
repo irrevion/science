@@ -147,6 +147,10 @@ class Imaginary extends Scalar implements Entity {
 		return new self($this->value*-1);
 	}
 
+	public function conjugate() {
+		return $this->invert();
+	}
+
 	public function isEqual($y): bool {
 		if (Delegator::getType($y)!=self::class) return false;
 		return ($this->value==$y->value);

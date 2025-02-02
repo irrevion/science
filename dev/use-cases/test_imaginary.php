@@ -148,6 +148,25 @@ Utils::test(
 ?>
 
 <?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->conjugate();
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Complex(0, 5))->conjugate();
+		print "conjugate of 5i should be $ref \n";
+		// $ref = (new Complex(0, 5))->toPolar()->conjugate()->toRectangular();
+		// print "conjugate (2) of 5i should be $ref \n";
+		print "conjugate of 5i in fact is $res : ".$res::class." \n";
+		return $ref->equals($res);
+	},
+	descr: 'conjugate of 5i number'
+);
+?>
+
+<?php
 $x = new Imaginary(5);
 $y = new Imaginary(3);
 $z = Math::pow($x, $y);

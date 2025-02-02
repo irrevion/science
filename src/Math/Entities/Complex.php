@@ -7,8 +7,15 @@ use irrevion\science\Math\Entities\{
 	Scalar, Imaginary
 };
 
+
+/**
+ * @property float $real
+ * @property float $imaginary
+ */
 class Complex extends Imaginary implements Entity {
-	//https://www.youtube.com/watch?v=cUzklzVXJwo&t=19m18s
+	// https://www.youtube.com/watch?v=cUzklzVXJwo&t=19m18s
+	// Veritasium - How Imaginary Numbers Were Invented
+
 	public const SPACE = 'euclidean';
 	public const COORDINATE_SYSTEM = 'rectangular';
 	public const DIMENSIONS_NUMBER = '2';

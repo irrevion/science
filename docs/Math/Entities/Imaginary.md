@@ -21,7 +21,7 @@ $sum = $x->add($y); // result is [2i]
 $diff = $x->subtract($y); // result is [8i]
 $prod = $x->multiply($y); // result is 15
 $quotient = $x->divide($y); // result is [-1.6666666666667i]
-$reciprocal = $x->reciprocal(); // result is [0.2i]
+$reciprocal = $x->reciprocal(); // result is [-0.2i]
 $conjugate = $x->conjugate(); // result is [-5i]
 $invert = $x->invert(); // result is [-5i]
 $magnitude = $x->abs(); // result is 5 type of Scalar
@@ -63,9 +63,9 @@ $diff = $x->subtract($y); // result is [8i]
 
 Imaginary number multiplication, division, obtaining reciprocal and conjugate methods are pretty straightforward:
 ```php
-$prod = $x->multiply($y); // result is [-15]
+$prod = $x->multiply($y); // result is 15
 $quotient = $x->divide($y); // result is [-1.6666666666667i]
-$reciprocal = $x->reciprocal(); // result is [0.2i]
+$reciprocal = $x->reciprocal(); // result is [-0.2i]
 $conjugate = $x->conjugate(); // result is [-5i]
 ```
 
