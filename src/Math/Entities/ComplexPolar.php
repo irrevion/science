@@ -9,10 +9,10 @@ use irrevion\science\Math\Entities\{
 
 
 /**
- * @property irrevion\science\Math\Entities\Scalar $radius
- * @property irrevion\science\Math\Entities\Scalar $r
- * @property irrevion\science\Math\Entities\Scalar $phase
- * @property irrevion\science\Math\Entities\Scalar $phi
+ * @property \irrevion\science\Math\Entities\Scalar $radius
+ * @property \irrevion\science\Math\Entities\Scalar $r
+ * @property \irrevion\science\Math\Entities\Scalar $phase
+ * @property \irrevion\science\Math\Entities\Scalar $phi
  */
 class ComplexPolar extends Complex implements Entity {
 	public const SPACE = 'euclidean';

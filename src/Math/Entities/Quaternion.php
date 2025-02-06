@@ -5,6 +5,16 @@ use irrevion\science\Math\Math;
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Entities\{Scalar, Imaginary, QuaternionComponent, Complex, ComplexPolar, Vector};
 
+
+/**
+ * @property \irrevion\science\Math\Entities\Scalar $scalar
+ * @property \irrevion\science\Math\Entities\Vector $vector
+ * @property \irrevion\science\Math\Entities\Scalar $real
+ * @property \irrevion\science\Math\Entities\Vector $imaginary
+ * @property \irrevion\science\Math\Entities\Scalar $i
+ * @property \irrevion\science\Math\Entities\Scalar $j
+ * @property \irrevion\science\Math\Entities\Scalar $k
+ */
 class Quaternion extends Complex {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
 	private const T_IMAGINARY = __NAMESPACE__.'\Imaginary';
@@ -325,7 +335,7 @@ class Quaternion extends Complex {
 	}
 
 	public function isNaN(): bool {
-		return true;
+		return ($this->scalar->isNaN() || $this->i->isNaN() || $this->j->isNaN() || $this->k->isNaN());
 	}
 }
 

@@ -9,8 +9,8 @@ use irrevion\science\Math\Entities\{
 
 
 /**
- * @property irrevion\science\Math\Entities\Scalar $real
- * @property irrevion\science\Math\Entities\Imaginary $imaginary
+ * @property \irrevion\science\Math\Entities\Scalar $real
+ * @property \irrevion\science\Math\Entities\Imaginary $imaginary
  */
 class Complex extends Imaginary implements Entity {
 	// https://www.youtube.com/watch?v=cUzklzVXJwo&t=19m18s
@@ -294,7 +294,7 @@ class Complex extends Imaginary implements Entity {
 	public function almost(...$args) {return $this->isNear(...$args);}
 
 	public function isNaN(): bool {
-		return true;
+		return ($this->real->isNaN() || $this->imaginary->isNaN());
 	}
 }
 ?>
