@@ -40,6 +40,26 @@ $x = new ComplexPolar(4.27, Math::PI/4);
 $y = new ComplexPolar(3, Math::PI/6);
 ```
 
+You can pass an instance of Complex:
+```php
+$c = new Complex(4, 0.92);
+$cp = new ComplexPolar($c);
+```
+
+And Scalar is acceptable as well (phase will be taken as zero):
+```php
+$s = new Scalar(-12);
+$cps = new ComplexPolar($s);
+```
+
+Arrays passed to constructor are not refused at all:
+```php
+$cpa = new ComplexPolar([
+	'radius' => 4,
+	'phase' => 0.92,
+]);
+```
+
 You can also create a copy of another ComplexPolar number:
 ```php
 $cp1 = new ComplexPolar(2.5, Math::PI/3);
