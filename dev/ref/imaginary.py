@@ -1,4 +1,5 @@
 import math
+import cmath
 
 print('5j*-3j')
 print(5j * -3j)
@@ -11,6 +12,15 @@ print(1 / 5j)
 
 print('5j**(-1)')
 print(5j**(-1))
+
+print('math.e**5j')
+print(math.e**5j)
+
+print('math.e**-7j')
+print(math.e**-7j)
+
+print('cmath.log(-16.4j)')
+print(cmath.log(-16.4j))
 
 print('5j**3j')
 print(5j**3j)

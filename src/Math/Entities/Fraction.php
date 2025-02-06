@@ -4,6 +4,16 @@ namespace irrevion\science\Math\Entities;
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
 
+
+/**
+ * @property float $value
+ * @property irrevion\science\Math\Entities\Scalar $dividend
+ * @property irrevion\science\Math\Entities\Scalar $numerator
+ * @property irrevion\science\Math\Entities\Scalar $top
+ * @property irrevion\science\Math\Entities\Scalar $divisor
+ * @property irrevion\science\Math\Entities\Scalar $denominator
+ * @property irrevion\science\Math\Entities\Scalar $bottom
+ */
 class Fraction extends Scalar implements Entity {
 	private const T_SCALAR = __NAMESPACE__.'\Scalar';
 

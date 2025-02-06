@@ -9,8 +9,8 @@ use irrevion\science\Math\Entities\{
 
 
 /**
- * @property float $real
- * @property float $imaginary
+ * @property irrevion\science\Math\Entities\Scalar $real
+ * @property irrevion\science\Math\Entities\Imaginary $imaginary
  */
 class Complex extends Imaginary implements Entity {
 	// https://www.youtube.com/watch?v=cUzklzVXJwo&t=19m18s

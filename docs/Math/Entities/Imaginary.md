@@ -25,9 +25,9 @@ $reciprocal = $x->reciprocal(); // result is [-0.2i]
 $conjugate = $x->conjugate(); // result is [-5i]
 $invert = $x->invert(); // result is [-5i]
 $magnitude = $x->abs(); // result is 5 type of Scalar
-$square_root = $x->root(2); // result is [1.5811388300842 + 1.5811388300842i]
+<!-- $square_root = $x->root(2); // result is [1.5811388300842 + 1.5811388300842i] -->
 $pow = $x->pow(2); // result is [-25]
-$exp = $x->exp(); // result is [0.28366218546323 + 0.95892427466314i]
+$exp = $x->exp(); // result is [0.28366218546323 + -0.95892427466314i]
 $ln = $x->ln(); // result is [1.6094379124341 + 1.5707963267949i]
 
 $is_empty = (new Imaginary(0))->empty(); // true
@@ -37,7 +37,7 @@ $is_near = $x->isNear(new Imaginary(5.0000000000001)); // true
 
 ## Constructor
 
-You can create an instance of an Imaginary number in different ways. The most trivial was already shown above:
+You can create an instance of an Imaginary number as shown above:
 ```php
 $x = new Imaginary(5);
 $y = new Imaginary(-3);

@@ -138,8 +138,15 @@ class Imaginary extends Scalar implements Entity {
 		return $result;
 	}
 
+	public function exp() {
+		return Delegator::wrap($this, self::T_COMPLEX)->exp();
+	}
+
+	public function ln() {
+		return Delegator::wrap($this, self::T_COMPLEX)->ln();
+	}
+
 	public function abs() {
-		// return new self(abs($this->value));
 		return Delegator::wrap(abs($this->value), self::T_SCALAR);
 	}
 
@@ -164,7 +171,7 @@ class Imaginary extends Scalar implements Entity {
 	public function almost(...$args) {return $this->isNear(...$args);}
 
 	public function isNaN(): bool {
-		return true;
+		return Math::isNaN($this->value);
 	}
 }
 ?>

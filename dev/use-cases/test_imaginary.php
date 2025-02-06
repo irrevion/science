@@ -167,6 +167,139 @@ Utils::test(
 ?>
 
 <?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->invert();
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Complex(0, 5))->invert();
+		return $ref->equals($res);
+	},
+	descr: 'negative of 5i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->invert();
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Complex(0, 5))->invert();
+		return $ref->equals($res);
+	},
+	descr: 'negative of 5i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(-12);
+		$z = $x->negative();
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Imaginary(-12))->invert();
+		return $ref->equals($res);
+	},
+	descr: 'negative of -12i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(-7);
+		$z = $x->abs();
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = (new Scalar(7))->abs();
+		return $ref->equals($res);
+	},
+	descr: 'abs of -7i number'
+);
+?>
+
+<?php
+/*
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(-7);
+		$z = $x->root(2);
+		return $z;
+	},
+	check: function($res, $err) {
+		$ref = Math::pow(new Imaginary(-7), new Fraction('1/2'));
+		return $ref->equals($res);
+	},
+	descr: 'root of -7i number'
+);
+*/
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->exp();
+		return $z;
+	},
+	check: function($res, $err) {
+		return ("{$res}"=="[0.28366218546323 + -0.95892427466314i]"); // python: (0.28366218546322625-0.9589242746631385j)
+	},
+	descr: 'exp() of 5i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(-7);
+		$z = $x->exp();
+		return $z;
+	},
+	check: function($res, $err) {
+		return ("{$res}"=="[0.7539022543433 + -0.65698659871879i]"); // python: (0.7539022543433046-0.6569865987187891j)
+	},
+	descr: 'exp() of -7i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(-16.4);
+		$z = $x->ln();
+		return $z;
+	},
+	check: function($res, $err) {
+		return ("{$res}"=="[2.7972813348302 + -1.5707963267949i]"); // python: (2.797281334830153-1.5707963267948966j)
+	},
+	descr: 'ln() of -16.4i number'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$x = new Imaginary(5);
+		$z = $x->ln();
+		return $z;
+	},
+	check: function($res, $err) {
+		return ("{$res}"=="[1.6094379124341 + 1.5707963267949i]");
+	},
+	descr: 'ln() of 5i number'
+);
+?>
+
+<?php
 $x = new Imaginary(5);
 $y = new Imaginary(3);
 $z = Math::pow($x, $y);

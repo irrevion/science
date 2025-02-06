@@ -7,6 +7,13 @@ use irrevion\science\Math\Entities\{
 	Scalar, Imaginary, Complex
 };
 
+
+/**
+ * @property irrevion\science\Math\Entities\Scalar $radius
+ * @property irrevion\science\Math\Entities\Scalar $r
+ * @property irrevion\science\Math\Entities\Scalar $phase
+ * @property irrevion\science\Math\Entities\Scalar $phi
+ */
 class ComplexPolar extends Complex implements Entity {
 	public const SPACE = 'euclidean';
 	public const COORDINATE_SYSTEM = 'polar';
@@ -335,7 +342,7 @@ class ComplexPolar extends Complex implements Entity {
 	}
 
 	public function isNaN(): bool {
-		return true;
+		return ($this->r->isNaN() || $this->phi->isNaN());
 	}
 }
 ?>
