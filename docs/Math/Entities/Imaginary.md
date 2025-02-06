@@ -37,7 +37,7 @@ $is_near = $x->isNear(new Imaginary(5.0000000000001)); // true
 
 ## Constructor
 
-You can create an instance of an Imaginary number as shown above:
+You can create an instance of an Imaginary number as shown below:
 ```php
 $x = new Imaginary(5);
 $y = new Imaginary(-3);

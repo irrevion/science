@@ -182,6 +182,7 @@ it is possible for them to be combined into one method in the future.
 
 ## See also
 
+- [ComplexPolar](./ComplexPolar.md)
 - [Imaginary](./Imaginary.md)
 - [Scalar](./Scalar.md)
 - [Fraction](./Fraction.md)
