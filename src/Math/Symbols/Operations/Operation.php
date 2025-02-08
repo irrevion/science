@@ -10,6 +10,7 @@ abstract class Operation implements IOperation {
 	public $symbols;
 
 	abstract public function __toString(): string;
+	abstract public function over($symbols);
 
 	public function assign($params) {
 		foreach ($this->symbols as $sym) {

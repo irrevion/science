@@ -476,7 +476,7 @@ class ExpressionStatement {
 
 		foreach ($stack as $i=>$entry) {
 			if ($entry['type']=='function') {
-				$xpr = new Expression(Operations::op($entry['value'])->args(...$entry['args']));
+				$xpr = new Expression(Operations::op($entry['value'])->args(...$entry['args'])); // @phpstan-ignore method.notFound
 				$entry_to_replace = ['type' => 'sub_expression', 'value' => $xpr];
 				$new_stack[] = $entry_to_replace;
 				continue;

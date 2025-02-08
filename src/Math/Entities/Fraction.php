@@ -6,7 +6,6 @@ use irrevion\science\Math\Math;
 
 
 /**
- * @property float $value
  * @property \irrevion\science\Math\Entities\Scalar $dividend
  * @property \irrevion\science\Math\Entities\Scalar $numerator
  * @property \irrevion\science\Math\Entities\Scalar $top

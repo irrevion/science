@@ -20,6 +20,7 @@ enum NonStandard: string implements SystemInterface {
 	case gigaparsec = 'length.gigaparsec';
 	case grad = 'angle.grad';
 	case gon = 'angle.gon';
+	case hall_conductance = 'electrical_conductance.hall_conductance';
 	case hour = 'time.hour';
 	case km = 'length.km';
 	case kilometre = 'length.kilometre';

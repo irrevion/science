@@ -382,4 +382,12 @@ $x = new Quantity(1000, SI::pascal);
 $y = $x->convert(NonStandard::mm_hg);
 print "$x is $y \n";
 ?>
+
+## ELECTRIC CUNDUCTANCE
+
+<?php
+$x = new Quantity(0.00237, SI::siemens);
+$y = $x->convert(NonStandard::hall_conductance);
+print "$x is $y \n";
+?>
 </pre>

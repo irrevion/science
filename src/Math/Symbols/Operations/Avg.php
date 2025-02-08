@@ -16,7 +16,7 @@ class Avg extends Operation {
 	public $with = [];
 
 	public function __construct() {
-		// avg(a, b, ... , n) --> (new Power())->args($a, $b, $c, $n)->assign(7, 3, 12, 55)->perform() --> 19.25
+		// avg(a, b, ... , n) --> (new Avg())->args($a, $b, $c, $n)->assign(7, 3, 12, 55)->perform() --> 19.25
 	}
 
 	public function __toString(): string {
@@ -29,6 +29,13 @@ class Avg extends Operation {
 			$this->symbols[$arg->name] = $arg;
 			$this->over[] = $arg;
 		}
+		return $this;
+	}
+
+	public function over($a) {
+		$a = Symbols::wrap($a); // convert to symbol if constant
+		$this->symbols[$a->name] = $a;
+		$this->over[] = $a;
 		return $this;
 	}
 

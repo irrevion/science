@@ -29,9 +29,9 @@ class Categories {
 		'angular_square' => [
 			'steradian' => 'Entities\Steradian', // SI::steradian
 			'spat' => 'Entities\Spat', // NonStandard::spat
-			'square_degree' => 'Entities\SquareDegree',
-			'square_arcminute' => 'Entities\SquareArcMinute',
-			'square_arcsecond' => 'Entities\SquareArcSecond'
+			'square_degree' => 'Entities\SquareDegree', // NonStandard::square_degree
+			'square_arcminute' => 'Entities\SquareArcMinute', // NonStandard::square_arcminute
+			'square_arcsecond' => 'Entities\SquareArcSecond', // NonStandard::square_arcsecond
 		],
 		'brightness' => [
 			'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
@@ -61,9 +61,13 @@ class Categories {
 			'elementary_charge' => 'Entities\ElementaryCharge',
 			'e' => 'Entities\ElementaryCharge',
 			//'faraday' => 'Entities\Faraday',
-			//'franklin' => 'Entities\StatCoulomb',
+			//'franklin' => 'Entities\Franklin',
 			//'mAh' => 'Entities\MilliAmperHour',
 			//'statcoulomb' => 'Entities\StatCoulomb',
+		],
+		'electrical_conductance' => [
+			'siemens' => 'Entities\Siemens', // SI::siemens
+			'hall_conductance' => 'Entities\HallConductance', // NonStandard::hall_conductance
 		],
 		'electric_current' => [
 			'abampere' => 'Entities\AbAmpere',
@@ -78,8 +82,11 @@ class Categories {
 			'volt' => 'Entities\Volt',
 		],
 		'electrical_resistance' => [
+			// 25812.80745 Ω
+			// 1 metre of copper wire
 			'abohm' => 'Entities\AbOhm',
 			'ohm' => 'Entities\Ohm',
+			// Mercury column resistance unit, Siemens mercury unit
 			'statohm' => 'Entities\StatOhm',
 		],
 		'energy' => [
@@ -249,6 +256,7 @@ class Categories {
 			'stellar_day' => 'Entities\StellarDay', // 86164.098903691 s
 			// tertia
 			'year' => 'Entities\Year', // 31557600 s (365.25 * 24 * 3600)
+			// sidereal year 365.25636 days
 			// week
 		],
 	];

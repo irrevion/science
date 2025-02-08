@@ -50,25 +50,25 @@ const list = [
 		'nrad' => 'Entities\NanoRadian', // NonStandard::nrad
 		'radian' => 'Entities\Radian', // SI::radian
 		'turn' => 'Entities\Turn', // NonStandard::turn
-		'ussr_mrad' => 'Entities\UssrMrad'
+		'ussr_mrad' => 'Entities\UssrMrad', // NonStandard::ussr_mrad
 	],
 	'angular_square' => [
-		'steradian' => 'Entities\Steradian',
-		'spat' => 'Entities\Spat',
-		'square_degree' => 'Entities\SquareDegree',
-		'square_arcminute' => 'Entities\SquareArcMinute',
-		'square_arcsecond' => 'Entities\SquareArcSecond'
+		'steradian' => 'Entities\Steradian', // SI::steradian
+		'spat' => 'Entities\Spat', // NonStandard::spat
+		'square_degree' => 'Entities\SquareDegree', // NonStandard::square_degree
+		'square_arcminute' => 'Entities\SquareArcMinute', // NonStandard::square_arcminute
+		'square_arcsecond' => 'Entities\SquareArcSecond', // NonStandard::square_arcsecond
 	],
 	'brightness' => [
 		'apostilb' => 'Entities\Apostilb', // NonStandard::apostilb
 		'bril' => 'Entities\Bril', // NonStandard::bril
-		'candela_per_square_metre' => 'Entities\Nit',
-		'nit' => 'Entities\Nit',
-		'stilb' => 'Entities\Stilb',
+		'candela_per_square_metre' => 'Entities\Nit', // SI::candela_per_square_metre
+		'nit' => 'Entities\Nit', // SI::nit
+		'stilb' => 'Entities\Stilb', // CGS::stilb
 	],
 	'capacitance' => [
-		'abfarad' => 'Entities\AbFarad',
-		'farad' => 'Entities\Farad',
+		'abfarad' => 'Entities\AbFarad', // CGS::abfarad
+		'farad' => 'Entities\Farad', // SI::farad
 		'statfarad' => 'Entities\StatFarad', // CGS::statfarad
 	],
 	'electric_charge' => [
@@ -76,6 +76,10 @@ const list = [
 		'C' => 'Entities\Coulomb',
 		'elementary_charge' => 'Entities\ElementaryCharge',
 		'e' => 'Entities\ElementaryCharge',
+	],
+	'electrical_conductance' => [
+		'siemens' => 'Entities\Siemens', // SI::siemens
+		'hall_conductance' => 'Entities\HallConductance', // NonStandard::hall_conductance
 	],
 	'electric_current' => [
 		'abampere' => 'Entities\AbAmpere',

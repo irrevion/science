@@ -143,7 +143,7 @@ v0.0.3
 		- [Imaginary](docs/Math/Entities/Imaginary.md)
 		- [Complex](docs/Math/Entities/Complex.md)
 		- [ComplexPolar](docs/Math/Entities/ComplexPolar.md)
-		- QuaternionComponent
+		- [QuaternionComponent](docs/Math/Entities/QuaternionComponent.md)
 		- Quaternion
 		- Vector
 		- [Matrix](docs/Math/Transformations/Matrix.md)

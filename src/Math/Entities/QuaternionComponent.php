@@ -169,7 +169,7 @@ class QuaternionComponent extends Imaginary implements Entity {
 	}
 
 	public function isNaN(): bool {
-		return true;
+		return false;
 	}
 }
 

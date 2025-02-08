@@ -2,7 +2,7 @@
 namespace irrevion\science\Math\Symbols;
 
 use irrevion\science\Math\Symbols\{Symbols, Symbol, Expression};
-use irrevion\science\Math\Symbols\Operations\IOperation;
+use irrevion\science\Math\Symbols\Operations\{IOperation, Operation};
 
 class Operations {
 
