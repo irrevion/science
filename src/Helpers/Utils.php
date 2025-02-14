@@ -37,7 +37,9 @@ class Utils {
 			} else {
 				print "FAIL: ".($descr? $descr: '')." -> Error thrown: {$e_str} \n";
 			}
-			print print_r($err->getTrace(), 1)."\n";
+			if (empty($status)) {
+				print print_r($err->getTrace(), 1)."\n";
+			}
 		}
 		$t2 = microtime(true);
 		$m2 = memory_get_usage();

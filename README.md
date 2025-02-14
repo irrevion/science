@@ -132,6 +132,16 @@ v0.0.3
 - Matrix determinant implemented
 - Physics: New units added (Ohm, Farad, Watt, etc)
 
+v0.0.2
+- Added units in physics
+- Fixed fallback autoloader
+- Implemented search by unit entity in physical unit categories
+
+v0.0.1
+- Basic entities implemented
+- Composer requirements are met
+
+
 
 ## Documentation
 
@@ -144,7 +154,7 @@ v0.0.3
 		- [Complex](docs/Math/Entities/Complex.md)
 		- [ComplexPolar](docs/Math/Entities/ComplexPolar.md)
 		- [QuaternionComponent](docs/Math/Entities/QuaternionComponent.md)
-		- Quaternion
+		- [Quaternion](docs/Math/Entities/Quaternion.md)
 		- Vector
 		- [Matrix](docs/Math/Transformations/Matrix.md)
 	- Symbolic Math
