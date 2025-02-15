@@ -8,7 +8,7 @@ require_once("../autoloader.php");
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
 use irrevion\science\Helpers\Utils;
-use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, QuaternionComponent, Quaternion};
+use irrevion\science\Math\Entities\{NaN, Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector, QuaternionComponent, Quaternion};
 ?>
 
 <pre>
@@ -70,6 +70,32 @@ Utils::test(
 <?php
 Utils::test(
 	fn: function() {
+		$n = new QuaternionComponent(new NaN);
+		return $n;
+	},
+	check: function($res, $err) {
+		return str_starts_with($err->getMessage(), 'Invalid argument type');
+	},
+	descr: 'create NaN component'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$n = new QuaternionComponent((new NaN)->toNumber());
+		return $n;
+	},
+	check: function($res, $err) {
+		return str_starts_with($err->getMessage(), 'NaN is not a valid argument value');
+	},
+	descr: 'create float NaN component'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
 		$j = new QuaternionComponent(-3, 'j');
 		$k = new QuaternionComponent(7, 'k');
 		$q = $j->add($k);
@@ -79,5 +105,20 @@ Utils::test(
 		return ("$res"==='[0 + 0i + -3j + 7k]');
 	},
 	descr: '-3j + 7k'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(-3, 'j');
+		$j2 = new QuaternionComponent(33, 'j');
+		$q = $j->add($j2);
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='30j');
+	},
+	descr: '-3j + 33j'
 );
 ?>

@@ -24,6 +24,9 @@ class Imaginary extends Scalar implements Entity {
 				throw new \TypeError("Invalid argument type ( ".($x::class)." )");
 			}
 		} else if (is_numeric($x)) {
+			if (Math::isNaN($x)) {
+				throw new \Error('NaN is not a valid argument value');
+			}
 			$this->value = $x*1;
 		} else {
 			$type = gettype($x);

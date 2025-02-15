@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
-use irrevion\science\Math\Entities\QuaternionComponent;
+use irrevion\science\Math\Entities\{NaN, QuaternionComponent};
 
-final class QuaternionComponentTest extends TestCase {
+class QuaternionComponentTest extends TestCase {
 	public function testCreateI() {
 		$i = new QuaternionComponent(1);
 		$this->assertSame("$i", '1i');
@@ -21,6 +21,11 @@ final class QuaternionComponentTest extends TestCase {
 	public function testCreateM() {
 		$this->expectExceptionMessage('Only i, j, k basis symbols allowed');
 		$m = new QuaternionComponent(-12.45, 'm');
+	}
+
+	public function testCreateNan() {
+		$this->expectExceptionMessage('Invalid argument type');
+		$n = new QuaternionComponent(new NaN);
 	}
 }
 ?>
