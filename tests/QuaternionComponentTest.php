@@ -27,5 +27,24 @@ class QuaternionComponentTest extends TestCase {
 		$this->expectExceptionMessage('Invalid argument type');
 		$n = new QuaternionComponent(new NaN);
 	}
+
+	public function testCreateNanDirect() {
+		$this->expectExceptionMessage('NaN is not a valid argument value');
+		$n = new QuaternionComponent((new NaN)->toNumber());
+	}
+
+	public function testAddAnotherComponent() {
+		$j = new QuaternionComponent(-3, 'j');
+		$k = new QuaternionComponent(7, 'k');
+		$q = $j->add($k);
+		$this->assertSame("$q", '[0 + 0i + -3j + 7k]');
+	}
+
+	public function testAddSameComponent() {
+		$j = new QuaternionComponent(-3, 'j');
+		$j2 = new QuaternionComponent(33, 'j');
+		$q = $j->add($j2);
+		$this->assertSame("$q", '30j');
+	}
 }
 ?>
