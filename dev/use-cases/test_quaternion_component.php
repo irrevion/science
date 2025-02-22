@@ -232,3 +232,33 @@ Utils::test(
 	descr: '3j - 1j but string'
 );
 ?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(3, 'j');
+		$j2 = new QuaternionComponent((1/3), 'j');
+		$q = $j->multiply($j2);
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='-1');
+	},
+	descr: '3j * 1/3j'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(12, 'j');
+		$k = new QuaternionComponent(-0.1, 'k');
+		$q = $j->multiply($k);
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='-1.2i');
+	},
+	descr: '12j * -0.1k'
+);
+?>

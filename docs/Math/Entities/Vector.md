@@ -24,6 +24,7 @@ use irrevion\science\Math\Entities\{Scalar, Vector};
 $x = new Vector([2, 3, 5]);
 ```
 
+
 ## Constructor
 
 Here is Vector class constructor's signature:
@@ -34,6 +35,56 @@ So, you can pass in array of values and values will be mapped as objects of type
 
 If instead of array an Entity is passed, constructor will try to transform it to array using `$array->toArray()` method. Otherwise if Entity have no such method, it will be treated as only element of array.
 
+
+## Addition / Subtraction
+
+There are methods for addition and subtraction of vectors:
+```php
+$v1 = new Vector([1, 2, 3]);
+$v2 = new Vector([4, 5, 6]);
+
+$sum = $v1->add($v2); // result is [5, 7, 9]
+$diff = $v1->subtract($v2); // result is [-3, -3, -3]
+```
+
+## Multiplication / Division
+
+Vector multiplication and division methods are also available:
+```php
+$prod = $v1->multiply($v2); // element-wise multiplication, result is [4, 10, 18]
+$quotient = $v1->divide($v2); // element-wise division, result is [0.25, 0.4, 0.5]
+```
+
+## Dot Product
+
+You can calculate the dot product of two vectors:
+```php
+$dotProduct = $v1->dot($v2); // result is 32
+```
+
+## Cross Product
+
+You can calculate the cross product of two vectors (only for 3-dimensional vectors):
+```php
+$v1 = new Vector([1, 2, 3]);
+$v2 = new Vector([4, 5, 6]);
+
+$crossProduct = $v1->cross($v2); // result is [-3, 6, -3]
+```
+
+## Magnitude
+
+You can calculate the magnitude (length) of a vector:
+```php
+$magnitude = $v1->abs(); // result is 3.7416573867739
+```
+
+## Normalization
+
+You can normalize a vector (make it a unit vector):
+```php
+$normalized = $v1->normalize(); // result is [0.26726124191242, 0.53452248382485, 0.80178372573727]
+```
 
 
 ## See also
