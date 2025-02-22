@@ -262,3 +262,19 @@ Utils::test(
 	descr: '12j * -0.1k'
 );
 ?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(-5.973, 'j');
+		$k = new Quaternion([2, 3, -7, 19]);
+		$q = $j->multiply($k);
+		return $q;
+	},
+	check: function($res, $err) {
+		// python: -41.811 -113.487i -11.946j +17.919k
+		return ("$res"==='[-41.811 + -113.487i + -11.946j + 17.919k]');
+	},
+	descr: '-5.973j * [ 2 + 3i + -7j + 19k ]'
+);
+?>

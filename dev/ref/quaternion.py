@@ -1,6 +1,14 @@
 import numpy as np
 from pyquaternion import Quaternion
 
+x = np.array([0., 0., -5.973, 0.])
+y = np.array([2., 3., -7., 19.])
+qx = Quaternion(x)
+qy = Quaternion(y)
+qz = qx * qy
+print('-5.973j * [ 2 + 3i + -7j + 19k ]')
+print(qz)
+
 x = np.array([3., 0., 0., 0.])
 y = np.array([5., 0., 0., 0.])
 qx = Quaternion(x)

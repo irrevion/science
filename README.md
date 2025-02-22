@@ -155,7 +155,7 @@ v0.0.1
 		- [ComplexPolar](docs/Math/Entities/ComplexPolar.md)
 		- [QuaternionComponent](docs/Math/Entities/QuaternionComponent.md)
 		- [Quaternion](docs/Math/Entities/Quaternion.md)
-		- Vector
+		- [Vector](docs/Math/Entities/Vector.md)
 		- [Matrix](docs/Math/Transformations/Matrix.md)
 	- Symbolic Math
 		- [Symbols](docs/Math/Symbols/Symbols.md)
@@ -164,6 +164,7 @@ v0.0.1
 - [Physics](docs/Physics/Physics.md)
 	- [Quantity](docs/Physics/Entities/Quantity.md)
 - Helpers
-	- Utils - misc func toolbox
+	- Utils - miscellaneous functions toolbox
+	- Delegator - type manager and delegator
 	- [R - array-like object constructor](docs/Helpers/R.md)
 	- M - 2-dimensional R
