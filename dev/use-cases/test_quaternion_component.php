@@ -96,6 +96,45 @@ Utils::test(
 <?php
 Utils::test(
 	fn: function() {
+		$j = new QuaternionComponent(-3.0, 'j');
+		return $j->isScalar();
+	},
+	check: function($res, $err) {
+		return ($res===false);
+	},
+	descr: 'is -3j scalar'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(-3.0, 'j');
+		return $j->isImaginary();
+	},
+	check: function($res, $err) {
+		return ($res===false);
+	},
+	descr: 'is -3j imaginary'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(-3.0, 'j');
+		return $j->isQuaternionComponent();
+	},
+	check: function($res, $err) {
+		return ($res===true);
+	},
+	descr: 'is -3j quaternion component'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
 		$j = new QuaternionComponent(-3, 'j');
 		$k = new QuaternionComponent(7, 'k');
 		$q = $j->add($k);
@@ -120,5 +159,76 @@ Utils::test(
 		return ("$res"==='30j');
 	},
 	descr: '-3j + 33j'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(3.00000000001, 'j');
+		$j2 = new QuaternionComponent(3.00000000001, 'j');
+		$q = $j->subtract($j2);
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='0j');
+	},
+	descr: '3j - 3j'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(3.00000000001, 'j');
+		$q = $j->subtract(0.00000000001);
+		return $q;
+	},
+	check: function($res, $err) {
+		return str_starts_with($err->getMessage(), 'Built-in types casting not allowed for imaginary numbers due to ambiguity.');
+	},
+	descr: '3j - 0'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(5.73, 'j');
+		$q = $j->subtract(new Scalar(-0.73));
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='[0.73 + 0i + 5.73j + 0k]');
+	},
+	descr: '5.73j - (-0.73)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(5.73, 'j');
+		$q = $j->subtract(new Complex(2, 3.14));
+		return $q;
+	},
+	check: function($res, $err) {
+		return ("$res"==='[-2 + -3.14i + 5.73j + 0k]');
+	},
+	descr: '5.73j - (2 + 3.14i)'
+);
+?>
+
+<?php
+Utils::test(
+	fn: function() {
+		$j = new QuaternionComponent(3.00000000001, 'j');
+		$q = $j->subtract('1j'); // yes, it looks legit, but no, you cant
+		return $q;
+	},
+	check: function($res, $err) {
+		return str_starts_with($err->getMessage(), 'Unsupported argument type');
+	},
+	descr: '3j - 1j but string'
 );
 ?>
