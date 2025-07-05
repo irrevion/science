@@ -7,6 +7,7 @@ require_once("../autoloader.php");
 
 use irrevion\science\Helpers\Delegator;
 use irrevion\science\Math\Math;
+use irrevion\science\Helpers\Utils;
 use irrevion\science\Math\Entities\{Scalar, Fraction, Imaginary, Complex, ComplexPolar, Vector};
 ?>
 
@@ -86,6 +87,39 @@ print "$x / $y = $z (".$z::class.")\n";
 $rz = $y->reciprocal();
 $w = $x->multiply($rz);
 print "$x * $rz = $w (".$w::class.")\n";
+?>
+
+<?php
+// test cos by dot product
+Utils::test(
+	fn: function() {
+		$x = new Vector([-3, -1]);
+		$y = new Vector([5, -3]);
+		$z = $x->cos($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		return $res->isNear(-0.65079137345597);
+	},
+	descr: 'cos of angle between [-3, -1] and [5, -3]'
+);
+?>
+
+<?php
+// test angle by dot product
+Utils::test(
+	fn: function() {
+		$x = new Vector([-3, -1]);
+		$y = new Vector([5, -3]);
+		$z = $x->angle($y);
+		return $z;
+	},
+	check: function($res, $err) {
+		print "* angle in degrees is ".Math::rad2deg($res)."\n";
+		return $res->isNear(2.2794225989226);
+	},
+	descr: 'angle between [-3, -1] and [5, -3]'
+);
 ?>
 
 <?php

@@ -222,6 +222,13 @@ class Math extends BaseMath {
 		}
 	}
 
+	public static function rad2deg($x) {
+		if (Delegator::isEntity($x)) {
+			return new Scalar(parent::rad2deg($x->toNumber()));
+		}
+		return parent::rad2deg($x);
+	}
+
 	public static function sign($n) {
 		if (Delegator::isEntity($n)) $n = $n->toNumber();
 		return parent::sign($n);
