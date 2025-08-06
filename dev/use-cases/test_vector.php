@@ -123,6 +123,71 @@ Utils::test(
 ?>
 
 <?php
+// test projection
+Utils::test(
+	fn: function() {
+		$w = new Vector([1, 1]);
+		$v = new Vector([2, -1]);
+		$m = $w->proj($v);
+		return $m;
+	},
+	check: function($res, $err) {
+		print "* proj of v to w is $res \n";
+		$w = new Vector([1, 1]);
+		$v = new Vector([2, -1]);
+		$orthogonal_component = $v->subtract($res);
+		$dot_prod = $w->dot($orthogonal_component);
+		print "* dot product of orthogonal component and w is $dot_prod \n";
+		return $w->isOrthogonal($orthogonal_component);
+	},
+	descr: 'projection of [2, -1] onto [1, 1]'
+);
+?>
+
+<?php
+// test opposite projection
+Utils::test(
+	fn: function() {
+		$v = new Vector([1, 1]);
+		$w = new Vector([2, -1]);
+		$m = $w->proj($v);
+		return $m;
+	},
+	check: function($res, $err) {
+		print "* proj of v to w is $res \n";
+		$v = new Vector([1, 1]);
+		$w = new Vector([2, -1]);
+		$orthogonal_component = $v->subtract($res);
+		$dot_prod = $w->dot($orthogonal_component);
+		print "* dot product of orthogonal component and w is $dot_prod \n";
+		return $w->isOrthogonal($orthogonal_component);
+	},
+	descr: 'projection of [2, -1] onto [1, 1]'
+);
+?>
+
+<?php
+// test projections are equivalent
+Utils::test(
+	fn: function() {
+		$v = new Vector([1, -1, 1]);
+		$w = new Vector([1, 1, -3]);
+		$m = $w->proj($v);
+		return $m;
+	},
+	check: function($res, $err) {
+		print "* proj of v onto w is $res \n";
+		$v = new Vector([1, -1, 1]);
+		$w = new Vector([1, 1, -3]);
+		$n = $v->projTo($w);
+		print "* alternative proj of v onto w is $n \n";
+		return $res->isNear($n);
+	},
+	descr: 'projection of [1, -1, 1] onto [1, 1, -3]'
+);
+?>
+
+<?php
 $x = new Vector([4,4]);
 $y = new Vector([2,1]);
 $z = $x->dotProduct($y);

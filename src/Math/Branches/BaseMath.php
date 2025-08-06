@@ -104,10 +104,11 @@ class BaseMath {
 		if (!isset($rels[$rel])) {
 			throw new \Error('Unknown comparison operator "'.$rel.'"');
 		}
+		// print "$rels[$rel] (abs($x-$y)<$epsilon) x-y=".($x-$y)."\n";
 		$result = match($rels[$rel]) {
-			'equal' => (abs($x-$y)<$epsilon),
+			'equal' => (abs($x-$y)<=$epsilon),
 			// 'not equal' => !self::compare($x, '=', $y),
-			'not equal' => (abs($x-$y)>=$epsilon),
+			'not equal' => (abs($x-$y)>$epsilon),
 			'greater than' => ($x>($y+$epsilon)),
 			'greater than or equal' => ($x>=$y), // there are possible cases when "equal" returns true but "greater then or equal" return false
 			'less than' => ($x<($y-$epsilon)),

@@ -86,6 +86,36 @@ You can normalize a vector (make it a unit vector):
 $normalized = $v1->normalize(); // result is [0.26726124191242, 0.53452248382485, 0.80178372573727]
 ```
 
+## Cosine and Angle Between Vectors
+
+You can calculate the cosine of the angle between two vectors and the angle itself:
+
+```php
+// Cosine of the angle between $v1 and $v2
+$cosine = $v1->cos($v2); // result is a scalar value between -1 and 1
+
+// Angle (in radians) between $v1 and $v2
+$angle = $v1->angle($v2); // result is the angle in radians
+```
+
+- `cos($other)` returns the cosine of the angle between the current vector and `$other`.
+- `angle($other)` returns the angle (in radians) between the current vector and `$other`. You can convert radians to degrees using `Math::rad2deg($angle)` method.
+
+## Projection
+
+You can project one vector onto another using the `projTo()` and `proj()` methods:
+
+```php
+// Project $v1 onto $v2
+$projection = $v1->projTo($v2); // result is the projection vector of $v1 onto $v2
+
+// Project $v1 onto $v2
+$projection2 = $v2->proj($v1); // result is the projection vector of $v1 onto $v2
+```
+
+- `projTo($other)` projects the current vector onto `$other`.
+- `proj($other)` projects `$other` onto the current vector.
+
 
 ## See also
 

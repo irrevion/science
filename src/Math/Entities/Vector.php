@@ -83,7 +83,8 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 	}
 
 	public function isOrthogonal($y) {
-		return $this->dot($y)->empty();
+		// return $this->dot($y)->empty();
+		return $this->dot($y)->isNear(0);
 	}
 
 	public function isCollinear($y, $method='DOT_PRODUCT'): bool {
@@ -321,6 +322,18 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 
 	public function angle($y) {
 		return Math::acos($this->cos($y));
+	}
+
+	public function proj(Vector $y) { // project given vector onto itself
+		// Proj(v) = ŵ * ( ( w · v ) / |w| )
+		// where ŵ is unit vector of w, w is vector to project onto
+		// https://en.wikipedia.org/wiki/Vector_projection
+		return ($this->normalize())->k($this->dot($y)->divide($this->magnitude()));
+	}
+
+	public function projTo($y) { // project itself onto given vector
+		$factor = $this->dot($y)->divide(Math::pow($y->magnitude(), 2));
+		return $y->k($factor);
 	}
 
 	public function multiply($y) {
