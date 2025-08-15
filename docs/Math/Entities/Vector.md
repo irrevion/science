@@ -116,6 +116,18 @@ $projection2 = $v2->proj($v1); // result is the projection vector of $v1 onto $v
 - `projTo($other)` projects the current vector onto `$other`.
 - `proj($other)` projects `$other` onto the current vector.
 
+## Orthogonal Component
+
+You can find the component of a vector that is orthogonal (perpendicular) to another vector using the `orthogonalComponent()` method:
+
+```php
+// Get the component of $v2 orthogonal to $v1
+$orthogonal = $v1->orthogonalComponent($v2);
+```
+
+- `orthogonalComponent($other)` returns the vector component of `$other` that is orthogonal to the current vector.
+
+
 
 ## See also
 

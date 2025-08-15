@@ -242,12 +242,13 @@ class Categories {
 		],
 		'time' => [
 			// century
-			// day
 			'day' => 'Entities\Day', // 86400 s
 			'hour' => 'Entities\Hour', // 3600 s
 			// millenia
 			'minute' => 'Entities\Minute', // NonStandard::minute
-			// month
+			'month' => 'Entities\Month', // rounded month as 30 days * 24 hours
+			'month_precise' => 'Entities\MonthPrecise', // month as 1/12 of standard year wich is 31557600 s ( 2629800 s or 30 days 10 hour 16 minute 40 seconds )
+			'month_sidereal' => 'Entities\MonthSidereal', // Moon's orbital period in a non-rotating frame of reference (which on average is equal to its rotation period in the same frame). It is about 27.32166 days (27 days, 7 hours, 43 minutes, 11.6 seconds)
 			'planck_time' => 'Entities\PlanckTime',
 			// quarta
 			'second' => 'Entities\Second',

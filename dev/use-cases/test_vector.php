@@ -188,6 +188,78 @@ Utils::test(
 ?>
 
 <?php
+// compare orthogonal components
+Utils::test(
+	fn: function() {
+		$v = new Vector([2, 1]);
+		$w = new Vector([4, -2]);
+		$m = $w->proj($v);
+		$orthogonal_component = $v->subtract($m);
+		return $orthogonal_component;
+	},
+	check: function($res, $err) {
+		print "* orthogonal component of v to w is $res \n";
+		$v = new Vector([-2, 3]);
+		$w = new Vector([-4, 2]);
+		$m = $w->proj($v);
+		$orthogonal_component = $v->subtract($m);
+		//$dot_prod = $w->dot($orthogonal_component);
+		//print "* dot product of orthogonal component and w is $dot_prod \n";
+		print "* orthogonal component of v2 to w2 is $orthogonal_component \n";
+		// find closest point
+		$p = (new Vector([2, 3]))->subtract($orthogonal_component);
+		print "* closest point is $p \n";
+		return $res->isNear($orthogonal_component);
+	},
+	descr: 'orthogonal component of [-2, 3] to [-4, 2] is '
+);
+?>
+
+<?php
+// practice
+Utils::test(
+	fn: function() {
+		//$v = new Vector([2, -1, 2]);
+		//$w = new Vector([3, -4, 1]);
+		$v = new Vector([1, 1]);
+		$w = new Vector([3, -4]);
+		// $m = $v->dot($w)->divide($w->magnitude());
+		$m = $w->subtract($w->projTo($v));
+		//$m = $w->projTo($v);
+		return $m;
+	},
+	check: function($res, $err) {
+		print $err;
+		return $res->empty();
+	},
+	descr: 'quiz'
+);
+?>
+
+<?php
+// quiz 10
+Utils::test(
+	fn: function() {
+		$v = new Vector([2, 1]);
+		$w = new Vector([-3, 2]);
+		$m = $w->proj($v);
+		$orthogonal_component = $v->subtract($m);
+		return $orthogonal_component->magnitude();
+	},
+	check: function($res, $err) {
+		$v = new Vector([2, 1]);
+		$w = new Vector([-3, 2]);
+		$m = $w->proj($v);
+		$orthogonal_component = $v->subtract($m);
+		$p = (new Vector([2, 3]))->subtract($orthogonal_component);
+		print "* closest point is $p \n";
+		return $res->empty();
+	},
+	descr: 'quiz 10 '
+);
+?>
+
+<?php
 $x = new Vector([4,4]);
 $y = new Vector([2,1]);
 $z = $x->dotProduct($y);
@@ -273,6 +345,27 @@ $x = new Vector([4, 3]);
 $y = new Vector([5]);
 $z = $x->multiply($y);
 print "$x * $y = $z (type ".$z::class." of {$x->inner_type})\n";
+?>
+
+<?php
+// quiz x3
+Utils::test(
+	fn: function() {
+		$v = new Vector([2,-1,3]);
+		$w = new Vector([2,1,2]);
+		$y = new Vector([-1,1,0]);
+		$m = $v->x($w->x($y));
+		return $m;
+	},
+	check: function($res, $err) {
+		if ($err) {
+			print "$err \n";
+			return false;
+		}
+		return $res->empty();
+	},
+	descr: 'quiz x3 '
+);
 ?>
 
 <?php

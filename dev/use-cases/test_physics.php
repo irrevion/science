@@ -151,6 +151,14 @@ print "$v is $w \n";
 ?>
 
 <?php
+$x = new Quantity(1, 'time.month_sidereal');
+$y = $x->convert(SI::second);
+print "Sidereal month is ".Quantity::stringifyTimeInterval($y->value)."\n";
+print "Test interval is ".Quantity::stringifyTimeInterval(31557600)."\n";
+print "Test interval #2 is ".Quantity::stringifyTimeInterval(90061)."\n";
+?>
+
+<?php
 $x = new Quantity(17, SI::ampere);
 $y = $x->convert(CGS::abampere);
 print "$x is $y \n";

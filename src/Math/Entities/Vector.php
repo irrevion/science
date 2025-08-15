@@ -331,9 +331,16 @@ class Vector extends Scalar implements Entity, \Iterator, \ArrayAccess, \Countab
 		return ($this->normalize())->k($this->dot($y)->divide($this->magnitude()));
 	}
 
-	public function projTo($y) { // project itself onto given vector
+	public function projTo(Vector $y) { // project itself onto given vector
 		$factor = $this->dot($y)->divide(Math::pow($y->magnitude(), 2));
 		return $y->k($factor);
+	}
+
+	public function orthogonalComponent(Vector $y): Vector { // get the vector component of given vector orthogonal to this vector
+		// The vector component of v orthogonal to w is the result of subtracting from v the vector projection of v in the direction of w
+		$proj = $this->proj($y);
+		$orthogonal_component = $y->subtract($proj);
+		return $orthogonal_component;
 	}
 
 	public function multiply($y) {
